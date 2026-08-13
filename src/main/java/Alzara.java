@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Alzara {
     /**
@@ -21,6 +22,8 @@ public class Alzara {
         System.out.println(separator);
 
         Scanner scanner = new Scanner(System.in);
+        ArrayList<String> memory = new ArrayList<>();
+
         while (true) {
             String command = scanner.nextLine();
             System.out.println(separator);
@@ -31,8 +34,15 @@ public class Alzara {
                 break;
             }
 
-            System.out.println(command);
-            System.out.println(separator);
+            if (command.equals("list")) {
+                for (String item : memory) {
+                    System.out.printf("%d. %s\n", memory.indexOf(item) + 1, item);
+                }
+            } else {
+                memory.add(command);
+                System.out.println("added: " + command);
+                System.out.println(separator);
+            }
         }
     }
 }
