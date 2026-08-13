@@ -25,7 +25,7 @@ public class Alzara {
             String command = scanner.nextLine();
             System.out.println(separator);
 
-            if (command.equals("bye")) {
+            if (command.equalsIgnoreCase("bye")) {
                 System.out.println("Our audience has ended. Until we meet again.");
                 System.out.println(separator);
                 break;
