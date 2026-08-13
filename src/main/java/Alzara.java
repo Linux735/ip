@@ -22,7 +22,7 @@ public class Alzara {
         System.out.println(separator);
 
         Scanner scanner = new Scanner(System.in);
-        ArrayList<String> memory = new ArrayList<>();
+        ArrayList<Task> memory = new ArrayList<>();
 
         while (true) {
             String command = scanner.nextLine();
@@ -34,12 +34,34 @@ public class Alzara {
                 break;
             }
 
-            if (command.equals("list")) {
-                for (String item : memory) {
+            if (command.startsWith("mark ")) {
+                int taskIndex = Integer.parseInt(command.split(" ")[1]) - 1;
+                if (taskIndex >= memory.size() | taskIndex < 0) {
+                    System.out.println("Task does not exist.");
+                } else {
+                    Task task = memory.get(taskIndex);
+                    task.mark(taskIndex);
+                    System.out.println("You have satisfied the great Alzara.");
+                    System.out.println(task);
+                    System.out.println(separator);
+                }
+            } else if (command.startsWith("unmark ")) {
+                int taskIndex = Integer.parseInt(command.split(" ")[1]) - 1;
+                if (taskIndex >= memory.size() | taskIndex < 0) {
+                    System.out.println("Task does not exist.");
+                } else {
+                    Task task = memory.get(taskIndex);
+                    task.unmark(taskIndex);
+                    System.out.println("As I predicted...");
+                    System.out.println(task);
+                    System.out.println(separator);
+                }
+            } else if (command.equals("list")) {
+                for (Task item : memory) {
                     System.out.printf("%d. %s\n", memory.indexOf(item) + 1, item);
                 }
             } else {
-                memory.add(command);
+                memory.add(new Task(command));
                 System.out.println("added: " + command);
                 System.out.println(separator);
             }
