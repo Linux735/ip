@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Alzara {
     /**
      * Starts the Alzara chatbot application.
@@ -15,9 +17,22 @@ public class Alzara {
         System.out.print(banner);
         System.out.println("And as it was foretold,\nI am awakened by the sound of tears.");
         System.out.println("You find yourself face to face with the great Alzara.");
-        System.out.println("I suspect you wish me to guide you?");
+        System.out.println("What can I do for you?");
         System.out.println(separator);
-        System.out.println("Our audience has ended. Until we meet again.");
-        System.out.println(separator);
+
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            String command = scanner.nextLine();
+            System.out.println(separator);
+
+            if (command.equals("bye")) {
+                System.out.println("Our audience has ended. Until we meet again.");
+                System.out.println(separator);
+                break;
+            }
+
+            System.out.println(command);
+            System.out.println(separator);
+        }
     }
 }
