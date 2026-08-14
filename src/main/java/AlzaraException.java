@@ -1,0 +1,18 @@
+public class AlzaraException extends Exception {
+    public static final String MISSING_TASK_DESC =
+            "You want to do nothing?";
+    public static final String MISSING_TASK_NUMBER_MESSAGE =
+            "Which task are you referring to?";
+    public static final String NON_NUMERIC_TASK_NUMBER_MESSAGE =
+            "Nonsense.";
+    public static final String TASK_DOES_NOT_EXIST_MESSAGE =
+            "Do you know how to count?";
+    public static final String MISSING_DEADLINE_MARKER_MESSAGE =
+            "Add a deadline.";
+    public static final String MISSING_EVENT_MARKER_MESSAGE =
+            "All things must have a start and an end...";
+
+    public AlzaraException(String message) {
+        super(message);
+    }
+}
