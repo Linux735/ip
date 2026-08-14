@@ -86,7 +86,7 @@ public class Alzara {
                 System.out.println("You have " + memory.size() + " tasks.");
                 System.out.println(separator);
             } else if (command.equals("list")) {
-                System.out.println(" Here are the tasks in your list:");
+                System.out.println("Here are the tasks in your list:");
                 for (int i = 0; i < memory.size(); i++) {
                     System.out.printf("%d.%s%n", i + 1, memory.get(i));
                 }
