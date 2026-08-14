@@ -34,57 +34,90 @@ public class Alzara {
                 break;
             }
 
-            if (command.startsWith("mark ")) {
-                int taskIndex = Integer.parseInt(command.split(" ")[1]) - 1;
-                if (taskIndex >= memory.size() | taskIndex < 0) {
-                    System.out.println("Task does not exist.");
-                } else {
+            if (command.equals("mark") || command.startsWith("mark ")) {
+                try {
+                    int taskIndex = getTaskIndex(command, memory);
                     Task task = memory.get(taskIndex);
                     task.mark(taskIndex);
                     System.out.println("You have satisfied the great Alzara.");
                     System.out.println(task);
                     System.out.println(separator);
+                } catch (AlzaraException exception) {
+                    printError(exception, separator);
                 }
-            } else if (command.startsWith("unmark ")) {
-                int taskIndex = Integer.parseInt(command.split(" ")[1]) - 1;
-                if (taskIndex >= memory.size() | taskIndex < 0) {
-                    System.out.println("Task does not exist.");
-                } else {
+            } else if (command.equals("unmark") || command.startsWith("unmark ")) {
+                try {
+                    int taskIndex = getTaskIndex(command, memory);
                     Task task = memory.get(taskIndex);
                     task.unmark(taskIndex);
                     System.out.println("As I predicted...");
                     System.out.println(task);
                     System.out.println(separator);
+                } catch (AlzaraException exception) {
+                    printError(exception, separator);
                 }
-            } else if (command.startsWith("todo ")) {
-                Task task = new ToDo(command.substring(5));
-                memory.add(task);
-                System.out.println("You have something to do...");
-                System.out.println(task);
-                System.out.println("You have " + memory.size() + " tasks.");
-                System.out.println(separator);
-            } else if (command.startsWith("deadline ")) {
-                int deadlineMarker = command.indexOf(" /by ");
-                String description = command.substring(9, deadlineMarker);
-                String deadline = command.substring(deadlineMarker + 5);
-                Task task = new Deadline(description, deadline);
-                memory.add(task);
-                System.out.println("Do not miss the deadline.");
-                System.out.println(task);
-                System.out.println("You have " + memory.size() + " tasks.");
-                System.out.println(separator);
-            } else if (command.startsWith("event ")) {
-                int startMarker = command.indexOf(" /from ");
-                int endMarker = command.indexOf(" /to ");
-                String description = command.substring(6, startMarker);
-                String start = command.substring(startMarker + 7, endMarker);
-                String end = command.substring(endMarker + 5);
-                Task task = new Event(description, start, end);
-                memory.add(task);
-                System.out.println("Am I invited?");
-                System.out.println(task);
-                System.out.println("You have " + memory.size() + " tasks.");
-                System.out.println(separator);
+            } else if (command.equals("todo") || command.startsWith("todo ")) {
+                try {
+                    if (command.trim().equals("todo")) {
+                        throw new AlzaraException(AlzaraException.MISSING_TASK_DESC);
+                    }
+                    Task task = new ToDo(command.substring(5));
+                    memory.add(task);
+                    System.out.println("You have something to do...");
+                    System.out.println(task);
+                    System.out.println("You have " + memory.size() + " tasks.");
+                    System.out.println(separator);
+                } catch (AlzaraException exception) {
+                    printError(exception, separator);
+                }
+            } else if (command.equals("deadline") || command.startsWith("deadline ")) {
+                try {
+                    if (command.trim().equals("deadline")) {
+                        throw new AlzaraException(AlzaraException.MISSING_TASK_DESC);
+                    }
+                    int deadlineMarker = command.indexOf(" /by ");
+                    if (deadlineMarker == -1) {
+                        throw new AlzaraException(AlzaraException.MISSING_DEADLINE_MARKER_MESSAGE);
+                    }
+                    String description = command.substring(9, deadlineMarker);
+                    if (description.trim().isEmpty()) {
+                        throw new AlzaraException(AlzaraException.MISSING_TASK_DESC);
+                    }
+                    String deadline = command.substring(deadlineMarker + 5);
+                    Task task = new Deadline(description, deadline);
+                    memory.add(task);
+                    System.out.println("Do not miss the deadline.");
+                    System.out.println(task);
+                    System.out.println("You have " + memory.size() + " tasks.");
+                    System.out.println(separator);
+                } catch (AlzaraException exception) {
+                    printError(exception, separator);
+                }
+            } else if (command.equals("event") || command.startsWith("event ")) {
+                try {
+                    if (command.trim().equals("event")) {
+                        throw new AlzaraException(AlzaraException.MISSING_TASK_DESC);
+                    }
+                    int startMarker = command.indexOf(" /from ");
+                    int endMarker = command.indexOf(" /to ");
+                    if (startMarker == -1 || endMarker == -1 || endMarker < startMarker) {
+                        throw new AlzaraException(AlzaraException.MISSING_EVENT_MARKER_MESSAGE);
+                    }
+                    String description = command.substring(6, startMarker);
+                    if (description.trim().isEmpty()) {
+                        throw new AlzaraException(AlzaraException.MISSING_TASK_DESC);
+                    }
+                    String start = command.substring(startMarker + 7, endMarker);
+                    String end = command.substring(endMarker + 5);
+                    Task task = new Event(description, start, end);
+                    memory.add(task);
+                    System.out.println("Am I invited?");
+                    System.out.println(task);
+                    System.out.println("You have " + memory.size() + " tasks.");
+                    System.out.println(separator);
+                } catch (AlzaraException exception) {
+                    printError(exception, separator);
+                }
             } else if (command.equals("list")) {
                 System.out.println("Here are the tasks in your list:");
                 for (int i = 0; i < memory.size(); i++) {
@@ -97,5 +130,29 @@ public class Alzara {
                 System.out.println(separator);
             }
         }
+    }
+
+    private static int getTaskIndex(String command, ArrayList<Task> tasks) throws AlzaraException {
+        String[] parts = command.trim().split("\\s+");
+        if (parts.length < 2) {
+            throw new AlzaraException(AlzaraException.MISSING_TASK_NUMBER_MESSAGE);
+        }
+
+        int taskIndex;
+        try {
+            taskIndex = Integer.parseInt(parts[1]) - 1;
+        } catch (NumberFormatException exception) {
+            throw new AlzaraException(AlzaraException.NON_NUMERIC_TASK_NUMBER_MESSAGE);
+        }
+
+        if (taskIndex < 0 || taskIndex >= tasks.size()) {
+            throw new AlzaraException(AlzaraException.TASK_DOES_NOT_EXIST_MESSAGE);
+        }
+        return taskIndex;
+    }
+
+    private static void printError(AlzaraException exception, String separator) {
+        System.out.println(exception.getMessage());
+        System.out.println(separator);
     }
 }
