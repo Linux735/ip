@@ -56,10 +56,41 @@ public class Alzara {
                     System.out.println(task);
                     System.out.println(separator);
                 }
+            } else if (command.startsWith("todo ")) {
+                Task task = new ToDo(command.substring(5));
+                memory.add(task);
+                System.out.println("You have something to do...");
+                System.out.println(task);
+                System.out.println("You have " + memory.size() + " tasks.");
+                System.out.println(separator);
+            } else if (command.startsWith("deadline ")) {
+                int deadlineMarker = command.indexOf(" /by ");
+                String description = command.substring(9, deadlineMarker);
+                String deadline = command.substring(deadlineMarker + 5);
+                Task task = new Deadline(description, deadline);
+                memory.add(task);
+                System.out.println("Do not miss the deadline.");
+                System.out.println(task);
+                System.out.println("You have " + memory.size() + " tasks.");
+                System.out.println(separator);
+            } else if (command.startsWith("event ")) {
+                int startMarker = command.indexOf(" /from ");
+                int endMarker = command.indexOf(" /to ");
+                String description = command.substring(6, startMarker);
+                String start = command.substring(startMarker + 7, endMarker);
+                String end = command.substring(endMarker + 5);
+                Task task = new Event(description, start, end);
+                memory.add(task);
+                System.out.println("Am I invited?");
+                System.out.println(task);
+                System.out.println("You have " + memory.size() + " tasks.");
+                System.out.println(separator);
             } else if (command.equals("list")) {
-                for (Task item : memory) {
-                    System.out.printf("%d. %s\n", memory.indexOf(item) + 1, item);
+                System.out.println(" Here are the tasks in your list:");
+                for (int i = 0; i < memory.size(); i++) {
+                    System.out.printf("%d.%s%n", i + 1, memory.get(i));
                 }
+                System.out.println(separator);
             } else {
                 memory.add(new Task(command));
                 System.out.println("added: " + command);

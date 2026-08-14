@@ -1,0 +1,4 @@
+interface:
+  display_name: "UI Test Runner"
+  short_description: "Run and verify console UI test cases"
+  default_prompt: "Use $test-ui to run the project's console UI test plan."
