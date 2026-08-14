@@ -118,6 +118,16 @@ public class Alzara {
                 } catch (AlzaraException exception) {
                     printError(exception, separator);
                 }
+            } else if (command.equals("delete") || command.startsWith("delete ")) {
+                try {
+                    int taskIndex = getTaskIndex(command, memory);
+                    Task deletedTask = memory.remove(taskIndex);
+                    System.out.println("I have removed the task " + deletedTask);
+                    System.out.println("You have " + memory.size() + " tasks remaining.");
+                    System.out.println(separator);
+                } catch (AlzaraException exception) {
+                    printError(exception, separator);
+                }
             } else if (command.equals("list")) {
                 System.out.println("Here are the tasks in your list:");
                 for (int i = 0; i < memory.size(); i++) {
