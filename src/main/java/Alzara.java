@@ -16,7 +16,7 @@ public class Alzara {
                 + "/_/   \\_\\_____/____|/_/   \\_\\_| \\_\\ /_/   \\_\\\n";
         System.out.println(separator);
         System.out.print(banner);
-        System.out.println("And as it was foretold,\nI am awakened by the sound of tears.");
+        System.out.println("And as it was foretold,");
         System.out.println("You find yourself face to face with the great Alzara.");
         System.out.println("What can I do for you?");
         System.out.println(separator);
