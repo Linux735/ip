@@ -28,13 +28,12 @@ public class Alzara {
             String command = scanner.nextLine();
             System.out.println(separator);
 
-            if (command.equalsIgnoreCase("bye")) {
+            switch (CommandType.from(command)) {
+            case BYE:
                 System.out.println("Our audience has ended. Until we meet again.");
                 System.out.println(separator);
-                break;
-            }
-
-            if (command.equals("mark") || command.startsWith("mark ")) {
+                return;
+            case MARK:
                 try {
                     int taskIndex = getTaskIndex(command, memory);
                     Task task = memory.get(taskIndex);
@@ -45,7 +44,8 @@ public class Alzara {
                 } catch (AlzaraException exception) {
                     printError(exception, separator);
                 }
-            } else if (command.equals("unmark") || command.startsWith("unmark ")) {
+                break;
+            case UNMARK:
                 try {
                     int taskIndex = getTaskIndex(command, memory);
                     Task task = memory.get(taskIndex);
@@ -56,7 +56,8 @@ public class Alzara {
                 } catch (AlzaraException exception) {
                     printError(exception, separator);
                 }
-            } else if (command.equals("todo") || command.startsWith("todo ")) {
+                break;
+            case TODO:
                 try {
                     if (command.trim().equals("todo")) {
                         throw new AlzaraException(AlzaraException.MISSING_TASK_DESC);
@@ -70,7 +71,8 @@ public class Alzara {
                 } catch (AlzaraException exception) {
                     printError(exception, separator);
                 }
-            } else if (command.equals("deadline") || command.startsWith("deadline ")) {
+                break;
+            case DEADLINE:
                 try {
                     if (command.trim().equals("deadline")) {
                         throw new AlzaraException(AlzaraException.MISSING_TASK_DESC);
@@ -93,7 +95,8 @@ public class Alzara {
                 } catch (AlzaraException exception) {
                     printError(exception, separator);
                 }
-            } else if (command.equals("event") || command.startsWith("event ")) {
+                break;
+            case EVENT:
                 try {
                     if (command.trim().equals("event")) {
                         throw new AlzaraException(AlzaraException.MISSING_TASK_DESC);
@@ -118,7 +121,8 @@ public class Alzara {
                 } catch (AlzaraException exception) {
                     printError(exception, separator);
                 }
-            } else if (command.equals("delete") || command.startsWith("delete ")) {
+                break;
+            case DELETE:
                 try {
                     int taskIndex = getTaskIndex(command, memory);
                     Task deletedTask = memory.remove(taskIndex);
@@ -128,16 +132,19 @@ public class Alzara {
                 } catch (AlzaraException exception) {
                     printError(exception, separator);
                 }
-            } else if (command.equals("list")) {
+                break;
+            case LIST:
                 System.out.println("Here are the tasks in your list:");
                 for (int i = 0; i < memory.size(); i++) {
                     System.out.printf("%d.%s%n", i + 1, memory.get(i));
                 }
                 System.out.println(separator);
-            } else {
+                break;
+            case UNKNOWN:
                 memory.add(new Task(command));
                 System.out.println("added: " + command);
                 System.out.println(separator);
+                break;
             }
         }
     }
