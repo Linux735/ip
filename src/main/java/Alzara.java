@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -88,7 +90,13 @@ public class Alzara {
                     if (description.trim().isEmpty()) {
                         throw new AlzaraException(AlzaraException.MISSING_TASK_DESC);
                     }
-                    String deadline = command.substring(deadlineMarker + 5);
+                    String deadlineText = command.substring(deadlineMarker + 5);
+                    LocalDate deadline;
+                    try {
+                        deadline = LocalDate.parse(deadlineText.trim());
+                    } catch (DateTimeParseException exception) {
+                        throw new AlzaraException(AlzaraException.INVALID_DEADLINE_DATE_MESSAGE);
+                    }
                     Task task = new Deadline(description, deadline);
                     memory.add(task);
                     Storage.save(memory);
@@ -114,8 +122,16 @@ public class Alzara {
                     if (description.trim().isEmpty()) {
                         throw new AlzaraException(AlzaraException.MISSING_TASK_DESC);
                     }
-                    String start = command.substring(startMarker + 7, endMarker);
-                    String end = command.substring(endMarker + 5);
+                    String startText = command.substring(startMarker + 7, endMarker);
+                    String endText = command.substring(endMarker + 5);
+                    LocalDate start;
+                    LocalDate end;
+                    try {
+                        start = LocalDate.parse(startText.trim());
+                        end = LocalDate.parse(endText.trim());
+                    } catch (DateTimeParseException exception) {
+                        throw new AlzaraException(AlzaraException.INVALID_DEADLINE_DATE_MESSAGE);
+                    }
                     Task task = new Event(description, start, end);
                     memory.add(task);
                     Storage.save(memory);
