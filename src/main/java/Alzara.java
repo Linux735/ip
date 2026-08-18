@@ -22,7 +22,7 @@ public class Alzara {
         System.out.println(separator);
 
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Task> memory = new ArrayList<>();
+        ArrayList<Task> memory = Storage.load();
 
         while (true) {
             String command = scanner.nextLine();
@@ -38,6 +38,7 @@ public class Alzara {
                     int taskIndex = getTaskIndex(command, memory);
                     Task task = memory.get(taskIndex);
                     task.mark(taskIndex);
+                    Storage.save(memory);
                     System.out.println("You have satisfied the great Alzara.");
                     System.out.println(task);
                     System.out.println(separator);
@@ -50,6 +51,7 @@ public class Alzara {
                     int taskIndex = getTaskIndex(command, memory);
                     Task task = memory.get(taskIndex);
                     task.unmark(taskIndex);
+                    Storage.save(memory);
                     System.out.println("As I predicted...");
                     System.out.println(task);
                     System.out.println(separator);
@@ -64,6 +66,7 @@ public class Alzara {
                     }
                     Task task = new ToDo(command.substring(5));
                     memory.add(task);
+                    Storage.save(memory);
                     System.out.println("You have something to do...");
                     System.out.println(task);
                     System.out.println("You have " + memory.size() + " tasks.");
@@ -88,6 +91,7 @@ public class Alzara {
                     String deadline = command.substring(deadlineMarker + 5);
                     Task task = new Deadline(description, deadline);
                     memory.add(task);
+                    Storage.save(memory);
                     System.out.println("Do not miss the deadline.");
                     System.out.println(task);
                     System.out.println("You have " + memory.size() + " tasks.");
@@ -114,6 +118,7 @@ public class Alzara {
                     String end = command.substring(endMarker + 5);
                     Task task = new Event(description, start, end);
                     memory.add(task);
+                    Storage.save(memory);
                     System.out.println("Am I invited?");
                     System.out.println(task);
                     System.out.println("You have " + memory.size() + " tasks.");
@@ -126,6 +131,7 @@ public class Alzara {
                 try {
                     int taskIndex = getTaskIndex(command, memory);
                     Task deletedTask = memory.remove(taskIndex);
+                    Storage.save(memory);
                     System.out.println("I have removed the task " + deletedTask);
                     System.out.println("You have " + memory.size() + " tasks remaining.");
                     System.out.println(separator);
@@ -142,6 +148,7 @@ public class Alzara {
                 break;
             case UNKNOWN:
                 memory.add(new Task(command));
+                Storage.save(memory);
                 System.out.println("added: " + command);
                 System.out.println(separator);
                 break;

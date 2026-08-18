@@ -19,6 +19,10 @@ public class Task {
         this.done = false;
     }
 
+    public String toSaveFormat() {
+        return (this.done ? "Y" : "N") + " | " + this.task;
+    }
+
     @Override
     public String toString() {
         if (this.done) {
