@@ -11,6 +11,8 @@ public class AlzaraException extends Exception {
             "Add a deadline.";
     public static final String MISSING_EVENT_MARKER_MESSAGE =
             "All things must have a start and an end...";
+    public static final String INVALID_DEADLINE_DATE_MESSAGE =
+            "I cannot read that date. Use yyyy-mm-dd";
 
     public AlzaraException(String message) {
         super(message);

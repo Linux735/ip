@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -98,13 +100,27 @@ public class Storage {
                 if (parts.length < 4 || parts[3].trim().isEmpty()) {
                     throw new AlzaraException("missing deadline field");
                 }
-                task = new Deadline(description, parts[3]);
+                LocalDate deadlineDate;
+                try {
+                    deadlineDate = LocalDate.parse(parts[3].trim());
+                } catch (DateTimeParseException exception) {
+                    throw new AlzaraException("invalid deadline date");
+                }
+                task = new Deadline(description, deadlineDate);
                 break;
             case "E":
                 if (parts.length < 5 || parts[3].trim().isEmpty() || parts[4].trim().isEmpty()) {
                     throw new AlzaraException("missing event start/end field");
                 }
-                task = new Event(description, parts[3], parts[4]);
+                LocalDate eventStart;
+                LocalDate eventEnd;
+                try {
+                    eventStart = LocalDate.parse(parts[3].trim());
+                    eventEnd = LocalDate.parse(parts[4].trim());
+                } catch (DateTimeParseException exception) {
+                    throw new AlzaraException("invalid event date");
+                }
+                task = new Event(description, eventStart, eventEnd);
                 break;
             default:
                 throw new AlzaraException("unrecognised task type '" + type + "'");
