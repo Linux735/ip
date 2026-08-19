@@ -1,14 +1,21 @@
+/**
+ * The Alzara chatbot: sets up its collaborators once, then runs the
+ * read-command-execute loop until the user says {@code bye}.
+ */
 public class Alzara {
-    /**
-     * Starts the Alzara chatbot application.
-     *
-     * @param args command-line arguments supplied when the application starts
-     */
-    public static void main(String[] args) {
-        Ui ui = new Ui();
-        ui.showWelcome();
+    private final Ui ui;
+    private TaskList memory;
 
-        TaskList memory = new TaskList(Storage.load());
+    public Alzara() {
+        this.ui = new Ui();
+    }
+
+    /**
+     * Runs the read-command-execute loop until the user says {@code bye}.
+     */
+    public void run() {
+        ui.showWelcome();
+        memory = new TaskList(Storage.load());
 
         while (true) {
             String command = ui.readCommand();
@@ -102,5 +109,14 @@ public class Alzara {
             throw new AlzaraException(AlzaraException.TASK_DOES_NOT_EXIST_MESSAGE);
         }
         return taskIndex;
+    }
+
+    /**
+     * Starts the Alzara chatbot application.
+     *
+     * @param args command-line arguments supplied when the application starts
+     */
+    public static void main(String[] args) {
+        new Alzara().run();
     }
 }
