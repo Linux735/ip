@@ -1,6 +1,5 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Alzara {
@@ -10,30 +9,18 @@ public class Alzara {
      * @param args command-line arguments supplied when the application starts
      */
     public static void main(String[] args) {
-        String separator = "____________________________________________________________";
-        String banner = "    _    _     ______    _    ____       _    \n"
-                + "   / \\  | |   |__  /   / \\  |  _ \\     / \\   \n"
-                + "  / _ \\ | |     / /   / _ \\ | |_) |   / _ \\  \n"
-                + " / ___ \\| |___ / /_  / ___ \\|  _ <   / ___ \\ \n"
-                + "/_/   \\_\\_____/____|/_/   \\_\\_| \\_\\ /_/   \\_\\\n";
-        System.out.println(separator);
-        System.out.print(banner);
-        System.out.println("And as it was foretold,");
-        System.out.println("You find yourself face to face with the great Alzara.");
-        System.out.println("What can I do for you?");
-        System.out.println(separator);
+        Ui ui = new Ui();
+        ui.showWelcome();
 
-        Scanner scanner = new Scanner(System.in);
         ArrayList<Task> memory = Storage.load();
 
         while (true) {
-            String command = scanner.nextLine();
-            System.out.println(separator);
+            String command = ui.readCommand();
+            ui.showLine();
 
             switch (CommandType.from(command)) {
             case BYE:
-                System.out.println("Our audience has ended. Until we meet again.");
-                System.out.println(separator);
+                ui.showGoodbye();
                 return;
             case MARK:
                 try {
@@ -41,11 +28,9 @@ public class Alzara {
                     Task task = memory.get(taskIndex);
                     task.mark(taskIndex);
                     Storage.save(memory);
-                    System.out.println("You have satisfied the great Alzara.");
-                    System.out.println(task);
-                    System.out.println(separator);
+                    ui.showTaskMarked(task);
                 } catch (AlzaraException exception) {
-                    printError(exception, separator);
+                    ui.showError(exception.getMessage());
                 }
                 break;
             case UNMARK:
@@ -54,11 +39,9 @@ public class Alzara {
                     Task task = memory.get(taskIndex);
                     task.unmark(taskIndex);
                     Storage.save(memory);
-                    System.out.println("As I predicted...");
-                    System.out.println(task);
-                    System.out.println(separator);
+                    ui.showTaskUnmarked(task);
                 } catch (AlzaraException exception) {
-                    printError(exception, separator);
+                    ui.showError(exception.getMessage());
                 }
                 break;
             case TODO:
@@ -69,12 +52,9 @@ public class Alzara {
                     Task task = new ToDo(command.substring(5));
                     memory.add(task);
                     Storage.save(memory);
-                    System.out.println("You have something to do...");
-                    System.out.println(task);
-                    System.out.println("You have " + memory.size() + " tasks.");
-                    System.out.println(separator);
+                    ui.showTaskAdded("You have something to do...", task, memory.size());
                 } catch (AlzaraException exception) {
-                    printError(exception, separator);
+                    ui.showError(exception.getMessage());
                 }
                 break;
             case DEADLINE:
@@ -100,12 +80,9 @@ public class Alzara {
                     Task task = new Deadline(description, deadline);
                     memory.add(task);
                     Storage.save(memory);
-                    System.out.println("Do not miss the deadline.");
-                    System.out.println(task);
-                    System.out.println("You have " + memory.size() + " tasks.");
-                    System.out.println(separator);
+                    ui.showTaskAdded("Do not miss the deadline.", task, memory.size());
                 } catch (AlzaraException exception) {
-                    printError(exception, separator);
+                    ui.showError(exception.getMessage());
                 }
                 break;
             case EVENT:
@@ -135,12 +112,9 @@ public class Alzara {
                     Task task = new Event(description, start, end);
                     memory.add(task);
                     Storage.save(memory);
-                    System.out.println("Am I invited?");
-                    System.out.println(task);
-                    System.out.println("You have " + memory.size() + " tasks.");
-                    System.out.println(separator);
+                    ui.showTaskAdded("Am I invited?", task, memory.size());
                 } catch (AlzaraException exception) {
-                    printError(exception, separator);
+                    ui.showError(exception.getMessage());
                 }
                 break;
             case DELETE:
@@ -148,25 +122,18 @@ public class Alzara {
                     int taskIndex = getTaskIndex(command, memory);
                     Task deletedTask = memory.remove(taskIndex);
                     Storage.save(memory);
-                    System.out.println("I have removed the task " + deletedTask);
-                    System.out.println("You have " + memory.size() + " tasks remaining.");
-                    System.out.println(separator);
+                    ui.showTaskDeleted(deletedTask, memory.size());
                 } catch (AlzaraException exception) {
-                    printError(exception, separator);
+                    ui.showError(exception.getMessage());
                 }
                 break;
             case LIST:
-                System.out.println("Here are the tasks in your list:");
-                for (int i = 0; i < memory.size(); i++) {
-                    System.out.printf("%d.%s%n", i + 1, memory.get(i));
-                }
-                System.out.println(separator);
+                ui.showTaskList(memory);
                 break;
             case UNKNOWN:
                 memory.add(new Task(command));
                 Storage.save(memory);
-                System.out.println("added: " + command);
-                System.out.println(separator);
+                ui.showRawTaskAdded(command);
                 break;
             }
         }
@@ -189,10 +156,5 @@ public class Alzara {
             throw new AlzaraException(AlzaraException.TASK_DOES_NOT_EXIST_MESSAGE);
         }
         return taskIndex;
-    }
-
-    private static void printError(AlzaraException exception, String separator) {
-        System.out.println(exception.getMessage());
-        System.out.println(separator);
     }
 }
