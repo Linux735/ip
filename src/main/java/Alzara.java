@@ -1,6 +1,5 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 
 public class Alzara {
     /**
@@ -12,7 +11,7 @@ public class Alzara {
         Ui ui = new Ui();
         ui.showWelcome();
 
-        ArrayList<Task> memory = Storage.load();
+        TaskList memory = new TaskList(Storage.load());
 
         while (true) {
             String command = ui.readCommand();
@@ -27,7 +26,7 @@ public class Alzara {
                     int taskIndex = getTaskIndex(command, memory);
                     Task task = memory.get(taskIndex);
                     task.mark(taskIndex);
-                    Storage.save(memory);
+                    Storage.save(memory.getTasks());
                     ui.showTaskMarked(task);
                 } catch (AlzaraException exception) {
                     ui.showError(exception.getMessage());
@@ -38,7 +37,7 @@ public class Alzara {
                     int taskIndex = getTaskIndex(command, memory);
                     Task task = memory.get(taskIndex);
                     task.unmark(taskIndex);
-                    Storage.save(memory);
+                    Storage.save(memory.getTasks());
                     ui.showTaskUnmarked(task);
                 } catch (AlzaraException exception) {
                     ui.showError(exception.getMessage());
@@ -51,7 +50,7 @@ public class Alzara {
                     }
                     Task task = new ToDo(command.substring(5));
                     memory.add(task);
-                    Storage.save(memory);
+                    Storage.save(memory.getTasks());
                     ui.showTaskAdded("You have something to do...", task, memory.size());
                 } catch (AlzaraException exception) {
                     ui.showError(exception.getMessage());
@@ -79,7 +78,7 @@ public class Alzara {
                     }
                     Task task = new Deadline(description, deadline);
                     memory.add(task);
-                    Storage.save(memory);
+                    Storage.save(memory.getTasks());
                     ui.showTaskAdded("Do not miss the deadline.", task, memory.size());
                 } catch (AlzaraException exception) {
                     ui.showError(exception.getMessage());
@@ -111,7 +110,7 @@ public class Alzara {
                     }
                     Task task = new Event(description, start, end);
                     memory.add(task);
-                    Storage.save(memory);
+                    Storage.save(memory.getTasks());
                     ui.showTaskAdded("Am I invited?", task, memory.size());
                 } catch (AlzaraException exception) {
                     ui.showError(exception.getMessage());
@@ -120,26 +119,26 @@ public class Alzara {
             case DELETE:
                 try {
                     int taskIndex = getTaskIndex(command, memory);
-                    Task deletedTask = memory.remove(taskIndex);
-                    Storage.save(memory);
+                    Task deletedTask = memory.delete(taskIndex);
+                    Storage.save(memory.getTasks());
                     ui.showTaskDeleted(deletedTask, memory.size());
                 } catch (AlzaraException exception) {
                     ui.showError(exception.getMessage());
                 }
                 break;
             case LIST:
-                ui.showTaskList(memory);
+                ui.showTaskList(memory.getTasks());
                 break;
             case UNKNOWN:
                 memory.add(new Task(command));
-                Storage.save(memory);
+                Storage.save(memory.getTasks());
                 ui.showRawTaskAdded(command);
                 break;
             }
         }
     }
 
-    private static int getTaskIndex(String command, ArrayList<Task> tasks) throws AlzaraException {
+    private static int getTaskIndex(String command, TaskList memory) throws AlzaraException {
         String[] parts = command.trim().split("\\s+");
         if (parts.length < 2) {
             throw new AlzaraException(AlzaraException.MISSING_TASK_NUMBER_MESSAGE);
@@ -152,7 +151,7 @@ public class Alzara {
             throw new AlzaraException(AlzaraException.NON_NUMERIC_TASK_NUMBER_MESSAGE);
         }
 
-        if (taskIndex < 0 || taskIndex >= tasks.size()) {
+        if (taskIndex < 0 || taskIndex >= memory.size()) {
             throw new AlzaraException(AlzaraException.TASK_DOES_NOT_EXIST_MESSAGE);
         }
         return taskIndex;
