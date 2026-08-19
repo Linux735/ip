@@ -29,7 +29,7 @@ public class CommandParser {
             return new ListCommand();
         case UNKNOWN:
         default:
-            return new UnknownCommand(command);
+            throw new AlzaraException(AlzaraException.UNRECOGNISED_COMMAND_MESSAGE);
         }
     }
 

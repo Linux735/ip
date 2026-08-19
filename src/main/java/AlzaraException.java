@@ -13,6 +13,8 @@ public class AlzaraException extends Exception {
             "All things must have a start and an end...";
     public static final String INVALID_DEADLINE_DATE_MESSAGE =
             "I cannot read that date. Use yyyy-mm-dd";
+    public static final String UNRECOGNISED_COMMAND_MESSAGE =
+            "Speak sense, mortal.";
 
     public AlzaraException(String message) {
         super(message);

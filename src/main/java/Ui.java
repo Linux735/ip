@@ -86,11 +86,6 @@ public class Ui {
         showLine();
     }
 
-    public void showRawTaskAdded(String command) {
-        System.out.println("added: " + command);
-        showLine();
-    }
-
     public void showError(String message) {
         System.out.println(message);
         showLine();
