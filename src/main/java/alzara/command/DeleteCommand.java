@@ -1,3 +1,11 @@
+package alzara.command;
+
+import alzara.AlzaraException;
+import alzara.storage.Storage;
+import alzara.task.Task;
+import alzara.task.TaskList;
+import alzara.ui.Ui;
+
 /**
  * Removes a task from the task list, persists the change, and reports it.
  */

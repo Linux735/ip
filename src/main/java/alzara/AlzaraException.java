@@ -1,3 +1,5 @@
+package alzara;
+
 public class AlzaraException extends Exception {
     public static final String MISSING_TASK_DESC =
             "You want to do nothing?";

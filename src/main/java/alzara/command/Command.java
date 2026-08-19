@@ -1,3 +1,9 @@
+package alzara.command;
+
+import alzara.AlzaraException;
+import alzara.task.TaskList;
+import alzara.ui.Ui;
+
 /**
  * Represents a single user command that knows how to carry out its own
  * effect on the task list and UI. Concrete subclasses implement one kind of

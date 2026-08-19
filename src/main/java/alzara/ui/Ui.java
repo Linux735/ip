@@ -1,5 +1,9 @@
+package alzara.ui;
+
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import alzara.task.Task;
 
 /**
  * Handles all interaction with the user: reading raw input from the console

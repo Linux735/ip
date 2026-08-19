@@ -1,3 +1,8 @@
+package alzara.command;
+
+import alzara.task.TaskList;
+import alzara.ui.Ui;
+
 /**
  * Ends the program: shows the goodbye message and signals {@link Command#isExit}.
  */

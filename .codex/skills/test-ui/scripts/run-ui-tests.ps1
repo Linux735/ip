@@ -58,7 +58,7 @@ $classDirectory = Join-Path ([System.IO.Path]::GetTempPath()) ("alzara-ui-classe
 New-Item -ItemType Directory -Path $classDirectory | Out-Null
 
 try {
-    $sources = Get-ChildItem -Path "src/main/java" -Filter "*.java" -File | Select-Object -ExpandProperty FullName
+    $sources = Get-ChildItem -Path "src/main/java" -Filter "*.java" -File -Recurse | Select-Object -ExpandProperty FullName
     $compilerOutput = & javac -d $classDirectory $sources 2>&1 | Out-String
     if ($LASTEXITCODE -ne 0) {
         throw "Compilation failed:`n$compilerOutput"
@@ -114,7 +114,7 @@ try {
 
                 $processInfo = [System.Diagnostics.ProcessStartInfo]::new()
                 $processInfo.FileName = "java"
-                $processInfo.Arguments = "-cp `"$classDirectory`" Alzara"
+                $processInfo.Arguments = "-cp `"$classDirectory`" alzara.Alzara"
                 $processInfo.WorkingDirectory = $workDirectory
                 $processInfo.UseShellExecute = $false
                 $processInfo.RedirectStandardInput = $true

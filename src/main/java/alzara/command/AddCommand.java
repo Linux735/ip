@@ -1,3 +1,10 @@
+package alzara.command;
+
+import alzara.storage.Storage;
+import alzara.task.Task;
+import alzara.task.TaskList;
+import alzara.ui.Ui;
+
 /**
  * Adds a task to the task list, persists it, and reports it was added.
  * Used by the {@code todo}, {@code deadline}, and {@code event} commands,

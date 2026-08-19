@@ -1,3 +1,5 @@
+package alzara.task;
+
 import java.util.ArrayList;
 
 /**
@@ -30,7 +32,8 @@ public class TaskList {
 
     /**
      * Exposes the underlying list for callers that need to read or persist
-     * every task at once, e.g. {@link Storage#save} and {@link Ui#showTaskList}.
+     * every task at once, e.g. {@link alzara.storage.Storage#save} and
+     * {@link alzara.ui.Ui#showTaskList}.
      */
     public ArrayList<Task> getTasks() {
         return this.memory;

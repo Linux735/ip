@@ -1,3 +1,5 @@
+package alzara.storage;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -5,6 +7,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import alzara.AlzaraException;
+import alzara.task.Deadline;
+import alzara.task.Event;
+import alzara.task.Task;
+import alzara.task.ToDo;
 
 public class Storage {
     private static final String DATA_DIR = "data";

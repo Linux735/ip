@@ -1,3 +1,5 @@
+package alzara.task;
+
 public class Task {
     private String task;
     private boolean done;

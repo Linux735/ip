@@ -1,3 +1,11 @@
+package alzara;
+
+import alzara.command.Command;
+import alzara.parser.CommandParser;
+import alzara.storage.Storage;
+import alzara.task.TaskList;
+import alzara.ui.Ui;
+
 /**
  * The Alzara chatbot: sets up its collaborators once, then runs the
  * read-command-execute loop until the user says {@code bye}.

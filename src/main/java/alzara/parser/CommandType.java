@@ -1,3 +1,5 @@
+package alzara.parser;
+
 /**
  * Represents the commands Alzara recognises.
  */
