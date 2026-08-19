@@ -9,7 +9,10 @@ public class MarkCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList memory, Ui ui) {
+    public void execute(TaskList memory, Ui ui) throws AlzaraException {
+        if (taskIndex < 0 || taskIndex >= memory.size()) {
+            throw new AlzaraException(AlzaraException.TASK_DOES_NOT_EXIST_MESSAGE);
+        }
         Task task = memory.get(taskIndex);
         task.mark(taskIndex);
         Storage.save(memory.getTasks());
