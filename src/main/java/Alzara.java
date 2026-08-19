@@ -23,15 +23,19 @@ public class Alzara {
 
             switch (CommandType.from(command)) {
             case BYE:
-                ui.showGoodbye();
-                return;
+                try {
+                    Command exitCommand = new ExitCommand();
+                    exitCommand.execute(memory, ui);
+                    return;
+                } catch (AlzaraException exception) {
+                    ui.showError(exception.getMessage());
+                }
+                break;
             case MARK:
                 try {
                     int taskIndex = getTaskIndex(command, memory);
-                    Task task = memory.get(taskIndex);
-                    task.mark(taskIndex);
-                    Storage.save(memory.getTasks());
-                    ui.showTaskMarked(task);
+                    Command markCommand = new MarkCommand(taskIndex);
+                    markCommand.execute(memory, ui);
                 } catch (AlzaraException exception) {
                     ui.showError(exception.getMessage());
                 }
@@ -39,10 +43,8 @@ public class Alzara {
             case UNMARK:
                 try {
                     int taskIndex = getTaskIndex(command, memory);
-                    Task task = memory.get(taskIndex);
-                    task.unmark(taskIndex);
-                    Storage.save(memory.getTasks());
-                    ui.showTaskUnmarked(task);
+                    Command unmarkCommand = new UnmarkCommand(taskIndex);
+                    unmarkCommand.execute(memory, ui);
                 } catch (AlzaraException exception) {
                     ui.showError(exception.getMessage());
                 }
@@ -50,9 +52,8 @@ public class Alzara {
             case TODO:
                 try {
                     Task task = CommandParser.parseTodo(command);
-                    memory.add(task);
-                    Storage.save(memory.getTasks());
-                    ui.showTaskAdded("You have something to do...", task, memory.size());
+                    Command addTodoCommand = new AddCommand(task, "You have something to do...");
+                    addTodoCommand.execute(memory, ui);
                 } catch (AlzaraException exception) {
                     ui.showError(exception.getMessage());
                 }
@@ -60,9 +61,8 @@ public class Alzara {
             case DEADLINE:
                 try {
                     Task task = CommandParser.parseDeadline(command);
-                    memory.add(task);
-                    Storage.save(memory.getTasks());
-                    ui.showTaskAdded("Do not miss the deadline.", task, memory.size());
+                    Command addDeadlineCommand = new AddCommand(task, "Do not miss the deadline.");
+                    addDeadlineCommand.execute(memory, ui);
                 } catch (AlzaraException exception) {
                     ui.showError(exception.getMessage());
                 }
@@ -70,9 +70,8 @@ public class Alzara {
             case EVENT:
                 try {
                     Task task = CommandParser.parseEvent(command);
-                    memory.add(task);
-                    Storage.save(memory.getTasks());
-                    ui.showTaskAdded("Am I invited?", task, memory.size());
+                    Command addEventCommand = new AddCommand(task, "Am I invited?");
+                    addEventCommand.execute(memory, ui);
                 } catch (AlzaraException exception) {
                     ui.showError(exception.getMessage());
                 }
@@ -80,20 +79,27 @@ public class Alzara {
             case DELETE:
                 try {
                     int taskIndex = getTaskIndex(command, memory);
-                    Task deletedTask = memory.delete(taskIndex);
-                    Storage.save(memory.getTasks());
-                    ui.showTaskDeleted(deletedTask, memory.size());
+                    Command deleteCommand = new DeleteCommand(taskIndex);
+                    deleteCommand.execute(memory, ui);
                 } catch (AlzaraException exception) {
                     ui.showError(exception.getMessage());
                 }
                 break;
             case LIST:
-                ui.showTaskList(memory.getTasks());
+                try {
+                    Command listCommand = new ListCommand();
+                    listCommand.execute(memory, ui);
+                } catch (AlzaraException exception) {
+                    ui.showError(exception.getMessage());
+                }
                 break;
             case UNKNOWN:
-                memory.add(new Task(command));
-                Storage.save(memory.getTasks());
-                ui.showRawTaskAdded(command);
+                try {
+                    Command unknownCommand = new UnknownCommand(command);
+                    unknownCommand.execute(memory, ui);
+                } catch (AlzaraException exception) {
+                    ui.showError(exception.getMessage());
+                }
                 break;
             }
         }
