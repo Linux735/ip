@@ -25,6 +25,11 @@ public class Task {
         return (this.done ? "Y" : "N") + " | " + this.task;
     }
 
+    public boolean matches(String keyword) {
+        String taskChecker = this.task.toLowerCase();
+        return taskChecker.contains(keyword.toLowerCase());
+    }
+
     @Override
     public String toString() {
         if (this.done) {

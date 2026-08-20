@@ -17,6 +17,8 @@ public class AlzaraException extends Exception {
             "I cannot read that date. Use yyyy-mm-dd";
     public static final String UNRECOGNISED_COMMAND_MESSAGE =
             "Speak sense, mortal.";
+    public static final String MISSING_KEYWORD_MESSAGE =
+            "I cannot find nothing.";
 
     public AlzaraException(String message) {
         super(message);
