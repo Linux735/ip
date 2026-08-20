@@ -22,12 +22,16 @@ public class TaskList {
 
     /**
      * Adds a task to the end of the list.
+     *
+     * @param task the task to add
      */
     public void add(Task task) {
         this.memory.add(task);
     }
 
     /**
+     * Returns the task at {@code index}.
+     *
      * @param index 0-based index; not bounds-checked here - throws
      *         {@link IndexOutOfBoundsException} if out of range, same as
      *         {@link ArrayList#get}. Callers (see the {@code Command} classes)
@@ -49,7 +53,9 @@ public class TaskList {
     }
 
     /**
-     * @return the number of tasks currently in the list
+     * Returns the number of tasks currently in the list.
+     *
+     * @return the current task count
      */
     public int size() {
         return this.memory.size();

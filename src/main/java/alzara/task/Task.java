@@ -1,17 +1,19 @@
 package alzara.task;
 
 /**
- * A task with a description and a done/not-done state. {@link ToDo},
- * {@link Deadline}, and {@link Event} are the only subtypes the app actually
- * creates; this class holds the state and formatting logic they all share.
+ * A task with a description and a done/not-done state.
+ *
+ * {@link ToDo}, {@link Deadline}, and {@link Event} are the only subtypes the
+ * app actually creates; this class holds the state and formatting logic they
+ * all share.
  */
 public class Task {
     private String task;
-    private boolean done;
+    private boolean isDone;
 
-    private Task(String task , boolean done) {
+    private Task(String task, boolean isDone) {
         this.task = task;
-        this.done = done;
+        this.isDone = isDone;
     }
 
     /**
@@ -30,7 +32,7 @@ public class Task {
      *         method's effect doesn't depend on it
      */
     public void mark(int index) {
-        this.done = true;
+        this.isDone = true;
     }
 
     /**
@@ -40,22 +42,26 @@ public class Task {
      *         method's effect doesn't depend on it
      */
     public void unmark(int index) {
-        this.done = false;
+        this.isDone = false;
     }
 
     /**
-     * @return this task's save-file line, e.g. {@code "N | read book"}
+     * Returns this task's save-file line.
+     *
+     * @return the save-file line, e.g. {@code "N | read book"}
      */
     public String toSaveFormat() {
-        return (this.done ? "Y" : "N") + " | " + this.task;
+        return (this.isDone ? "Y" : "N") + " | " + this.task;
     }
 
     /**
-     * @return this task's console display, e.g. {@code "[X] read book"} once done
+     * Returns this task's console display.
+     *
+     * @return the display line, e.g. {@code "[X] read book"} once done
      */
     @Override
     public String toString() {
-        if (this.done) {
+        if (this.isDone) {
             return "[X] " + this.task;
         }
         return "[ ] " + this.task;

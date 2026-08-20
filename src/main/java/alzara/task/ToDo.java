@@ -3,7 +3,7 @@ package alzara.task;
 /**
  * A task with just a description and a done/not-done state - no date fields.
  */
-public class ToDo extends Task{
+public class ToDo extends Task {
     /**
      * Creates a to-do that starts out not done.
      *
@@ -14,7 +14,9 @@ public class ToDo extends Task{
     }
 
     /**
-     * @return this task's save-file line, prefixed with {@code "T | "}
+     * Returns this task's save-file line, prefixed with the type letter.
+     *
+     * @return the save-file line, prefixed with {@code "T | "}
      */
     @Override
     public String toSaveFormat() {
@@ -22,7 +24,9 @@ public class ToDo extends Task{
     }
 
     /**
-     * @return this task's console display, prefixed with {@code "[T]"}
+     * Returns this task's console display, prefixed with the type letter.
+     *
+     * @return the display line, prefixed with {@code "[T]"}
      */
     @Override
     public String toString() {

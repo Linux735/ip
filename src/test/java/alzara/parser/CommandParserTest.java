@@ -76,7 +76,8 @@ class CommandParserTest {
     // with message AlzaraException.NON_NUMERIC_TASK_NUMBER_MESSAGE.
     @Test
     void parse_markNonNumericIndex_exceptionThrown() {
-        AlzaraException exception = assertThrows(AlzaraException.class, () -> CommandParser.parse("mark abc"));
+        AlzaraException exception = assertThrows(AlzaraException.class,
+                () -> CommandParser.parse("mark abc"));
         assertEquals(AlzaraException.NON_NUMERIC_TASK_NUMBER_MESSAGE, exception.getMessage());
     }
 
@@ -101,7 +102,8 @@ class CommandParserTest {
     // AlzaraException.NON_NUMERIC_TASK_NUMBER_MESSAGE.
     @Test
     void parse_unmarkNonNumericIndex_exceptionThrown() {
-        AlzaraException exception = assertThrows(AlzaraException.class, () -> CommandParser.parse("unmark abc"));
+        AlzaraException exception = assertThrows(AlzaraException.class,
+                () -> CommandParser.parse("unmark abc"));
         assertEquals(AlzaraException.NON_NUMERIC_TASK_NUMBER_MESSAGE, exception.getMessage());
     }
 
@@ -126,7 +128,8 @@ class CommandParserTest {
     // AlzaraException.NON_NUMERIC_TASK_NUMBER_MESSAGE.
     @Test
     void parse_deleteNonNumericIndex_exceptionThrown() {
-        AlzaraException exception = assertThrows(AlzaraException.class, () -> CommandParser.parse("delete abc"));
+        AlzaraException exception = assertThrows(AlzaraException.class,
+                () -> CommandParser.parse("delete abc"));
         assertEquals(AlzaraException.NON_NUMERIC_TASK_NUMBER_MESSAGE, exception.getMessage());
     }
 
@@ -161,7 +164,8 @@ class CommandParserTest {
     // AlzaraException.MISSING_TASK_DESC.
     @Test
     void parse_deadlineMissingDescription_exceptionThrown() {
-        AlzaraException exception = assertThrows(AlzaraException.class, () -> CommandParser.parse("deadline"));
+        AlzaraException exception = assertThrows(AlzaraException.class,
+                () -> CommandParser.parse("deadline"));
         assertEquals(AlzaraException.MISSING_TASK_DESC, exception.getMessage());
     }
 

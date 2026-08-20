@@ -63,6 +63,8 @@ public class Ui {
 
     /**
      * Reports that a task was marked done, showing the task itself.
+     *
+     * @param task the task that was marked done
      */
     public void showTaskMarked(Task task) {
         System.out.println("You have satisfied the great Alzara.");
@@ -72,6 +74,8 @@ public class Ui {
 
     /**
      * Reports that a task was marked not done, showing the task itself.
+     *
+     * @param task the task that was marked not done
      */
     public void showTaskUnmarked(Task task) {
         System.out.println("As I predicted...");
@@ -94,6 +98,9 @@ public class Ui {
     /**
      * Reports that a task was removed, showing the removed task and how many
      * tasks remain.
+     *
+     * @param task the task that was removed
+     * @param remainingCount the number of tasks left after the removal
      */
     public void showTaskDeleted(Task task, int remainingCount) {
         System.out.println("I have removed the task " + task);
@@ -103,6 +110,8 @@ public class Ui {
 
     /**
      * Prints every task in {@code tasks}, numbered from 1, for the {@code list} command.
+     *
+     * @param tasks the tasks to display
      */
     public void showTaskList(ArrayList<Task> tasks) {
         System.out.println("Here are the tasks in your list:");
@@ -115,6 +124,8 @@ public class Ui {
     /**
      * Prints an error message, e.g. an {@link alzara.AlzaraException}'s
      * {@code getMessage()}.
+     *
+     * @param message the error message to display
      */
     public void showError(String message) {
         System.out.println(message);

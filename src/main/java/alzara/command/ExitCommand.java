@@ -17,6 +17,8 @@ public class ExitCommand extends Command {
     }
 
     /**
+     * Signals that the program should stop.
+     *
      * @return {@code true}, ending the program's main loop
      */
     @Override

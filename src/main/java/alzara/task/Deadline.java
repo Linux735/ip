@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * A task with a description, a done/not-done state, and a due date.
  */
-public class Deadline extends Task{
+public class Deadline extends Task {
     private static final DateTimeFormatter DISPLAY_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy");
 
     private LocalDate deadline;
@@ -23,18 +23,21 @@ public class Deadline extends Task{
     }
 
     /**
-     * @return this task's save-file line, prefixed with {@code "D | "} and
-     *         suffixed with the due date in ISO form (e.g. {@code 2019-10-15})
+     * Returns this task's save-file line, prefixed with the type letter and
+     * suffixed with the due date.
+     *
+     * @return the save-file line, e.g. {@code "D | N | return book | 2019-10-15"}
      */
     @Override
     public String toSaveFormat() {
         return "D | " + super.toSaveFormat() + " | " + this.deadline;
     }
 
-
     /**
-     * @return this task's console display, prefixed with {@code "[D]"} and
-     *         suffixed with the due date as {@code "(by: MMM dd yyyy)"}
+     * Returns this task's console display, prefixed with the type letter and
+     * suffixed with the due date.
+     *
+     * @return the display line, with the due date as {@code "(by: MMM dd yyyy)"}
      */
     @Override
     public String toString() {

@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * A task with a description, a done/not-done state, and a start/end date range.
  */
-public class Event extends Task{
+public class Event extends Task {
     private static final DateTimeFormatter DISPLAY_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy");
 
     private LocalDate start;
@@ -26,8 +26,10 @@ public class Event extends Task{
     }
 
     /**
-     * @return this task's save-file line, prefixed with {@code "E | "} and
-     *         suffixed with both dates in ISO form (e.g. {@code 2019-10-15})
+     * Returns this task's save-file line, prefixed with the type letter and
+     * suffixed with both dates.
+     *
+     * @return the save-file line, e.g. {@code "E | N | trip | 2019-10-15 | 2019-10-16"}
      */
     @Override
     public String toSaveFormat() {
@@ -35,8 +37,10 @@ public class Event extends Task{
     }
 
     /**
-     * @return this task's console display, prefixed with {@code "[E]"} and
-     *         suffixed with both dates as {@code "(from: MMM dd yyyy to: MMM dd yyyy)"}
+     * Returns this task's console display, prefixed with the type letter and
+     * suffixed with both dates.
+     *
+     * @return the display line, with both dates as {@code "(from: MMM dd yyyy to: MMM dd yyyy)"}
      */
     @Override
     public String toString() {

@@ -26,10 +26,11 @@ public class Storage {
 
     /**
      * Overwrites the save file with every task in {@code memory}, one per line
-     * in each task's {@link Task#toSaveFormat()}. Creates the {@code data}
-     * folder first if it doesn't exist yet. Prints a message and returns
-     * without throwing if the folder can't be created or the file can't be
-     * written - a failed save shouldn't crash the program.
+     * in each task's {@link Task#toSaveFormat()}.
+     *
+     * <p>Creates the {@code data} folder first if it doesn't exist yet. Prints
+     * a message and returns without throwing if the folder can't be created
+     * or the file can't be written - a failed save shouldn't crash the program.
      *
      * @param memory the current task list to persist; does nothing if {@code null}
      */
@@ -40,8 +41,8 @@ public class Storage {
 
         File parentDir = FILE_PATH.getParentFile();
         if (parentDir != null && !parentDir.exists()) {
-            boolean created = parentDir.mkdirs();
-            if (!created && !parentDir.exists()) {
+            boolean wasCreated = parentDir.mkdirs();
+            if (!wasCreated && !parentDir.exists()) {
                 System.out.println("Could not create the data folder. Your tasks were not saved.");
                 return;
             }
@@ -126,44 +127,44 @@ public class Storage {
         if (description.trim().isEmpty()) {
             throw new AlzaraException("missing description");
         }
-        boolean done = doneFlag.equals("Y");
+        boolean isDone = doneFlag.equals("Y");
 
         Task task;
         switch (type) {
-            case "T":
-                task = new ToDo(description);
-                break;
-            case "D":
-                if (parts.length < 4 || parts[3].trim().isEmpty()) {
-                    throw new AlzaraException("missing deadline field");
-                }
-                LocalDate deadlineDate;
-                try {
-                    deadlineDate = LocalDate.parse(parts[3].trim());
-                } catch (DateTimeParseException exception) {
-                    throw new AlzaraException("invalid deadline date");
-                }
-                task = new Deadline(description, deadlineDate);
-                break;
-            case "E":
-                if (parts.length < 5 || parts[3].trim().isEmpty() || parts[4].trim().isEmpty()) {
-                    throw new AlzaraException("missing event start/end field");
-                }
-                LocalDate eventStart;
-                LocalDate eventEnd;
-                try {
-                    eventStart = LocalDate.parse(parts[3].trim());
-                    eventEnd = LocalDate.parse(parts[4].trim());
-                } catch (DateTimeParseException exception) {
-                    throw new AlzaraException("invalid event date");
-                }
-                task = new Event(description, eventStart, eventEnd);
-                break;
-            default:
-                throw new AlzaraException("unrecognised task type '" + type + "'");
+        case "T":
+            task = new ToDo(description);
+            break;
+        case "D":
+            if (parts.length < 4 || parts[3].trim().isEmpty()) {
+                throw new AlzaraException("missing deadline field");
+            }
+            LocalDate deadlineDate;
+            try {
+                deadlineDate = LocalDate.parse(parts[3].trim());
+            } catch (DateTimeParseException exception) {
+                throw new AlzaraException("invalid deadline date");
+            }
+            task = new Deadline(description, deadlineDate);
+            break;
+        case "E":
+            if (parts.length < 5 || parts[3].trim().isEmpty() || parts[4].trim().isEmpty()) {
+                throw new AlzaraException("missing event start/end field");
+            }
+            LocalDate eventStart;
+            LocalDate eventEnd;
+            try {
+                eventStart = LocalDate.parse(parts[3].trim());
+                eventEnd = LocalDate.parse(parts[4].trim());
+            } catch (DateTimeParseException exception) {
+                throw new AlzaraException("invalid event date");
+            }
+            task = new Event(description, eventStart, eventEnd);
+            break;
+        default:
+            throw new AlzaraException("unrecognised task type '" + type + "'");
         }
 
-        if (done) {
+        if (isDone) {
             task.mark(0);
         }
         return task;
