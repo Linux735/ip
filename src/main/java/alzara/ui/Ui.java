@@ -15,6 +15,9 @@ public class Ui {
 
     private final Scanner scanner;
 
+    /**
+     * Opens a {@link Scanner} on {@link System#in} for {@link #readCommand()}.
+     */
     public Ui() {
         this.scanner = new Scanner(System.in);
     }
@@ -33,6 +36,9 @@ public class Ui {
         System.out.println(SEPARATOR);
     }
 
+    /**
+     * Prints the startup banner and welcome message.
+     */
     public void showWelcome() {
         String banner = "    _    _     ______    _    ____       _    \n"
                 + "   / \\  | |   |__  /   / \\  |  _ \\     / \\   \n"
@@ -47,17 +53,26 @@ public class Ui {
         showLine();
     }
 
+    /**
+     * Prints the exit message shown by {@code bye}.
+     */
     public void showGoodbye() {
         System.out.println("Our audience has ended. Until we meet again.");
         showLine();
     }
 
+    /**
+     * Reports that a task was marked done, showing the task itself.
+     */
     public void showTaskMarked(Task task) {
         System.out.println("You have satisfied the great Alzara.");
         System.out.println(task);
         showLine();
     }
 
+    /**
+     * Reports that a task was marked not done, showing the task itself.
+     */
     public void showTaskUnmarked(Task task) {
         System.out.println("As I predicted...");
         System.out.println(task);
@@ -76,12 +91,19 @@ public class Ui {
         showLine();
     }
 
+    /**
+     * Reports that a task was removed, showing the removed task and how many
+     * tasks remain.
+     */
     public void showTaskDeleted(Task task, int remainingCount) {
         System.out.println("I have removed the task " + task);
         System.out.println("You have " + remainingCount + " tasks remaining.");
         showLine();
     }
 
+    /**
+     * Prints every task in {@code tasks}, numbered from 1, for the {@code list} command.
+     */
     public void showTaskList(ArrayList<Task> tasks) {
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
@@ -90,6 +112,10 @@ public class Ui {
         showLine();
     }
 
+    /**
+     * Prints an error message, e.g. an {@link alzara.AlzaraException}'s
+     * {@code getMessage()}.
+     */
     public void showError(String message) {
         System.out.println(message);
         showLine();

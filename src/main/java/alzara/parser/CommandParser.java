@@ -67,6 +67,11 @@ public class CommandParser {
         }
     }
 
+    /**
+     * Parses a {@code todo} command into a {@link ToDo}.
+     *
+     * @throws AlzaraException if the command has no description
+     */
     private static Task parseTodo(String command) throws AlzaraException {
         if (command.trim().equals("todo")) {
             throw new AlzaraException(AlzaraException.MISSING_TASK_DESC);
@@ -74,6 +79,13 @@ public class CommandParser {
         return new ToDo(command.substring(5));
     }
 
+    /**
+     * Parses a {@code deadline} command into a {@link Deadline}, extracting the
+     * description before the {@code /by} marker and the date after it.
+     *
+     * @throws AlzaraException if the description or {@code /by} date is missing
+     *         or malformed
+     */
     private static Task parseDeadline(String command) throws AlzaraException {
         if (command.trim().equals("deadline")) {
             throw new AlzaraException(AlzaraException.MISSING_TASK_DESC);
@@ -100,6 +112,14 @@ public class CommandParser {
         return new Deadline(description, deadline);
     }
 
+    /**
+     * Parses an {@code event} command into an {@link Event}, extracting the
+     * description before the {@code /from} marker and the two dates between
+     * the {@code /from} and {@code /to} markers.
+     *
+     * @throws AlzaraException if the description or either date is missing,
+     *         out of order, or malformed
+     */
     private static Task parseEvent(String command) throws AlzaraException {
         if (command.trim().equals("event")) {
             throw new AlzaraException(AlzaraException.MISSING_TASK_DESC);

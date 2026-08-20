@@ -12,10 +12,22 @@ import alzara.ui.Ui;
 public class DeleteCommand extends Command {
     private final int taskIndex;
 
+    /**
+     * Creates a command that deletes the task at the given 0-based index.
+     *
+     * @param taskIndex 0-based index parsed from the command text, not yet
+     *         validated against the task list's current size
+     */
     public DeleteCommand(int taskIndex) {
         this.taskIndex = taskIndex;
     }
 
+    /**
+     * Removes the task at {@code taskIndex} from {@code memory}, persists the
+     * updated list, and reports it.
+     *
+     * @throws AlzaraException if {@code taskIndex} doesn't refer to an existing task
+     */
     @Override
     public void execute(TaskList memory, Ui ui) throws AlzaraException {
         if (taskIndex < 0 || taskIndex >= memory.size()) {
