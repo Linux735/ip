@@ -1,15 +1,17 @@
 package alzara.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link ToDo}. ToDo only overrides toString()/toSaveFormat() to add
- * a "[T]"/"T |" prefix - the underlying done/not-done state (mark/unmark) is
- * inherited from Task unchanged, so this class is also where that inherited
- * behaviour gets exercised, since Task itself is no longer instantiated
- * directly anywhere in the app.
+ * a "[T]"/"T |" prefix - the underlying done/not-done state (mark/unmark) and
+ * the find-command matching logic are inherited from Task unchanged, so this
+ * class is also where that inherited behaviour gets exercised, since Task
+ * itself is no longer instantiated directly anywhere in the app.
  */
 class ToDoTest {
 
@@ -70,5 +72,21 @@ class ToDoTest {
         toDo.mark(999);
 
         assertEquals("[T][X] read book", toDo.toString());
+    }
+
+    // matches() (inherited from Task) should find the keyword regardless of case.
+    @Test
+    void matches_keywordPresentDifferentCase_returnsTrue() {
+        ToDo toDo = new ToDo("read book");
+
+        assertTrue(toDo.matches("BOOK"));
+    }
+
+    // matches() should return false when the keyword isn't part of the description.
+    @Test
+    void matches_keywordAbsent_returnsFalse() {
+        ToDo toDo = new ToDo("read book");
+
+        assertFalse(toDo.matches("jog"));
     }
 }

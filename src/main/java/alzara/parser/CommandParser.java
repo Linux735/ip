@@ -8,6 +8,7 @@ import alzara.command.AddCommand;
 import alzara.command.Command;
 import alzara.command.DeleteCommand;
 import alzara.command.ExitCommand;
+import alzara.command.FindCommand;
 import alzara.command.ListCommand;
 import alzara.command.MarkCommand;
 import alzara.command.UnmarkCommand;
@@ -42,6 +43,8 @@ public class CommandParser {
             return new DeleteCommand(parseTaskIndex(command));
         case LIST:
             return new ListCommand();
+        case FIND:
+            return new FindCommand(parseKeyword(command));
         case UNKNOWN:
         default:
             throw new AlzaraException(AlzaraException.UNRECOGNISED_COMMAND_MESSAGE);
@@ -148,5 +151,12 @@ public class CommandParser {
         }
 
         return new Event(description, start, end);
+    }
+
+    private static String parseKeyword(String command) throws AlzaraException {
+        if (command.trim().equals("find")) {
+            throw new AlzaraException(AlzaraException.MISSING_KEYWORD_MESSAGE);
+        }
+        return command.substring(5);
     }
 }

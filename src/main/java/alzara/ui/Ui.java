@@ -131,4 +131,13 @@ public class Ui {
         System.out.println(message);
         showLine();
     }
+
+    public void showMatchingTasks(ArrayList<Task> matches) {
+        System.out.println("Here are the matching tasks in your list:");
+        for (int i = 0; i < matches.size(); i++) {
+            System.out.printf("%d.%s%n", i + 1, matches.get(i));
+        }
+        showLine();
+    }
 }
+

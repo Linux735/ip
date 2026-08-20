@@ -55,6 +55,17 @@ public class Task {
     }
 
     /**
+     * Returns true if this task's description contains {@code keyword}, ignoring case.
+     *
+     * @param keyword the text to search the description for
+     * @return true if the description contains {@code keyword}
+     */
+    public boolean matches(String keyword) {
+        String taskChecker = this.task.toLowerCase();
+        return taskChecker.contains(keyword.toLowerCase());
+    }
+
+    /**
      * Returns this task's console display.
      *
      * @return the display line, e.g. {@code "[X] read book"} once done

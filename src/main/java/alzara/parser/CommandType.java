@@ -12,6 +12,7 @@ public enum CommandType {
     DEADLINE,
     EVENT,
     DELETE,
+    FIND,
     UNKNOWN;
 
     /**
@@ -35,6 +36,8 @@ public enum CommandType {
             return EVENT;
         } else if (command.equals("delete") || command.startsWith("delete ")) {
             return DELETE;
+        } else if (command.equals("find") || command.startsWith("find ")) {
+            return FIND;
         } else if (command.equals("list")) {
             return LIST;
         }
