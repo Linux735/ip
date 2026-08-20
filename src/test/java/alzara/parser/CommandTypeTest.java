@@ -56,6 +56,11 @@ class CommandTypeTest {
         assertEquals(CommandType.DELETE, CommandType.from("delete"));
     }
 
+    @Test
+    void from_find_returnsFind() {
+        assertEquals(CommandType.FIND, CommandType.from("find"));
+    }
+
     // --- shared prefix-matching mechanism, tested once ---
 
     // mark/unmark/todo/deadline/event/delete all match "<word> " followed by

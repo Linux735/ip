@@ -12,6 +12,7 @@ import alzara.command.AddCommand;
 import alzara.command.Command;
 import alzara.command.DeleteCommand;
 import alzara.command.ExitCommand;
+import alzara.command.FindCommand;
 import alzara.command.ListCommand;
 import alzara.command.MarkCommand;
 import alzara.command.UnmarkCommand;
@@ -257,6 +258,23 @@ class CommandParserTest {
         AlzaraException exception = assertThrows(AlzaraException.class,
                 () -> CommandParser.parse("event project meeting /from 2019-10-15 /to not-a-date"));
         assertEquals(AlzaraException.INVALID_DEADLINE_DATE_MESSAGE, exception.getMessage());
+    }
+
+    // --- find ---
+
+    // parse("find book") should return a FindCommand, no exception thrown.
+    @Test
+    void parse_findWithKeyword_returnsFindCommand() {
+        Command result = assertDoesNotThrow(() -> CommandParser.parse("find book"));
+        assertInstanceOf(FindCommand.class, result);
+    }
+
+    // parse("find") (no keyword at all) should throw AlzaraException with
+    // message AlzaraException.MISSING_KEYWORD_MESSAGE.
+    @Test
+    void parse_findMissingKeyword_exceptionThrown() {
+        AlzaraException exception = assertThrows(AlzaraException.class, () -> CommandParser.parse("find"));
+        assertEquals(AlzaraException.MISSING_KEYWORD_MESSAGE, exception.getMessage());
     }
 
     // --- unrecognised input ---
