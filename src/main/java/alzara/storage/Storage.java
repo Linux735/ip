@@ -14,12 +14,25 @@ import alzara.task.Event;
 import alzara.task.Task;
 import alzara.task.ToDo;
 
+/**
+ * Loads tasks from, and saves tasks to, the save file at {@code data/alzara.txt}
+ * (relative to the working directory the program is run from).
+ */
 public class Storage {
     private static final String DATA_DIR = "data";
     private static final String FILE_NAME = "alzara.txt";
     private static final File FILE_PATH = new File(DATA_DIR, FILE_NAME);
     private static final String FIELD_SEPARATOR = " \\| ";
 
+    /**
+     * Overwrites the save file with every task in {@code memory}, one per line
+     * in each task's {@link Task#toSaveFormat()}. Creates the {@code data}
+     * folder first if it doesn't exist yet. Prints a message and returns
+     * without throwing if the folder can't be created or the file can't be
+     * written - a failed save shouldn't crash the program.
+     *
+     * @param memory the current task list to persist; does nothing if {@code null}
+     */
     public static void save(ArrayList<Task> memory) {
         if (memory == null) {
             return;
@@ -45,6 +58,14 @@ public class Storage {
         }
     }
 
+    /**
+     * Reads every task from the save file, skipping (and reporting, with its
+     * line number and reason) any line that can't be parsed rather than
+     * failing the whole load.
+     *
+     * @return the loaded tasks, or an empty list if the save file doesn't
+     *         exist yet, can't be read, or couldn't be loaded at all
+     */
     public static ArrayList<Task> load() {
         ArrayList<Task> memory = new ArrayList<>();
         if (!FILE_PATH.exists()) {
@@ -81,6 +102,14 @@ public class Storage {
         return memory;
     }
 
+    /**
+     * Parses one save-file line (e.g. {@code "T | N | read book"}) into the
+     * matching {@link Task} subtype, and applies its done flag.
+     *
+     * @throws AlzaraException if the line has too few fields, an invalid done
+     *         flag, an empty description, an unrecognised type letter, or a
+     *         missing/malformed date field for that type
+     */
     private static Task loadTask(String line) throws AlzaraException {
         String[] parts = line.split(FIELD_SEPARATOR);
         if (parts.length < 3) {

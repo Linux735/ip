@@ -15,11 +15,20 @@ public class AddCommand extends Command {
     private final Task task;
     private final String flavourText;
 
+    /**
+     * Creates a command that adds an already-parsed task.
+     *
+     * @param task the task to add, already built by {@link alzara.parser.CommandParser}
+     * @param flavourText the command-specific line shown above the task
+     */
     public AddCommand(Task task, String flavourText) {
         this.task = task;
         this.flavourText = flavourText;
     }
 
+    /**
+     * Adds the task to {@code memory}, persists the updated list, and reports it.
+     */
     @Override
     public void execute(TaskList memory, Ui ui) {
         memory.add(task);

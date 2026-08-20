@@ -14,6 +14,10 @@ public class Alzara {
     private final Ui ui;
     private TaskList memory;
 
+    /**
+     * Creates the {@link Ui} collaborator; the task list isn't loaded yet
+     * (see {@link #run}) so it can be loaded after the welcome message.
+     */
     public Alzara() {
         this.ui = new Ui();
     }
