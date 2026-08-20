@@ -1,5 +1,10 @@
 package alzara;
 
+/**
+ * Signals that a user command could not be understood or carried out, e.g. a
+ * malformed {@code deadline} command or a task index that doesn't exist.
+ * {@link #getMessage()} holds the exact line Alzara should show the user.
+ */
 public class AlzaraException extends Exception {
     public static final String MISSING_TASK_DESC =
             "You want to do nothing?";
@@ -18,6 +23,11 @@ public class AlzaraException extends Exception {
     public static final String UNRECOGNISED_COMMAND_MESSAGE =
             "Speak sense, mortal.";
 
+    /**
+     * Creates an exception carrying the exact message Alzara should show the user.
+     *
+     * @param message the user-facing error message
+     */
     public AlzaraException(String message) {
         super(message);
     }

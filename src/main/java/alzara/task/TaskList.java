@@ -10,22 +10,53 @@ import java.util.ArrayList;
 public class TaskList {
     private final ArrayList<Task> memory;
 
+    /**
+     * Wraps an existing list of tasks, e.g. one just loaded by
+     * {@link alzara.storage.Storage#load()}.
+     *
+     * @param tasks the list to wrap; mutated in place by {@link #add}/{@link #delete}
+     */
     public TaskList(ArrayList<Task> tasks) {
         this.memory = tasks;
     }
 
+    /**
+     * Adds a task to the end of the list.
+     *
+     * @param task the task to add
+     */
     public void add(Task task) {
         this.memory.add(task);
     }
 
+    /**
+     * Returns the task at {@code index}.
+     *
+     * @param index 0-based index; not bounds-checked here - throws
+     *         {@link IndexOutOfBoundsException} if out of range, same as
+     *         {@link ArrayList#get}. Callers (see the {@code Command} classes)
+     *         are responsible for validating the index first.
+     * @return the task at {@code index}
+     */
     public Task get(int index) {
         return this.memory.get(index);
     }
 
+    /**
+     * Removes the task at {@code index}, shifting later tasks down by one.
+     *
+     * @param index 0-based index; not bounds-checked here (see {@link #get})
+     * @return the removed task
+     */
     public Task delete(int index) {
         return this.memory.remove(index);
     }
 
+    /**
+     * Returns the number of tasks currently in the list.
+     *
+     * @return the current task count
+     */
     public int size() {
         return this.memory.size();
     }
