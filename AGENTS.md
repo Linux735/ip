@@ -39,5 +39,6 @@ After every code update, update `test/ui-test-plan.md` when the observable conso
 ## Git
 
 Use lightweight tags unless the user requests an annotated tag.
+All commit messages and branch names in this project must follow the project-specific `seedu-git-standard` skill at `.codex/skills/seedu-git-standard/SKILL.md`, which encodes the SE-EDU Git conventions (subject line format, body structure, branch naming). Consult it before drafting or creating any commit message or branch.
 When proposing or creating a commit message, include enough detail to explain the rationale for the change.
 Do not commit or push unless explicitly asked.
