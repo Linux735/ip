@@ -6,20 +6,41 @@ import java.util.Scanner;
 import alzara.task.Task;
 
 /**
- * Handles all interaction with the user: reading raw input from the console
- * and printing Alzara's responses. Keeping this in one place means the rest
- * of the program never calls {@code System.out}/{@code Scanner} directly.
+ * Handles all interaction with the user: reading raw input and producing
+ * Alzara's responses. Keeping this in one place means the rest of the
+ * program never calls {@code System.out}/{@code Scanner} directly.
+ *
+ * <p>Runs in one of two modes, chosen at construction. In console mode,
+ * every response is printed straight to {@code System.out}, one line per
+ * {@code println} call. In GUI mode, responses are instead accumulated in a
+ * buffer for {@link #getAndClearResponse()} to return as a single string,
+ * and the console-only banner/divider lines are skipped, since a chat
+ * bubble doesn't need them.
  */
 public class Ui {
     private static final String SEPARATOR = "____________________________________________________________";
 
     private final Scanner scanner;
+    private final boolean isGuiMode;
+    private final StringBuilder responseBuffer = new StringBuilder();
 
     /**
-     * Opens a {@link Scanner} on {@link System#in} for {@link #readCommand()}.
+     * Creates a {@link Ui} in console mode.
      */
     public Ui() {
+        this(false);
+    }
+
+    /**
+     * Creates a {@link Ui} in either console or GUI mode.
+     *
+     * @param isGuiMode if true, responses are buffered for
+     *         {@link #getAndClearResponse()} instead of printed, and
+     *         console-only decorations are skipped
+     */
+    public Ui(boolean isGuiMode) {
         this.scanner = new Scanner(System.in);
+        this.isGuiMode = isGuiMode;
     }
 
     /**
@@ -30,16 +51,34 @@ public class Ui {
     }
 
     /**
-     * Prints the horizontal divider used to separate one interaction from the next.
+     * Returns every response accumulated since the last call, then clears
+     * the buffer. Only meaningful in GUI mode - console mode never
+     * populates it.
+     */
+    public String getAndClearResponse() {
+        String response = responseBuffer.toString().strip();
+        responseBuffer.setLength(0);
+        return response;
+    }
+
+    /**
+     * Prints the horizontal divider used to separate one interaction from
+     * the next. A no-op in GUI mode.
      */
     public void showLine() {
+        if (isGuiMode) {
+            return;
+        }
         System.out.println(SEPARATOR);
     }
 
     /**
-     * Prints the startup banner and welcome message.
+     * Prints the startup banner and welcome message. A no-op in GUI mode.
      */
     public void showWelcome() {
+        if (isGuiMode) {
+            return;
+        }
         String banner = "    _    _     ______    _    ____       _    \n"
                 + "   / \\  | |   |__  /   / \\  |  _ \\     / \\   \n"
                 + "  / _ \\ | |     / /   / _ \\ | |_) |   / _ \\  \n"
@@ -54,11 +93,10 @@ public class Ui {
     }
 
     /**
-     * Prints the exit message shown by {@code bye}.
+     * Reports that the program is exiting.
      */
     public void showGoodbye() {
-        System.out.println("Our audience has ended. Until we meet again.");
-        showLine();
+        print("Our audience has ended. Until we meet again.");
     }
 
     /**
@@ -67,9 +105,7 @@ public class Ui {
      * @param task the task that was marked done
      */
     public void showTaskMarked(Task task) {
-        System.out.println("You have satisfied the great Alzara.");
-        System.out.println(task);
-        showLine();
+        print("You have satisfied the great Alzara.\n" + task);
     }
 
     /**
@@ -78,9 +114,7 @@ public class Ui {
      * @param task the task that was marked not done
      */
     public void showTaskUnmarked(Task task) {
-        System.out.println("As I predicted...");
-        System.out.println(task);
-        showLine();
+        print("As I predicted...\n" + task);
     }
 
     /**
@@ -89,10 +123,7 @@ public class Ui {
      * shown above the task (e.g. "Do not miss the deadline.").
      */
     public void showTaskAdded(String flavourText, Task task, int taskCount) {
-        System.out.println(flavourText);
-        System.out.println(task);
-        System.out.println("You have " + taskCount + " tasks.");
-        showLine();
+        print(flavourText + "\n" + task + "\nYou have " + taskCount + " tasks.");
     }
 
     /**
@@ -103,9 +134,7 @@ public class Ui {
      * @param remainingCount the number of tasks left after the removal
      */
     public void showTaskDeleted(Task task, int remainingCount) {
-        System.out.println("I have removed the task " + task);
-        System.out.println("You have " + remainingCount + " tasks remaining.");
-        showLine();
+        print("I have removed the task " + task + "\nYou have " + remainingCount + " tasks remaining.");
     }
 
     /**
@@ -114,11 +143,7 @@ public class Ui {
      * @param tasks the tasks to display
      */
     public void showTaskList(ArrayList<Task> tasks) {
-        System.out.println("Here are the tasks in your list:");
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.printf("%d.%s%n", i + 1, tasks.get(i));
-        }
-        showLine();
+        print(formatTaskList("Here are the tasks in your list:", tasks));
     }
 
     /**
@@ -128,8 +153,7 @@ public class Ui {
      * @param message the error message to display
      */
     public void showError(String message) {
-        System.out.println(message);
-        showLine();
+        print(message);
     }
 
     /**
@@ -138,11 +162,37 @@ public class Ui {
      * @param matches the matching tasks to display
      */
     public void showMatchingTasks(ArrayList<Task> matches) {
-        System.out.println("Here are the matching tasks in your list:");
-        for (int i = 0; i < matches.size(); i++) {
-            System.out.printf("%d.%s%n", i + 1, matches.get(i));
+        print(formatTaskList("Here are the matching tasks in your list:", matches));
+    }
+
+    /**
+     * Builds a {@code heading} followed by every task in {@code tasks}, each
+     * numbered from 1 on its own line.
+     */
+    private String formatTaskList(String heading, ArrayList<Task> tasks) {
+        StringBuilder message = new StringBuilder(heading);
+        for (int i = 0; i < tasks.size(); i++) {
+            message.append("\n").append(i + 1).append(".").append(tasks.get(i));
+        }
+        return message.toString();
+    }
+
+    /**
+     * Either prints {@code message} to the console (one {@code println} call
+     * per line, followed by the divider) or appends it to the response
+     * buffer, depending on the current mode.
+     */
+    private void print(String message) {
+        if (isGuiMode) {
+            if (responseBuffer.length() > 0) {
+                responseBuffer.append('\n');
+            }
+            responseBuffer.append(message);
+            return;
+        }
+        for (String line : message.split("\n", -1)) {
+            System.out.println(line);
         }
         showLine();
     }
 }
-

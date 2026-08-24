@@ -2,13 +2,12 @@ package alzara.gui;
 
 import java.io.IOException;
 
+import alzara.Alzara;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
-import alzara.Alzara;
 
 /**
  * Entry point for the JavaFX GUI. Loads {@code MainWindow.fxml}, creates the
@@ -16,7 +15,7 @@ import alzara.Alzara;
  * {@link MainWindow} controller.
  */
 public class Main extends Application {
-    private final Alzara alzara = new Alzara();
+    private final Alzara alzara = new Alzara(true);
 
     @Override
     public void start(Stage stage) {

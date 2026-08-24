@@ -1,5 +1,8 @@
 package alzara.gui;
 
+import alzara.Alzara;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -7,8 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-
-import alzara.Alzara;
+import javafx.util.Duration;
 
 /**
  * Controller for the main GUI window: a scrollable dialog history plus a text
@@ -47,6 +49,9 @@ public class MainWindow extends AnchorPane {
      * Creates two dialog boxes, one echoing the user's input and the other containing
      * Alzara's reply, and appends both to the dialog container. Clears the input field
      * afterwards.
+     *
+     * <p>If the command was {@code bye}, closes the window shortly after the reply
+     * is shown, giving the user a moment to read it.
      */
     @FXML
     private void handleUserInput() {
@@ -57,5 +62,11 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getAlzaraDialog(response, alzaraImage)
         );
         userInput.clear();
+
+        if (alzara.isExit()) {
+            PauseTransition delay = new PauseTransition(Duration.seconds(1));
+            delay.setOnFinished(event -> Platform.exit());
+            delay.play();
+        }
     }
 }
