@@ -132,6 +132,11 @@ public class Ui {
         showLine();
     }
 
+    /**
+     * Prints every task in {@code matches}, numbered from 1, for the {@code find} command.
+     *
+     * @param matches the matching tasks to display
+     */
     public void showMatchingTasks(ArrayList<Task> matches) {
         System.out.println("Here are the matching tasks in your list:");
         for (int i = 0; i < matches.size(); i++) {

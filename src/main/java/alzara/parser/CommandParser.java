@@ -27,27 +27,27 @@ public class CommandParser {
      */
     public static Command parse(String command) throws AlzaraException {
         switch (CommandType.from(command)) {
-        case BYE:
-            return new ExitCommand();
-        case MARK:
-            return new MarkCommand(parseTaskIndex(command));
-        case UNMARK:
-            return new UnmarkCommand(parseTaskIndex(command));
-        case TODO:
-            return new AddCommand(parseTodo(command), "You have something to do...");
-        case DEADLINE:
-            return new AddCommand(parseDeadline(command), "Do not miss the deadline.");
-        case EVENT:
-            return new AddCommand(parseEvent(command), "Am I invited?");
-        case DELETE:
-            return new DeleteCommand(parseTaskIndex(command));
-        case LIST:
-            return new ListCommand();
-        case FIND:
-            return new FindCommand(parseKeyword(command));
-        case UNKNOWN:
-        default:
-            throw new AlzaraException(AlzaraException.UNRECOGNISED_COMMAND_MESSAGE);
+            case BYE:
+                return new ExitCommand();
+            case MARK:
+                return new MarkCommand(parseTaskIndex(command));
+            case UNMARK:
+                return new UnmarkCommand(parseTaskIndex(command));
+            case TODO:
+                return new AddCommand(parseTodo(command), "You have something to do...");
+            case DEADLINE:
+                return new AddCommand(parseDeadline(command), "Do not miss the deadline.");
+            case EVENT:
+                return new AddCommand(parseEvent(command), "Am I invited?");
+            case DELETE:
+                return new DeleteCommand(parseTaskIndex(command));
+            case LIST:
+                return new ListCommand();
+            case FIND:
+                return new FindCommand(parseKeyword(command));
+            case UNKNOWN:
+            default:
+                throw new AlzaraException(AlzaraException.UNRECOGNISED_COMMAND_MESSAGE);
         }
     }
 
