@@ -77,8 +77,8 @@ class CommandParserTest {
     // with message AlzaraException.NON_NUMERIC_TASK_NUMBER_MESSAGE.
     @Test
     void parse_markNonNumericIndex_exceptionThrown() {
-        AlzaraException exception = assertThrows(AlzaraException.class,
-                () -> CommandParser.parse("mark abc"));
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("mark abc"));
         assertEquals(AlzaraException.NON_NUMERIC_TASK_NUMBER_MESSAGE, exception.getMessage());
     }
 
@@ -103,8 +103,8 @@ class CommandParserTest {
     // AlzaraException.NON_NUMERIC_TASK_NUMBER_MESSAGE.
     @Test
     void parse_unmarkNonNumericIndex_exceptionThrown() {
-        AlzaraException exception = assertThrows(AlzaraException.class,
-                () -> CommandParser.parse("unmark abc"));
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("unmark abc"));
         assertEquals(AlzaraException.NON_NUMERIC_TASK_NUMBER_MESSAGE, exception.getMessage());
     }
 
@@ -129,8 +129,8 @@ class CommandParserTest {
     // AlzaraException.NON_NUMERIC_TASK_NUMBER_MESSAGE.
     @Test
     void parse_deleteNonNumericIndex_exceptionThrown() {
-        AlzaraException exception = assertThrows(AlzaraException.class,
-                () -> CommandParser.parse("delete abc"));
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("delete abc"));
         assertEquals(AlzaraException.NON_NUMERIC_TASK_NUMBER_MESSAGE, exception.getMessage());
     }
 
@@ -165,8 +165,8 @@ class CommandParserTest {
     // AlzaraException.MISSING_TASK_DESC.
     @Test
     void parse_deadlineMissingDescription_exceptionThrown() {
-        AlzaraException exception = assertThrows(AlzaraException.class,
-                () -> CommandParser.parse("deadline"));
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("deadline"));
         assertEquals(AlzaraException.MISSING_TASK_DESC, exception.getMessage());
     }
 
@@ -174,8 +174,8 @@ class CommandParserTest {
     // AlzaraException with message AlzaraException.MISSING_DEADLINE_MARKER_MESSAGE.
     @Test
     void parse_deadlineMissingByMarker_exceptionThrown() {
-        AlzaraException exception = assertThrows(AlzaraException.class,
-                () -> CommandParser.parse("deadline return book"));
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("deadline return book"));
         assertEquals(AlzaraException.MISSING_DEADLINE_MARKER_MESSAGE, exception.getMessage());
     }
 
@@ -184,8 +184,8 @@ class CommandParserTest {
     // AlzaraException.MISSING_TASK_DESC.
     @Test
     void parse_deadlineBlankDescriptionBeforeMarker_exceptionThrown() {
-        AlzaraException exception = assertThrows(AlzaraException.class,
-                () -> CommandParser.parse("deadline  /by 2019-10-15"));
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("deadline  /by 2019-10-15"));
         assertEquals(AlzaraException.MISSING_TASK_DESC, exception.getMessage());
     }
 
@@ -193,8 +193,8 @@ class CommandParserTest {
     // with message AlzaraException.INVALID_DEADLINE_DATE_MESSAGE.
     @Test
     void parse_deadlineInvalidDate_exceptionThrown() {
-        AlzaraException exception = assertThrows(AlzaraException.class,
-                () -> CommandParser.parse("deadline return book /by not-a-date"));
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("deadline return book /by not-a-date"));
         assertEquals(AlzaraException.INVALID_DEADLINE_DATE_MESSAGE, exception.getMessage());
     }
 
@@ -204,8 +204,8 @@ class CommandParserTest {
     // an AddCommand, no exception thrown.
     @Test
     void parse_eventWithDescriptionAndDates_returnsAddCommand() {
-        Command result = assertDoesNotThrow(
-                () -> CommandParser.parse("event project meeting /from 2019-10-15 /to 2019-10-16"));
+        Command result = assertDoesNotThrow(() ->
+                CommandParser.parse("event project meeting /from 2019-10-15 /to 2019-10-16"));
         assertInstanceOf(AddCommand.class, result);
     }
 
@@ -221,8 +221,8 @@ class CommandParserTest {
     // throw AlzaraException with message AlzaraException.MISSING_EVENT_MARKER_MESSAGE.
     @Test
     void parse_eventMissingFromToMarkers_exceptionThrown() {
-        AlzaraException exception = assertThrows(AlzaraException.class,
-                () -> CommandParser.parse("event project meeting"));
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("event project meeting"));
         assertEquals(AlzaraException.MISSING_EVENT_MARKER_MESSAGE, exception.getMessage());
     }
 
@@ -231,8 +231,8 @@ class CommandParserTest {
     // message AlzaraException.MISSING_EVENT_MARKER_MESSAGE.
     @Test
     void parse_eventToBeforeFrom_exceptionThrown() {
-        AlzaraException exception = assertThrows(AlzaraException.class,
-                () -> CommandParser.parse("event project meeting /to 2019-10-16 /from 2019-10-15"));
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("event project meeting /to 2019-10-16 /from 2019-10-15"));
         assertEquals(AlzaraException.MISSING_EVENT_MARKER_MESSAGE, exception.getMessage());
     }
 
@@ -241,8 +241,8 @@ class CommandParserTest {
     // AlzaraException.MISSING_TASK_DESC.
     @Test
     void parse_eventBlankDescriptionBeforeMarker_exceptionThrown() {
-        AlzaraException exception = assertThrows(AlzaraException.class,
-                () -> CommandParser.parse("event  /from 2019-10-15 /to 2019-10-16"));
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("event  /from 2019-10-15 /to 2019-10-16"));
         assertEquals(AlzaraException.MISSING_TASK_DESC, exception.getMessage());
     }
 
@@ -250,8 +250,8 @@ class CommandParserTest {
     // AlzaraException with message AlzaraException.INVALID_DEADLINE_DATE_MESSAGE.
     @Test
     void parse_eventInvalidStartDate_exceptionThrown() {
-        AlzaraException exception = assertThrows(AlzaraException.class,
-                () -> CommandParser.parse("event project meeting /from not-a-date /to 2019-10-16"));
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("event project meeting /from not-a-date /to 2019-10-16"));
         assertEquals(AlzaraException.INVALID_DEADLINE_DATE_MESSAGE, exception.getMessage());
     }
 
@@ -259,8 +259,8 @@ class CommandParserTest {
     // AlzaraException with message AlzaraException.INVALID_DEADLINE_DATE_MESSAGE.
     @Test
     void parse_eventInvalidEndDate_exceptionThrown() {
-        AlzaraException exception = assertThrows(AlzaraException.class,
-                () -> CommandParser.parse("event project meeting /from 2019-10-15 /to not-a-date"));
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("event project meeting /from 2019-10-15 /to not-a-date"));
         assertEquals(AlzaraException.INVALID_DEADLINE_DATE_MESSAGE, exception.getMessage());
     }
 

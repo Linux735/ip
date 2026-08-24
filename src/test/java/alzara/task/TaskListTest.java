@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for {@link TaskList}: the thin wrapper around an ArrayList<Task> that
+ * Tests for {@link TaskList}: the thin wrapper around an {@code ArrayList<Task>} that
  * every command operates on. Task has no equals()/hashCode() override, so
  * "is this the task I added?" checks below use assertSame (reference
  * identity) rather than assertEquals.
