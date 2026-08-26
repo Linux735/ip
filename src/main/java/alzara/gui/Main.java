@@ -23,6 +23,7 @@ public class Main extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane anchorPane = fxmlLoader.load();
             Scene scene = new Scene(anchorPane);
+            stage.setTitle("Alzara");
             stage.setScene(scene);
             fxmlLoader.<MainWindow>getController().setAlzara(alzara);
             stage.show();
