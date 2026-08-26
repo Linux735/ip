@@ -28,8 +28,8 @@ public class MainWindow extends AnchorPane {
 
     private Alzara alzara;
 
-    private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
-    private final Image alzaraImage = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
+    private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.jpg"));
+    private final Image alzaraImage = new Image(this.getClass().getResourceAsStream("/images/Alzara.png"));
 
     @FXML
     public void initialize() {
@@ -37,12 +37,14 @@ public class MainWindow extends AnchorPane {
     }
 
     /**
-     * Injects the {@link Alzara} instance this window sends commands to.
+     * Injects the {@link Alzara} instance this window sends commands to, and
+     * shows its welcome message as the first dialog box.
      *
      * @param alzara the Alzara instance to inject
      */
     public void setAlzara(Alzara alzara) {
         this.alzara = alzara;
+        dialogContainer.getChildren().add(DialogBox.getAlzaraDialog(alzara.getWelcomeMessage(), alzaraImage));
     }
 
     /**

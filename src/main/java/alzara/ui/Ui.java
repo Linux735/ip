@@ -73,23 +73,21 @@ public class Ui {
     }
 
     /**
-     * Prints the startup banner and welcome message. A no-op in GUI mode.
+     * Shows the startup banner (console only) and welcome message.
      */
     public void showWelcome() {
-        if (isGuiMode) {
-            return;
+        if (!isGuiMode) {
+            String banner = "    _    _     ______    _    ____       _    \n"
+                    + "   / \\  | |   |__  /   / \\  |  _ \\     / \\   \n"
+                    + "  / _ \\ | |     / /   / _ \\ | |_) |   / _ \\  \n"
+                    + " / ___ \\| |___ / /_  / ___ \\|  _ <   / ___ \\ \n"
+                    + "/_/   \\_\\_____/____|/_/   \\_\\_| \\_\\ /_/   \\_\\\n";
+            showLine();
+            System.out.print(banner);
         }
-        String banner = "    _    _     ______    _    ____       _    \n"
-                + "   / \\  | |   |__  /   / \\  |  _ \\     / \\   \n"
-                + "  / _ \\ | |     / /   / _ \\ | |_) |   / _ \\  \n"
-                + " / ___ \\| |___ / /_  / ___ \\|  _ <   / ___ \\ \n"
-                + "/_/   \\_\\_____/____|/_/   \\_\\_| \\_\\ /_/   \\_\\\n";
-        showLine();
-        System.out.print(banner);
-        System.out.println("And as it was foretold,");
-        System.out.println("You find yourself face to face with the great Alzara.");
-        System.out.println("What can I do for you?");
-        showLine();
+        print("And as it was foretold,\n"
+                + "You find yourself face to face with the great Alzara.\n"
+                + "What can I do for you?");
     }
 
     /**

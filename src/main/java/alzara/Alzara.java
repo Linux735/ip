@@ -84,6 +84,15 @@ public class Alzara {
     }
 
     /**
+     * Returns Alzara's welcome message as plain text, for the GUI to show
+     * once when the window opens.
+     */
+    public String getWelcomeMessage() {
+        ui.showWelcome();
+        return ui.getAndClearResponse();
+    }
+
+    /**
      * Starts the Alzara chatbot application.
      *
      * @param args command-line arguments supplied when the application starts
