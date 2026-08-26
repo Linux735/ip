@@ -281,6 +281,14 @@ class CommandParserTest {
         assertEquals(AlzaraException.MISSING_KEYWORD_MESSAGE, exception.getMessage());
     }
 
+    // parse("find book urgent") (several whitespace-separated keywords) should
+    // also return a FindCommand, no exception thrown.
+    @Test
+    void parse_findWithMultipleKeywords_returnsFindCommand() {
+        Command result = assertDoesNotThrow(() -> CommandParser.parse("find book urgent"));
+        assertInstanceOf(FindCommand.class, result);
+    }
+
     // --- unrecognised input ---
 
     // parse("/list") (matches no known command) should throw AlzaraException with

@@ -44,7 +44,7 @@ public class CommandParser {
             case LIST:
                 return new ListCommand();
             case FIND:
-                return new FindCommand(parseKeyword(command));
+                return new FindCommand(parseKeywords(command));
             case UNKNOWN:
             default:
                 throw new AlzaraException(AlzaraException.UNRECOGNISED_COMMAND_MESSAGE);
@@ -153,10 +153,16 @@ public class CommandParser {
         return new Event(description, start, end);
     }
 
-    private static String parseKeyword(String command) throws AlzaraException {
+    /**
+     * Parses a {@code find} command into the whitespace-separated keywords to
+     * search for.
+     *
+     * @throws AlzaraException if the command has no keyword at all
+     */
+    private static String[] parseKeywords(String command) throws AlzaraException {
         if (command.trim().equals("find")) {
             throw new AlzaraException(AlzaraException.MISSING_KEYWORD_MESSAGE);
         }
-        return command.substring(5);
+        return command.substring(5).trim().split("\\s+");
     }
 }

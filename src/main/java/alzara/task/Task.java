@@ -55,14 +55,20 @@ public class Task {
     }
 
     /**
-     * Returns true if this task's description contains {@code keyword}, ignoring case.
+     * Returns true if this task's description contains every one of
+     * {@code keywords}, ignoring case.
      *
-     * @param keyword the text to search the description for
-     * @return true if the description contains {@code keyword}
+     * @param keywords the keywords to search the description for
+     * @return true if the description contains all of {@code keywords}
      */
-    public boolean matches(String keyword) {
+    public boolean matches(String... keywords) {
         String taskChecker = this.task.toLowerCase();
-        return taskChecker.contains(keyword.toLowerCase());
+        for (String keyword : keywords) {
+            if (!taskChecker.contains(keyword.toLowerCase())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

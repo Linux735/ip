@@ -89,4 +89,28 @@ class ToDoTest {
 
         assertFalse(toDo.matches("jog"));
     }
+
+    // matches() with several keywords should return true only if every one of them is found.
+    @Test
+    void matches_multipleKeywordsAllMatch_returnsTrue() {
+        ToDo toDo = new ToDo("read book");
+
+        assertTrue(toDo.matches("read", "book"));
+    }
+
+    // matches() with several keywords should return false if even one of them is missing.
+    @Test
+    void matches_multipleKeywordsPartialMatch_returnsFalse() {
+        ToDo toDo = new ToDo("read book");
+
+        assertFalse(toDo.matches("book", "jog"));
+    }
+
+    // matches() with several keywords should return false when none of them are found.
+    @Test
+    void matches_multipleKeywordsNoneMatch_returnsFalse() {
+        ToDo toDo = new ToDo("read book");
+
+        assertFalse(toDo.matches("jog", "run"));
+    }
 }
