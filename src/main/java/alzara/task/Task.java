@@ -8,21 +8,21 @@ package alzara.task;
  * all share.
  */
 public class Task {
-    private String task;
+    private String description;
     private boolean isDone;
 
-    private Task(String task, boolean isDone) {
-        this.task = task;
+    private Task(String description, boolean isDone) {
+        this.description = description;
         this.isDone = isDone;
     }
 
     /**
      * Creates a task that starts out not done.
      *
-     * @param task the task's description
+     * @param description the task's description
      */
-    public Task(String task) {
-        this(task, false);
+    public Task(String description) {
+        this(description, false);
     }
 
     /**
@@ -45,7 +45,7 @@ public class Task {
      * @return the save-file line, e.g. {@code "N | read book"}
      */
     public String toSaveFormat() {
-        return (this.isDone ? "Y" : "N") + " | " + this.task;
+        return (this.isDone ? "Y" : "N") + " | " + this.description;
     }
 
     /**
@@ -56,9 +56,9 @@ public class Task {
      * @return true if the description contains all of {@code keywords}
      */
     public boolean matches(String... keywords) {
-        String taskChecker = this.task.toLowerCase();
+        String descriptionChecker = this.description.toLowerCase();
         for (String keyword : keywords) {
-            if (!taskChecker.contains(keyword.toLowerCase())) {
+            if (!descriptionChecker.contains(keyword.toLowerCase())) {
                 return false;
             }
         }
@@ -73,8 +73,8 @@ public class Task {
     @Override
     public String toString() {
         if (this.isDone) {
-            return "[X] " + this.task;
+            return "[X] " + this.description;
         }
-        return "[ ] " + this.task;
+        return "[ ] " + this.description;
     }
 }
