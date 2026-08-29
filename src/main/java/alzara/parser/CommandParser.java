@@ -79,6 +79,9 @@ public class CommandParser {
         if (command.trim().equals("todo")) {
             throw new AlzaraException(AlzaraException.MISSING_TASK_DESC);
         }
+        assert command.startsWith("todo ")
+                : "parseTodo is only called after CommandType.from classified the command as TODO, "
+                + "which guarantees this prefix";
         return new ToDo(command.substring(5));
     }
 
@@ -93,6 +96,9 @@ public class CommandParser {
         if (command.trim().equals("deadline")) {
             throw new AlzaraException(AlzaraException.MISSING_TASK_DESC);
         }
+        assert command.startsWith("deadline ")
+                : "parseDeadline is only called after CommandType.from classified the command as DEADLINE, "
+                + "which guarantees this prefix";
 
         int deadlineMarker = command.indexOf(" /by ");
         if (deadlineMarker == -1) {
@@ -127,6 +133,9 @@ public class CommandParser {
         if (command.trim().equals("event")) {
             throw new AlzaraException(AlzaraException.MISSING_TASK_DESC);
         }
+        assert command.startsWith("event ")
+                : "parseEvent is only called after CommandType.from classified the command as EVENT, "
+                + "which guarantees this prefix";
 
         int startMarker = command.indexOf(" /from ");
         int endMarker = command.indexOf(" /to ");
