@@ -34,7 +34,7 @@ public class UnmarkCommand extends Command {
             throw new AlzaraException(AlzaraException.TASK_DOES_NOT_EXIST_MESSAGE);
         }
         Task task = memory.get(taskIndex);
-        task.unmark(taskIndex);
+        task.unmark();
         Storage.save(memory.getTasks());
         ui.showTaskUnmarked(task);
     }

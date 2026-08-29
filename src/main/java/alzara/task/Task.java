@@ -27,21 +27,15 @@ public class Task {
 
     /**
      * Marks this task as done.
-     *
-     * @param index unused - kept for symmetry with {@link #unmark}, but this
-     *         method's effect doesn't depend on it
      */
-    public void mark(int index) {
+    public void mark() {
         this.isDone = true;
     }
 
     /**
      * Marks this task as not done.
-     *
-     * @param index unused - kept for symmetry with {@link #mark}, but this
-     *         method's effect doesn't depend on it
      */
-    public void unmark(int index) {
+    public void unmark() {
         this.isDone = false;
     }
 

@@ -165,7 +165,7 @@ public class Storage {
         }
 
         if (isDone) {
-            task.mark(0);
+            task.mark();
         }
         return task;
     }

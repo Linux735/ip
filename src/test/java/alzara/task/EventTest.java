@@ -29,7 +29,7 @@ class EventTest {
     void toString_taskMarkedDone_showsXCheckboxWithFromToDates() {
         Event event = new Event("project meeting", LocalDate.of(2019, 10, 15), LocalDate.of(2019, 10, 16));
 
-        event.mark(0);
+        event.mark();
 
         assertEquals("[E][X] project meeting (from: Oct 15 2019 to: Oct 16 2019)", event.toString());
     }
@@ -48,7 +48,7 @@ class EventTest {
     void toSaveFormat_taskMarkedDone_hasTypeAndYFlag() {
         Event event = new Event("project meeting", LocalDate.of(2019, 10, 15), LocalDate.of(2019, 10, 16));
 
-        event.mark(0);
+        event.mark();
 
         assertEquals("E | Y | project meeting | 2019-10-15 | 2019-10-16", event.toSaveFormat());
     }
