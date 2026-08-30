@@ -17,6 +17,7 @@ public class TaskList {
      * @param tasks the list to wrap; mutated in place by {@link #add}/{@link #delete}
      */
     public TaskList(ArrayList<Task> tasks) {
+        assert tasks != null : "TaskList must wrap a non-null list; Storage.load() never returns null";
         this.memory = tasks;
     }
 
@@ -39,6 +40,8 @@ public class TaskList {
      * @return the task at {@code index}
      */
     public Task get(int index) {
+        assert index >= 0 && index < memory.size()
+                : "index out of bounds - caller must validate before calling get()";
         return this.memory.get(index);
     }
 
@@ -49,6 +52,8 @@ public class TaskList {
      * @return the removed task
      */
     public Task delete(int index) {
+        assert index >= 0 && index < memory.size()
+                : "index out of bounds - caller must validate before calling delete()";
         return this.memory.remove(index);
     }
 
