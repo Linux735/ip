@@ -28,7 +28,7 @@ class ToDoTest {
     void toString_taskMarkedDone_showsXCheckboxWithTypePrefix() {
         ToDo toDo = new ToDo("read book");
 
-        toDo.mark(0);
+        toDo.mark();
 
         assertEquals("[T][X] read book", toDo.toString());
     }
@@ -37,9 +37,9 @@ class ToDoTest {
     @Test
     void toString_markedThenUnmarked_showsEmptyCheckboxAgain() {
         ToDo toDo = new ToDo("read book");
-        toDo.mark(0);
+        toDo.mark();
 
-        toDo.unmark(0);
+        toDo.unmark();
 
         assertEquals("[T][ ] read book", toDo.toString());
     }
@@ -57,21 +57,9 @@ class ToDoTest {
     void toSaveFormat_taskMarkedDone_hasTypeAndYFlag() {
         ToDo toDo = new ToDo("read book");
 
-        toDo.mark(0);
+        toDo.mark();
 
         assertEquals("T | Y | read book", toDo.toSaveFormat());
-    }
-
-    // mark()/unmark() take an int index that Task never actually uses - this
-    // documents that the done-state change happens regardless of what index is
-    // passed in.
-    @Test
-    void mark_indexArgumentIgnored_taskMarkedDoneRegardless() {
-        ToDo toDo = new ToDo("read book");
-
-        toDo.mark(999);
-
-        assertEquals("[T][X] read book", toDo.toString());
     }
 
     // matches() (inherited from Task) should find the keyword regardless of case.

@@ -34,7 +34,7 @@ public class MarkCommand extends Command {
             throw new AlzaraException(AlzaraException.TASK_DOES_NOT_EXIST_MESSAGE);
         }
         Task task = memory.get(taskIndex);
-        task.mark(taskIndex);
+        task.mark();
         Storage.save(memory.getTasks());
         ui.showTaskMarked(task);
     }

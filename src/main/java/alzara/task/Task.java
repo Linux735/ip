@@ -10,40 +10,34 @@ import java.util.Arrays;
  * all share.
  */
 public class Task {
-    private String task;
+    private String description;
     private boolean isDone;
 
-    private Task(String task, boolean isDone) {
-        this.task = task;
+    private Task(String description, boolean isDone) {
+        this.description = description;
         this.isDone = isDone;
     }
 
     /**
      * Creates a task that starts out not done.
      *
-     * @param task the task's description
+     * @param description the task's description
      */
-    public Task(String task) {
-        this(task, false);
+    public Task(String description) {
+        this(description, false);
     }
 
     /**
      * Marks this task as done.
-     *
-     * @param index unused - kept for symmetry with {@link #unmark}, but this
-     *         method's effect doesn't depend on it
      */
-    public void mark(int index) {
+    public void mark() {
         this.isDone = true;
     }
 
     /**
      * Marks this task as not done.
-     *
-     * @param index unused - kept for symmetry with {@link #mark}, but this
-     *         method's effect doesn't depend on it
      */
-    public void unmark(int index) {
+    public void unmark() {
         this.isDone = false;
     }
 
@@ -53,7 +47,7 @@ public class Task {
      * @return the save-file line, e.g. {@code "N | read book"}
      */
     public String toSaveFormat() {
-        return (this.isDone ? "Y" : "N") + " | " + this.task;
+        return (this.isDone ? "Y" : "N") + " | " + this.description;
     }
 
     /**
@@ -64,8 +58,8 @@ public class Task {
      * @return true if the description contains all of {@code keywords}
      */
     public boolean matches(String... keywords) {
-        String taskChecker = this.task.toLowerCase();
-        return Arrays.stream(keywords).allMatch(keyword -> taskChecker.contains(keyword.toLowerCase()));
+        String descriptionChecker = this.description.toLowerCase();
+        return Arrays.stream(keywords).allMatch(keyword -> descriptionChecker.contains(keyword.toLowerCase()));
     }
 
     /**
@@ -76,8 +70,8 @@ public class Task {
     @Override
     public String toString() {
         if (this.isDone) {
-            return "[X] " + this.task;
+            return "[X] " + this.description;
         }
-        return "[ ] " + this.task;
+        return "[ ] " + this.description;
     }
 }

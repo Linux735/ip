@@ -24,6 +24,15 @@ public class Storage {
     private static final File FILE_PATH = new File(DATA_DIR, FILE_NAME);
     private static final String FIELD_SEPARATOR = " \\| ";
 
+    private static final int TYPE_INDEX = 0;
+    private static final int DONE_FLAG_INDEX = 1;
+    private static final int DESCRIPTION_INDEX = 2;
+    private static final int DATE_INDEX = 3;
+    private static final int EVENT_END_DATE_INDEX = 4;
+    private static final int MIN_FIELD_COUNT = DESCRIPTION_INDEX + 1;
+    private static final int MIN_FIELD_COUNT_WITH_DATE = DATE_INDEX + 1;
+    private static final int MIN_FIELD_COUNT_WITH_EVENT_DATES = EVENT_END_DATE_INDEX + 1;
+
     /**
      * Overwrites the save file with every task in {@code memory}, one per line
      * in each task's {@link Task#toSaveFormat()}.
@@ -113,13 +122,13 @@ public class Storage {
      */
     private static Task loadTask(String line) throws AlzaraException {
         String[] parts = line.split(FIELD_SEPARATOR);
-        if (parts.length < 3) {
+        if (parts.length < MIN_FIELD_COUNT) {
             throw new AlzaraException("not enough fields");
         }
 
-        String type = parts[0].trim();
-        String doneFlag = parts[1].trim();
-        String description = parts[2];
+        String type = parts[TYPE_INDEX].trim();
+        String doneFlag = parts[DONE_FLAG_INDEX].trim();
+        String description = parts[DESCRIPTION_INDEX];
 
         if (!doneFlag.equals("N") && !doneFlag.equals("Y")) {
             throw new AlzaraException("invalid done flag");
@@ -135,26 +144,27 @@ public class Storage {
                 task = new ToDo(description);
                 break;
             case "D":
-                if (parts.length < 4 || parts[3].trim().isEmpty()) {
+                if (parts.length < MIN_FIELD_COUNT_WITH_DATE || parts[DATE_INDEX].trim().isEmpty()) {
                     throw new AlzaraException("missing deadline field");
                 }
                 LocalDate deadlineDate;
                 try {
-                    deadlineDate = LocalDate.parse(parts[3].trim());
+                    deadlineDate = LocalDate.parse(parts[DATE_INDEX].trim());
                 } catch (DateTimeParseException exception) {
                     throw new AlzaraException("invalid deadline date");
                 }
                 task = new Deadline(description, deadlineDate);
                 break;
             case "E":
-                if (parts.length < 5 || parts[3].trim().isEmpty() || parts[4].trim().isEmpty()) {
+                if (parts.length < MIN_FIELD_COUNT_WITH_EVENT_DATES
+                        || parts[DATE_INDEX].trim().isEmpty() || parts[EVENT_END_DATE_INDEX].trim().isEmpty()) {
                     throw new AlzaraException("missing event start/end field");
                 }
                 LocalDate eventStart;
                 LocalDate eventEnd;
                 try {
-                    eventStart = LocalDate.parse(parts[3].trim());
-                    eventEnd = LocalDate.parse(parts[4].trim());
+                    eventStart = LocalDate.parse(parts[DATE_INDEX].trim());
+                    eventEnd = LocalDate.parse(parts[EVENT_END_DATE_INDEX].trim());
                 } catch (DateTimeParseException exception) {
                     throw new AlzaraException("invalid event date");
                 }
@@ -165,7 +175,7 @@ public class Storage {
         }
 
         if (isDone) {
-            task.mark(0);
+            task.mark();
         }
         return task;
     }

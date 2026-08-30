@@ -7,10 +7,10 @@ public class ToDo extends Task {
     /**
      * Creates a to-do that starts out not done.
      *
-     * @param task the task's description
+     * @param description the task's description
      */
-    public ToDo(String task) {
-        super(task);
+    public ToDo(String description) {
+        super(description);
     }
 
     /**

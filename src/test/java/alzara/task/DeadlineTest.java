@@ -28,7 +28,7 @@ class DeadlineTest {
     void toString_taskMarkedDone_showsXCheckboxWithByDate() {
         Deadline deadline = new Deadline("return book", LocalDate.of(2019, 10, 15));
 
-        deadline.mark(0);
+        deadline.mark();
 
         assertEquals("[D][X] return book (by: Oct 15 2019)", deadline.toString());
     }
@@ -56,7 +56,7 @@ class DeadlineTest {
     void toSaveFormat_taskMarkedDone_hasTypeAndYFlag() {
         Deadline deadline = new Deadline("return book", LocalDate.of(2019, 10, 15));
 
-        deadline.mark(0);
+        deadline.mark();
 
         assertEquals("D | Y | return book | 2019-10-15", deadline.toSaveFormat());
     }

@@ -33,10 +33,11 @@ public class TaskList {
     /**
      * Returns the task at {@code index}.
      *
-     * @param index 0-based index; not bounds-checked here - throws
-     *         {@link IndexOutOfBoundsException} if out of range, same as
-     *         {@link ArrayList#get}. Callers (see the {@code Command} classes)
-     *         are responsible for validating the index first.
+     * @param index 0-based index; not bounds-checked with a thrown exception -
+     *         guarded by an assert instead (an {@link AssertionError} when
+     *         assertions are enabled, otherwise whatever {@link ArrayList#get}
+     *         does). Callers (see the {@code Command} classes) are
+     *         responsible for validating the index first.
      * @return the task at {@code index}
      */
     public Task get(int index) {
