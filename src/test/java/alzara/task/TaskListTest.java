@@ -76,22 +76,24 @@ class TaskListTest {
         assertSame(second, taskList.get(0));
     }
 
-    // get() on an empty (or otherwise out-of-range) list isn't bounds-checked by
-    // TaskList itself - it should propagate ArrayList's own exception. Callers
-    // (see Command subclasses) are responsible for validating the index first.
+    // get() on an empty (or otherwise out-of-range) list isn't bounds-checked
+    // with a thrown exception - it's guarded by an assert instead, since a
+    // caller reaching this with an invalid index is a programming bug, not
+    // something a well-behaved caller should ever trigger. Callers (see
+    // Command subclasses) are responsible for validating the index first.
     @Test
-    void get_indexOutOfBounds_indexOutOfBoundsExceptionThrown() {
+    void get_indexOutOfBounds_assertionErrorThrown() {
         TaskList taskList = new TaskList(new ArrayList<>());
 
-        assertThrows(IndexOutOfBoundsException.class, () -> taskList.get(0));
+        assertThrows(AssertionError.class, () -> taskList.get(0));
     }
 
     // Same as above, but for delete().
     @Test
-    void delete_indexOutOfBounds_indexOutOfBoundsExceptionThrown() {
+    void delete_indexOutOfBounds_assertionErrorThrown() {
         TaskList taskList = new TaskList(new ArrayList<>());
 
-        assertThrows(IndexOutOfBoundsException.class, () -> taskList.delete(0));
+        assertThrows(AssertionError.class, () -> taskList.delete(0));
     }
 
     // getTasks() exposes the live underlying list, not a defensive copy - a
