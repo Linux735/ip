@@ -22,6 +22,14 @@ import alzara.task.ToDo;
  * {@link Command} it describes, or reports why the command is malformed.
  */
 public class CommandParser {
+    private static final String TODO_PREFIX = "todo ";
+    private static final String DEADLINE_PREFIX = "deadline ";
+    private static final String EVENT_PREFIX = "event ";
+    private static final String FIND_PREFIX = "find ";
+    private static final String BY_MARKER = " /by ";
+    private static final String FROM_MARKER = " /from ";
+    private static final String TO_MARKER = " /to ";
+
     /**
      * Parses a full command line into the {@link Command} it describes.
      */
@@ -79,10 +87,10 @@ public class CommandParser {
         if (command.trim().equals("todo")) {
             throw new AlzaraException(AlzaraException.MISSING_TASK_DESC);
         }
-        assert command.startsWith("todo ")
+        assert command.startsWith(TODO_PREFIX)
                 : "parseTodo is only called after CommandType.from classified the command as TODO, "
                 + "which guarantees this prefix";
-        return new ToDo(command.substring(5));
+        return new ToDo(command.substring(TODO_PREFIX.length()));
     }
 
     /**
@@ -100,17 +108,17 @@ public class CommandParser {
                 : "parseDeadline is only called after CommandType.from classified the command as DEADLINE, "
                 + "which guarantees this prefix";
 
-        int deadlineMarker = command.indexOf(" /by ");
+        int deadlineMarker = command.indexOf(BY_MARKER);
         if (deadlineMarker == -1) {
             throw new AlzaraException(AlzaraException.MISSING_DEADLINE_MARKER_MESSAGE);
         }
 
-        String description = command.substring(9, deadlineMarker);
+        String description = command.substring(DEADLINE_PREFIX.length(), deadlineMarker);
         if (description.trim().isEmpty()) {
             throw new AlzaraException(AlzaraException.MISSING_TASK_DESC);
         }
 
-        String deadlineText = command.substring(deadlineMarker + 5);
+        String deadlineText = command.substring(deadlineMarker + BY_MARKER.length());
         LocalDate deadline;
         try {
             deadline = LocalDate.parse(deadlineText.trim());
@@ -137,19 +145,19 @@ public class CommandParser {
                 : "parseEvent is only called after CommandType.from classified the command as EVENT, "
                 + "which guarantees this prefix";
 
-        int startMarker = command.indexOf(" /from ");
-        int endMarker = command.indexOf(" /to ");
+        int startMarker = command.indexOf(FROM_MARKER);
+        int endMarker = command.indexOf(TO_MARKER);
         if (startMarker == -1 || endMarker == -1 || endMarker < startMarker) {
             throw new AlzaraException(AlzaraException.MISSING_EVENT_MARKER_MESSAGE);
         }
 
-        String description = command.substring(6, startMarker);
+        String description = command.substring(EVENT_PREFIX.length(), startMarker);
         if (description.trim().isEmpty()) {
             throw new AlzaraException(AlzaraException.MISSING_TASK_DESC);
         }
 
-        String startText = command.substring(startMarker + 7, endMarker);
-        String endText = command.substring(endMarker + 5);
+        String startText = command.substring(startMarker + FROM_MARKER.length(), endMarker);
+        String endText = command.substring(endMarker + TO_MARKER.length());
         LocalDate start;
         LocalDate end;
         try {
@@ -172,6 +180,6 @@ public class CommandParser {
         if (command.trim().equals("find")) {
             throw new AlzaraException(AlzaraException.MISSING_KEYWORD_MESSAGE);
         }
-        return command.substring(5).trim().split("\\s+");
+        return command.substring(FIND_PREFIX.length()).trim().split("\\s+");
     }
 }

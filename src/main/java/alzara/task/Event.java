@@ -15,12 +15,12 @@ public class Event extends Task {
     /**
      * Creates an event that starts out not done.
      *
-     * @param task the task's description
+     * @param description the task's description
      * @param start the date the event starts
      * @param end the date the event ends
      */
-    public Event(String task, LocalDate start, LocalDate end) {
-        super(task);
+    public Event(String description, LocalDate start, LocalDate end) {
+        super(description);
         this.start = start;
         this.end = end;
     }

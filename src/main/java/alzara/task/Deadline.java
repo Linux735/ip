@@ -14,11 +14,11 @@ public class Deadline extends Task {
     /**
      * Creates a deadline that starts out not done.
      *
-     * @param task the task's description
+     * @param description the task's description
      * @param deadline the date the task is due by
      */
-    public Deadline(String task, LocalDate deadline) {
-        super(task);
+    public Deadline(String description, LocalDate deadline) {
+        super(description);
         this.deadline = deadline;
     }
 
