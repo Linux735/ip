@@ -1,6 +1,7 @@
 package alzara.command;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import alzara.task.Task;
 import alzara.task.TaskList;
@@ -24,12 +25,9 @@ public class FindCommand extends Command {
 
     @Override
     public void execute(TaskList memory, Ui ui) {
-        ArrayList<Task> matches = new ArrayList<>();
-        for (Task task : memory.getTasks()) {
-            if (task.matches(keywords)) {
-                matches.add(task);
-            }
-        }
+        ArrayList<Task> matches = memory.getTasks().stream()
+                .filter(task -> task.matches(keywords))
+                .collect(Collectors.toCollection(ArrayList::new));
         ui.showMatchingTasks(matches);
     }
 }

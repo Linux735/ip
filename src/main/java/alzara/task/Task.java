@@ -1,5 +1,7 @@
 package alzara.task;
 
+import java.util.Arrays;
+
 /**
  * A task with a description and a done/not-done state.
  *
@@ -57,12 +59,7 @@ public class Task {
      */
     public boolean matches(String... keywords) {
         String descriptionChecker = this.description.toLowerCase();
-        for (String keyword : keywords) {
-            if (!descriptionChecker.contains(keyword.toLowerCase())) {
-                return false;
-            }
-        }
-        return true;
+        return Arrays.stream(keywords).allMatch(keyword -> descriptionChecker.contains(keyword.toLowerCase()));
     }
 
     /**
