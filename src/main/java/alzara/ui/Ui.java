@@ -1,5 +1,7 @@
 package alzara.ui;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -19,6 +21,7 @@ import alzara.task.Task;
  */
 public class Ui {
     private static final String SEPARATOR = "____________________________________________________________";
+    private static final DateTimeFormatter DISPLAY_DATE_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy");
 
     private final Scanner scanner;
     private final boolean isGuiMode;
@@ -161,6 +164,23 @@ public class Ui {
      */
     public void showMatchingTasks(ArrayList<Task> matches) {
         print(formatTaskList("Here are the matching tasks in your list:", matches));
+    }
+
+    /**
+     * Prints every task scheduled on {@code date}, numbered from 1 and
+     * sorted chronologically, for the {@code view} command. Prints a
+     * distinct message instead of a bare heading when nothing is scheduled.
+     *
+     * @param date the queried date
+     * @param scheduledTasks the matching tasks, already sorted by date
+     */
+    public void showScheduledTasks(LocalDate date, ArrayList<Task> scheduledTasks) {
+        String formattedDate = date.format(DISPLAY_DATE_FORMAT);
+        if (scheduledTasks.isEmpty()) {
+            print("I see nothing on " + formattedDate + ".");
+            return;
+        }
+        print(formatTaskList("I see all on " + formattedDate + ":", scheduledTasks));
     }
 
     /**

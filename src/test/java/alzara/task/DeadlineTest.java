@@ -1,6 +1,8 @@
 package alzara.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 
@@ -59,5 +61,37 @@ class DeadlineTest {
         deadline.mark();
 
         assertEquals("D | Y | return book | 2019-10-15", deadline.toSaveFormat());
+    }
+
+    // isScheduledOn() should return true when the queried date equals the deadline exactly.
+    @Test
+    void isScheduledOn_exactDate_returnsTrue() {
+        Deadline deadline = new Deadline("return book", LocalDate.of(2019, 10, 15));
+
+        assertTrue(deadline.isScheduledOn(LocalDate.of(2019, 10, 15)));
+    }
+
+    // isScheduledOn() should return false for the day before the deadline.
+    @Test
+    void isScheduledOn_dayBeforeDeadline_returnsFalse() {
+        Deadline deadline = new Deadline("return book", LocalDate.of(2019, 10, 15));
+
+        assertFalse(deadline.isScheduledOn(LocalDate.of(2019, 10, 14)));
+    }
+
+    // isScheduledOn() should return false for the day after the deadline.
+    @Test
+    void isScheduledOn_dayAfterDeadline_returnsFalse() {
+        Deadline deadline = new Deadline("return book", LocalDate.of(2019, 10, 15));
+
+        assertFalse(deadline.isScheduledOn(LocalDate.of(2019, 10, 16)));
+    }
+
+    // getSortDate() should return the deadline's own date.
+    @Test
+    void getSortDate_returnsDeadlineDate() {
+        Deadline deadline = new Deadline("return book", LocalDate.of(2019, 10, 15));
+
+        assertEquals(LocalDate.of(2019, 10, 15), deadline.getSortDate());
     }
 }

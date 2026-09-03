@@ -13,6 +13,7 @@ public enum CommandType {
     EVENT,
     DELETE,
     FIND,
+    VIEW,
     UNKNOWN;
 
     /**
@@ -38,6 +39,8 @@ public enum CommandType {
             return DELETE;
         } else if (command.equals("find") || command.startsWith("find ")) {
             return FIND;
+        } else if (command.equals("view") || command.startsWith("view ")) {
+            return VIEW;
         } else if (command.equals("list")) {
             return LIST;
         }
