@@ -51,16 +51,12 @@ public class Event extends Task {
     /**
      * Returns true if {@code date} falls within {@code [start, end]} inclusive.
      *
-     * <p><b>Known edge case (accepted, not fixed here):</b> {@link
-     * alzara.parser.CommandParser#parse} never validates that an event's
-     * {@code /from} date is chronologically before its {@code /to} date - it
-     * only checks that the markers appear in that order in the command text.
-     * If {@code start} ends up after {@code end} (e.g. a save-file entry
-     * edited by hand, or a future relaxation of that parser check), the
-     * range below is empty and this method silently returns false for every
-     * date, including {@code start} and {@code end} themselves - such an
-     * event would never appear under {@code view} for any query, with no
-     * error raised anywhere.
+     * <p>{@code start} is guaranteed not to be after {@code end}: every
+     * {@link Event} in the app is constructed either by {@link
+     * alzara.parser.CommandParser#parse}, which rejects a new {@code event}
+     * command whose {@code /from} date is after its {@code /to} date, or by
+     * {@link alzara.storage.Storage#load}, which skips a save-file entry
+     * with the same problem as corrupted - so this range is never empty.
      *
      * @param date the queried date
      * @return true if this event is happening on {@code date}

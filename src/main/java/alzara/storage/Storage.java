@@ -117,8 +117,9 @@ public class Storage {
      * matching {@link Task} subtype, and applies its done flag.
      *
      * @throws AlzaraException if the line has too few fields, an invalid done
-     *         flag, an empty description, an unrecognised type letter, or a
-     *         missing/malformed date field for that type
+     *         flag, an empty description, an unrecognised task type, a
+     *         missing/malformed date field for that type, or (for an event)
+     *         a start date after the end date
      */
     private static Task loadTask(String line) throws AlzaraException {
         String[] parts = line.split(FIELD_SEPARATOR);
@@ -167,6 +168,9 @@ public class Storage {
                     eventEnd = LocalDate.parse(parts[EVENT_END_DATE_INDEX].trim());
                 } catch (DateTimeParseException exception) {
                     throw new AlzaraException("invalid event date");
+                }
+                if (eventStart.isAfter(eventEnd)) {
+                    throw new AlzaraException("event start date after end date");
                 }
                 task = new Event(description, eventStart, eventEnd);
                 break;

@@ -265,6 +265,26 @@ class CommandParserTest {
         assertEquals(AlzaraException.INVALID_DEADLINE_DATE_MESSAGE, exception.getMessage());
     }
 
+    // parse("event trip /from 2019-10-16 /to 2019-10-15") (both dates valid and in
+    // marker order, but the start date is chronologically after the end date) should
+    // throw AlzaraException with message AlzaraException.EVENT_DATES_OUT_OF_ORDER_MESSAGE.
+    @Test
+    void parse_eventStartDateAfterEndDate_exceptionThrown() {
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("event trip /from 2019-10-16 /to 2019-10-15"));
+        assertEquals(AlzaraException.EVENT_DATES_OUT_OF_ORDER_MESSAGE, exception.getMessage());
+    }
+
+    // parse("event trip /from 2019-10-15 /to 2019-10-15") (start equals end - a
+    // single-day event) should still return an AddCommand, no exception thrown -
+    // the new start-after-end check must not reject the equal-dates boundary.
+    @Test
+    void parse_eventStartDateEqualsEndDate_returnsAddCommand() {
+        Command result = assertDoesNotThrow(() ->
+                CommandParser.parse("event trip /from 2019-10-15 /to 2019-10-15"));
+        assertInstanceOf(AddCommand.class, result);
+    }
+
     // --- find ---
 
     // parse("find book") should return a FindCommand, no exception thrown.

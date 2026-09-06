@@ -702,9 +702,52 @@ T | Y | borrow book
 T | N | walk dog
 ```
 
+## Test case: event commands reject a start date after the end date
+
+**Aim:** Verify that an `event` whose `/from` date is chronologically after its `/to` date is rejected without adding a task, while an event where both dates are the same (a single-day event) is still accepted.
+
+### Inputs
+
+```text
+event trip /from 2019-10-20 /to 2019-10-15
+event conference /from 2019-10-15 /to 2019-10-15
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+    _    _     ______    _    ____       _    
+   / \  | |   |__  /   / \  |  _ \     / \   
+  / _ \ | |     / /   / _ \ | |_) |   / _ \  
+ / ___ \| |___ / /_  / ___ \|  _ <   / ___ \ 
+/_/   \_\_____/____|/_/   \_\_| \_\ /_/   \_\
+And as it was foretold,
+You find yourself face to face with the great Alzara.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+You cannot time travel
+____________________________________________________________
+____________________________________________________________
+Am I invited?
+[E][ ] conference (from: Oct 15 2019 to: Oct 15 2019)
+You have 1 tasks.
+____________________________________________________________
+____________________________________________________________
+Here are the tasks in your list:
+1.[E][ ] conference (from: Oct 15 2019 to: Oct 15 2019)
+____________________________________________________________
+____________________________________________________________
+Our audience has ended. Until we meet again.
+____________________________________________________________
+```
+
 ## Test case: corrupted save file entries are skipped without discarding valid tasks
 
-**Aim:** Verify that each unreadable line in `data/alzara.txt` is reported with its line number and reason — including a deadline or event date that has the right number of fields but does not parse as `yyyy-mm-dd` — skipped, and left untouched on disk, while valid lines around it still load.
+**Aim:** Verify that each unreadable line in `data/alzara.txt` is reported with its line number and reason — including a deadline or event date that has the right number of fields but does not parse as `yyyy-mm-dd`, and an event whose start date parses fine but is after its end date — skipped, and left untouched on disk, while valid lines around it still load.
 
 ### Save file before
 
@@ -717,6 +760,7 @@ E | N | meeting | Mon 2pm
 T | N
 D | N | old deadline | Sunday
 E | N | old event | Mon 2pm | 4pm
+E | N | backwards trip | 2019-10-20 | 2019-10-15
 
 T | Y | walk dog
 ```
@@ -748,6 +792,7 @@ Skipping corrupted entry on line 5 of the save file: missing event start/end fie
 Skipping corrupted entry on line 6 of the save file: not enough fields
 Skipping corrupted entry on line 7 of the save file: invalid deadline date
 Skipping corrupted entry on line 8 of the save file: invalid event date
+Skipping corrupted entry on line 9 of the save file: event start date after end date
 ____________________________________________________________
 Here are the tasks in your list:
 1.[T][ ] read book
@@ -769,6 +814,7 @@ E | N | meeting | Mon 2pm
 T | N
 D | N | old deadline | Sunday
 E | N | old event | Mon 2pm | 4pm
+E | N | backwards trip | 2019-10-20 | 2019-10-15
 
 T | Y | walk dog
 ```

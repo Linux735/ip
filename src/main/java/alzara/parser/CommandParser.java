@@ -139,7 +139,8 @@ public class CommandParser {
      * the {@code /from} and {@code /to} markers.
      *
      * @throws AlzaraException if the description or either date is missing,
-     *         out of order, or malformed
+     *         the markers are out of order, either date is malformed, or the
+     *         parsed start date is after the end date
      */
     private static Task parseEvent(String command) throws AlzaraException {
         if (command.trim().equals("event")) {
@@ -169,6 +170,9 @@ public class CommandParser {
             end = LocalDate.parse(endText.trim());
         } catch (DateTimeParseException exception) {
             throw new AlzaraException(AlzaraException.INVALID_DEADLINE_DATE_MESSAGE);
+        }
+        if (start.isAfter(end)) {
+            throw new AlzaraException(AlzaraException.EVENT_DATES_OUT_OF_ORDER_MESSAGE);
         }
 
         return new Event(description, start, end);
