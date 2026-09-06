@@ -1,5 +1,6 @@
 package alzara.task;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 
 /**
@@ -60,6 +61,41 @@ public class Task {
     public boolean matches(String... keywords) {
         String descriptionChecker = this.description.toLowerCase();
         return Arrays.stream(keywords).allMatch(keyword -> descriptionChecker.contains(keyword.toLowerCase()));
+    }
+
+    /**
+     * Returns true if this task is scheduled on {@code date}, for the
+     * {@code view} command. The base implementation returns false, since a
+     * plain {@link Task}/{@link ToDo} has no date of its own; {@link Deadline}
+     * overrides this to match its due date exactly, {@link Event} to match
+     * anywhere within its start-end range (inclusive).
+     *
+     * @param date the queried date
+     * @return true if this task occurs on {@code date}
+     */
+    public boolean isScheduledOn(LocalDate date) {
+        return false;
+    }
+
+    /**
+     * Returns the date {@link alzara.command.ViewCommand} sorts this task by,
+     * once it has already matched {@link #isScheduledOn}.
+     *
+     * <p><b>Design note:</b> unlike {@link #matches}, there is no sane default
+     * here - a plain {@link Task}/{@link ToDo} has no date concept at all, so
+     * this base implementation always throws rather than pretending to
+     * return one. This is a deliberate, known asymmetry with {@link #matches}
+     * (kept as-is after review): {@link alzara.command.ViewCommand} only ever
+     * calls this after filtering with {@link #isScheduledOn}, which guarantees
+     * only {@link Deadline}/{@link Event} instances reach this method in
+     * correct usage, so the throw is an intentional guard against future
+     * misuse rather than a code path this feature can hit.
+     *
+     * @return the date this task is sorted by
+     * @throws UnsupportedOperationException always, on the base {@link Task}
+     */
+    public LocalDate getSortDate() {
+        throw new UnsupportedOperationException("Task has no date to sort by");
     }
 
     /**

@@ -16,6 +16,7 @@ import alzara.command.FindCommand;
 import alzara.command.ListCommand;
 import alzara.command.MarkCommand;
 import alzara.command.UnmarkCommand;
+import alzara.command.ViewCommand;
 
 /**
  * Tests for {@link CommandParser#parse(String)}.
@@ -264,6 +265,26 @@ class CommandParserTest {
         assertEquals(AlzaraException.INVALID_DEADLINE_DATE_MESSAGE, exception.getMessage());
     }
 
+    // parse("event trip /from 2019-10-16 /to 2019-10-15") (both dates valid and in
+    // marker order, but the start date is chronologically after the end date) should
+    // throw AlzaraException with message AlzaraException.EVENT_DATES_OUT_OF_ORDER_MESSAGE.
+    @Test
+    void parse_eventStartDateAfterEndDate_exceptionThrown() {
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("event trip /from 2019-10-16 /to 2019-10-15"));
+        assertEquals(AlzaraException.EVENT_DATES_OUT_OF_ORDER_MESSAGE, exception.getMessage());
+    }
+
+    // parse("event trip /from 2019-10-15 /to 2019-10-15") (start equals end - a
+    // single-day event) should still return an AddCommand, no exception thrown -
+    // the new start-after-end check must not reject the equal-dates boundary.
+    @Test
+    void parse_eventStartDateEqualsEndDate_returnsAddCommand() {
+        Command result = assertDoesNotThrow(() ->
+                CommandParser.parse("event trip /from 2019-10-15 /to 2019-10-15"));
+        assertInstanceOf(AddCommand.class, result);
+    }
+
     // --- find ---
 
     // parse("find book") should return a FindCommand, no exception thrown.
@@ -287,6 +308,39 @@ class CommandParserTest {
     void parse_findWithMultipleKeywords_returnsFindCommand() {
         Command result = assertDoesNotThrow(() -> CommandParser.parse("find book urgent"));
         assertInstanceOf(FindCommand.class, result);
+    }
+
+    // --- view ---
+
+    // parse("view 2019-10-15") should return a ViewCommand, no exception thrown.
+    @Test
+    void parse_viewValidDate_returnsViewCommand() {
+        Command result = assertDoesNotThrow(() -> CommandParser.parse("view 2019-10-15"));
+        assertInstanceOf(ViewCommand.class, result);
+    }
+
+    // parse("view") (bare command, no date at all) should throw AlzaraException
+    // with message AlzaraException.MISSING_VIEW_DATE_MESSAGE.
+    @Test
+    void parse_viewMissingDate_exceptionThrown() {
+        AlzaraException exception = assertThrows(AlzaraException.class, () -> CommandParser.parse("view"));
+        assertEquals(AlzaraException.MISSING_VIEW_DATE_MESSAGE, exception.getMessage());
+    }
+
+    // parse("view   ") (only whitespace after the command word) should also throw
+    // AlzaraException with message AlzaraException.MISSING_VIEW_DATE_MESSAGE.
+    @Test
+    void parse_viewOnlyWhitespaceAfterCommand_exceptionThrown() {
+        AlzaraException exception = assertThrows(AlzaraException.class, () -> CommandParser.parse("view   "));
+        assertEquals(AlzaraException.MISSING_VIEW_DATE_MESSAGE, exception.getMessage());
+    }
+
+    // parse("view Sunday") (date fails LocalDate.parse) should throw AlzaraException
+    // with message AlzaraException.INVALID_DEADLINE_DATE_MESSAGE (reused, not a new constant).
+    @Test
+    void parse_viewInvalidDate_exceptionThrown() {
+        AlzaraException exception = assertThrows(AlzaraException.class, () -> CommandParser.parse("view Sunday"));
+        assertEquals(AlzaraException.INVALID_DEADLINE_DATE_MESSAGE, exception.getMessage());
     }
 
     // --- unrecognised input ---

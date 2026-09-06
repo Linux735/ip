@@ -12,6 +12,7 @@ import alzara.command.FindCommand;
 import alzara.command.ListCommand;
 import alzara.command.MarkCommand;
 import alzara.command.UnmarkCommand;
+import alzara.command.ViewCommand;
 import alzara.task.Deadline;
 import alzara.task.Event;
 import alzara.task.Task;
@@ -26,6 +27,7 @@ public class CommandParser {
     private static final String DEADLINE_PREFIX = "deadline ";
     private static final String EVENT_PREFIX = "event ";
     private static final String FIND_PREFIX = "find ";
+    private static final String VIEW_PREFIX = "view ";
     private static final String BY_MARKER = " /by ";
     private static final String FROM_MARKER = " /from ";
     private static final String TO_MARKER = " /to ";
@@ -53,6 +55,8 @@ public class CommandParser {
                 return new ListCommand();
             case FIND:
                 return new FindCommand(parseKeywords(command));
+            case VIEW:
+                return new ViewCommand(parseViewDate(command));
             case UNKNOWN:
             default:
                 throw new AlzaraException(AlzaraException.UNRECOGNISED_COMMAND_MESSAGE);
@@ -135,7 +139,8 @@ public class CommandParser {
      * the {@code /from} and {@code /to} markers.
      *
      * @throws AlzaraException if the description or either date is missing,
-     *         out of order, or malformed
+     *         the markers are out of order, either date is malformed, or the
+     *         parsed start date is after the end date
      */
     private static Task parseEvent(String command) throws AlzaraException {
         if (command.trim().equals("event")) {
@@ -166,6 +171,9 @@ public class CommandParser {
         } catch (DateTimeParseException exception) {
             throw new AlzaraException(AlzaraException.INVALID_DEADLINE_DATE_MESSAGE);
         }
+        if (start.isAfter(end)) {
+            throw new AlzaraException(AlzaraException.EVENT_DATES_OUT_OF_ORDER_MESSAGE);
+        }
 
         return new Event(description, start, end);
     }
@@ -181,5 +189,26 @@ public class CommandParser {
             throw new AlzaraException(AlzaraException.MISSING_KEYWORD_MESSAGE);
         }
         return command.substring(FIND_PREFIX.length()).trim().split("\\s+");
+    }
+
+    /**
+     * Parses a {@code view} command into the queried {@link LocalDate}.
+     *
+     * @throws AlzaraException if the date is missing or malformed
+     */
+    private static LocalDate parseViewDate(String command) throws AlzaraException {
+        if (command.trim().equals("view")) {
+            throw new AlzaraException(AlzaraException.MISSING_VIEW_DATE_MESSAGE);
+        }
+        assert command.startsWith(VIEW_PREFIX)
+                : "parseViewDate is only called after CommandType.from classified the command as VIEW, "
+                + "which guarantees this prefix";
+
+        String dateText = command.substring(VIEW_PREFIX.length()).trim();
+        try {
+            return LocalDate.parse(dateText);
+        } catch (DateTimeParseException exception) {
+            throw new AlzaraException(AlzaraException.INVALID_DEADLINE_DATE_MESSAGE);
+        }
     }
 }

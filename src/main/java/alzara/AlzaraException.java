@@ -18,12 +18,16 @@ public class AlzaraException extends Exception {
             "Add a deadline.";
     public static final String MISSING_EVENT_MARKER_MESSAGE =
             "All things must have a start and an end...";
+    public static final String EVENT_DATES_OUT_OF_ORDER_MESSAGE =
+            "You cannot time travel";
     public static final String INVALID_DEADLINE_DATE_MESSAGE =
             "I cannot read that date. Use yyyy-mm-dd";
     public static final String UNRECOGNISED_COMMAND_MESSAGE =
             "Speak sense.";
     public static final String MISSING_KEYWORD_MESSAGE =
             "I cannot find nothing.";
+    public static final String MISSING_VIEW_DATE_MESSAGE =
+            "How far in time do you wish to see?";
 
     /**
      * Creates an exception carrying the exact message Alzara should show the user.

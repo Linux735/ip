@@ -43,4 +43,14 @@ public class Deadline extends Task {
     public String toString() {
         return "[D]" + super.toString() + " (by: " + this.deadline.format(DISPLAY_FORMAT) + ")";
     }
+
+    @Override
+    public boolean isScheduledOn(LocalDate date) {
+        return this.deadline.equals(date);
+    }
+
+    @Override
+    public LocalDate getSortDate() {
+        return this.deadline;
+    }
 }

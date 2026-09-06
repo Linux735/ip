@@ -47,4 +47,27 @@ public class Event extends Task {
         return "[E]" + super.toString() + " (from: " + this.start.format(DISPLAY_FORMAT)
                 + " to: " + this.end.format(DISPLAY_FORMAT) + ")";
     }
+
+    /**
+     * Returns true if {@code date} falls within {@code [start, end]} inclusive.
+     *
+     * <p>{@code start} is guaranteed not to be after {@code end}: every
+     * {@link Event} in the app is constructed either by {@link
+     * alzara.parser.CommandParser#parse}, which rejects a new {@code event}
+     * command whose {@code /from} date is after its {@code /to} date, or by
+     * {@link alzara.storage.Storage#load}, which skips a save-file entry
+     * with the same problem as corrupted - so this range is never empty.
+     *
+     * @param date the queried date
+     * @return true if this event is happening on {@code date}
+     */
+    @Override
+    public boolean isScheduledOn(LocalDate date) {
+        return !date.isBefore(this.start) && !date.isAfter(this.end);
+    }
+
+    @Override
+    public LocalDate getSortDate() {
+        return this.start;
+    }
 }

@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -100,5 +102,13 @@ class ToDoTest {
         ToDo toDo = new ToDo("read book");
 
         assertFalse(toDo.matches("jog", "run"));
+    }
+
+    // isScheduledOn() (inherited from Task) should always return false - a ToDo has no date.
+    @Test
+    void isScheduledOn_anyDate_returnsFalse() {
+        ToDo toDo = new ToDo("read book");
+
+        assertFalse(toDo.isScheduledOn(LocalDate.of(2019, 10, 15)));
     }
 }
