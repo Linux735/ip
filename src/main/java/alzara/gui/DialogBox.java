@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Circle;
 
 /**
  * A dialog box consisting of an {@link ImageView} for the speaker's face and a
@@ -36,6 +37,17 @@ public class DialogBox extends HBox {
 
         dialog.setText(text);
         displayPicture.setImage(img);
+        clipToCircle();
+    }
+
+    /**
+     * Clips the avatar {@link ImageView} to a circle so it blends into the
+     * bubble instead of showing as a hard-edged square thumbnail.
+     */
+    private void clipToCircle() {
+        double radius = displayPicture.getFitWidth() / 2;
+        Circle clip = new Circle(radius, radius, radius);
+        displayPicture.setClip(clip);
     }
 
     /**
@@ -53,7 +65,9 @@ public class DialogBox extends HBox {
      * Creates a dialog box for a line of user input.
      */
     public static DialogBox getUserDialog(String text, Image img) {
-        return new DialogBox(text, img);
+        DialogBox dialogBox = new DialogBox(text, img);
+        dialogBox.dialog.getStyleClass().add("user-bubble");
+        return dialogBox;
     }
 
     /**
@@ -62,6 +76,7 @@ public class DialogBox extends HBox {
      */
     public static DialogBox getAlzaraDialog(String text, Image img) {
         DialogBox dialogBox = new DialogBox(text, img);
+        dialogBox.dialog.getStyleClass().add("bot-bubble");
         dialogBox.flip();
         return dialogBox;
     }
