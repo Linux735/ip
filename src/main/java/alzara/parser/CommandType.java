@@ -18,30 +18,33 @@ public enum CommandType {
 
     /**
      * Identifies a command using Alzara's existing command-recognition rules.
+     * The command word is matched case-insensitively - {@code "Todo"} and
+     * {@code "TODO"} are recognised the same as {@code "todo"}.
      *
      * @param command command entered by the user
      * @return type of the command, or {@code UNKNOWN} when it is not recognised
      */
     public static CommandType from(String command) {
-        if (command.equalsIgnoreCase("bye")) {
+        String lowerCaseCommand = command.toLowerCase();
+        if (lowerCaseCommand.equals("bye")) {
             return BYE;
-        } else if (command.equals("mark") || command.startsWith("mark ")) {
+        } else if (lowerCaseCommand.equals("mark") || lowerCaseCommand.startsWith("mark ")) {
             return MARK;
-        } else if (command.equals("unmark") || command.startsWith("unmark ")) {
+        } else if (lowerCaseCommand.equals("unmark") || lowerCaseCommand.startsWith("unmark ")) {
             return UNMARK;
-        } else if (command.equals("todo") || command.startsWith("todo ")) {
+        } else if (lowerCaseCommand.equals("todo") || lowerCaseCommand.startsWith("todo ")) {
             return TODO;
-        } else if (command.equals("deadline") || command.startsWith("deadline ")) {
+        } else if (lowerCaseCommand.equals("deadline") || lowerCaseCommand.startsWith("deadline ")) {
             return DEADLINE;
-        } else if (command.equals("event") || command.startsWith("event ")) {
+        } else if (lowerCaseCommand.equals("event") || lowerCaseCommand.startsWith("event ")) {
             return EVENT;
-        } else if (command.equals("delete") || command.startsWith("delete ")) {
+        } else if (lowerCaseCommand.equals("delete") || lowerCaseCommand.startsWith("delete ")) {
             return DELETE;
-        } else if (command.equals("find") || command.startsWith("find ")) {
+        } else if (lowerCaseCommand.equals("find") || lowerCaseCommand.startsWith("find ")) {
             return FIND;
-        } else if (command.equals("view") || command.startsWith("view ")) {
+        } else if (lowerCaseCommand.equals("view") || lowerCaseCommand.startsWith("view ")) {
             return VIEW;
-        } else if (command.equals("list")) {
+        } else if (lowerCaseCommand.equals("list")) {
             return LIST;
         }
         return UNKNOWN;

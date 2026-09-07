@@ -83,6 +83,15 @@ class CommandParserTest {
         assertEquals(AlzaraException.NON_NUMERIC_TASK_NUMBER_MESSAGE, exception.getMessage());
     }
 
+    // parse("mark 1 2") (an extra token after the index) should throw AlzaraException
+    // with message AlzaraException.TOO_MANY_ARGUMENTS_MESSAGE.
+    @Test
+    void parse_markTooManyArguments_exceptionThrown() {
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("mark 1 2"));
+        assertEquals(AlzaraException.TOO_MANY_ARGUMENTS_MESSAGE, exception.getMessage());
+    }
+
     // --- unmark ---
 
     // parse("unmark 1") should return an UnmarkCommand, no exception thrown.
@@ -107,6 +116,15 @@ class CommandParserTest {
         AlzaraException exception = assertThrows(AlzaraException.class, () ->
                 CommandParser.parse("unmark abc"));
         assertEquals(AlzaraException.NON_NUMERIC_TASK_NUMBER_MESSAGE, exception.getMessage());
+    }
+
+    // parse("unmark 1 2") should throw AlzaraException with message
+    // AlzaraException.TOO_MANY_ARGUMENTS_MESSAGE.
+    @Test
+    void parse_unmarkTooManyArguments_exceptionThrown() {
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("unmark 1 2"));
+        assertEquals(AlzaraException.TOO_MANY_ARGUMENTS_MESSAGE, exception.getMessage());
     }
 
     // --- delete ---
@@ -135,6 +153,15 @@ class CommandParserTest {
         assertEquals(AlzaraException.NON_NUMERIC_TASK_NUMBER_MESSAGE, exception.getMessage());
     }
 
+    // parse("delete 1 2") should throw AlzaraException with message
+    // AlzaraException.TOO_MANY_ARGUMENTS_MESSAGE.
+    @Test
+    void parse_deleteTooManyArguments_exceptionThrown() {
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("delete 1 2"));
+        assertEquals(AlzaraException.TOO_MANY_ARGUMENTS_MESSAGE, exception.getMessage());
+    }
+
     // --- todo ---
 
     // parse("todo read book") should return an AddCommand, no exception thrown.
@@ -150,6 +177,22 @@ class CommandParserTest {
     void parse_todoMissingDescription_exceptionThrown() {
         AlzaraException exception = assertThrows(AlzaraException.class, () -> CommandParser.parse("todo"));
         assertEquals(AlzaraException.MISSING_TASK_DESC, exception.getMessage());
+    }
+
+    // parse("TODO read book") (command word in a different case) should still
+    // return an AddCommand - command words are matched case-insensitively.
+    @Test
+    void parse_todoDifferentCase_returnsAddCommand() {
+        Command result = assertDoesNotThrow(() -> CommandParser.parse("TODO read book"));
+        assertInstanceOf(AddCommand.class, result);
+    }
+
+    // parse("  todo read book  ") (leading/trailing spaces around the whole line)
+    // should still return an AddCommand - the whole line is trimmed before parsing.
+    @Test
+    void parse_todoWithSurroundingWhitespace_returnsAddCommand() {
+        Command result = assertDoesNotThrow(() -> CommandParser.parse("  todo read book  "));
+        assertInstanceOf(AddCommand.class, result);
     }
 
     // --- deadline ---
@@ -197,6 +240,16 @@ class CommandParserTest {
         AlzaraException exception = assertThrows(AlzaraException.class, () ->
                 CommandParser.parse("deadline return book /by not-a-date"));
         assertEquals(AlzaraException.INVALID_DEADLINE_DATE_MESSAGE, exception.getMessage());
+    }
+
+    // parse("deadline return book /by 2019-10-15 /by 2019-10-16") (the /by marker
+    // appears twice) should throw AlzaraException with message
+    // AlzaraException.DUPLICATE_MARKER_MESSAGE.
+    @Test
+    void parse_deadlineDuplicateByMarker_exceptionThrown() {
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("deadline return book /by 2019-10-15 /by 2019-10-16"));
+        assertEquals(AlzaraException.DUPLICATE_MARKER_MESSAGE, exception.getMessage());
     }
 
     // --- event ---
@@ -283,6 +336,26 @@ class CommandParserTest {
         Command result = assertDoesNotThrow(() ->
                 CommandParser.parse("event trip /from 2019-10-15 /to 2019-10-15"));
         assertInstanceOf(AddCommand.class, result);
+    }
+
+    // parse("event trip /from 2019-10-15 /from 2019-10-16 /to 2019-10-17") (the
+    // /from marker appears twice) should throw AlzaraException with message
+    // AlzaraException.DUPLICATE_MARKER_MESSAGE.
+    @Test
+    void parse_eventDuplicateFromMarker_exceptionThrown() {
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("event trip /from 2019-10-15 /from 2019-10-16 /to 2019-10-17"));
+        assertEquals(AlzaraException.DUPLICATE_MARKER_MESSAGE, exception.getMessage());
+    }
+
+    // parse("event trip /from 2019-10-15 /to 2019-10-16 /to 2019-10-17") (the /to
+    // marker appears twice) should throw AlzaraException with message
+    // AlzaraException.DUPLICATE_MARKER_MESSAGE.
+    @Test
+    void parse_eventDuplicateToMarker_exceptionThrown() {
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("event trip /from 2019-10-15 /to 2019-10-16 /to 2019-10-17"));
+        assertEquals(AlzaraException.DUPLICATE_MARKER_MESSAGE, exception.getMessage());
     }
 
     // --- find ---

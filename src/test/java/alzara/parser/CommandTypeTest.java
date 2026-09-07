@@ -85,18 +85,22 @@ class CommandTypeTest {
         assertEquals(CommandType.UNKNOWN, CommandType.from("marking"));
     }
 
-    // --- case-sensitivity asymmetry ---
+    // --- case-insensitivity ---
 
-    // "bye" uses equalsIgnoreCase - every other command uses a case-sensitive
-    // equals()/startsWith().
+    // Every command word, not just "bye", is matched case-insensitively.
     @Test
     void from_byeDifferentCase_returnsBye() {
         assertEquals(CommandType.BYE, CommandType.from("BYE"));
     }
 
     @Test
-    void from_listDifferentCase_returnsUnknown() {
-        assertEquals(CommandType.UNKNOWN, CommandType.from("LIST"));
+    void from_listDifferentCase_returnsList() {
+        assertEquals(CommandType.LIST, CommandType.from("LIST"));
+    }
+
+    @Test
+    void from_commandWithTrailingArgumentDifferentCase_returnsMatchingType() {
+        assertEquals(CommandType.TODO, CommandType.from("TODO read book"));
     }
 
     // --- list accepts no trailing argument at all ---
