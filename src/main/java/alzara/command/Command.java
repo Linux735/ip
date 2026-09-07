@@ -1,6 +1,7 @@
 package alzara.command;
 
 import alzara.AlzaraException;
+import alzara.storage.Storage;
 import alzara.task.TaskList;
 import alzara.ui.Ui;
 
@@ -12,9 +13,10 @@ import alzara.ui.Ui;
 public abstract class Command {
     /**
      * Carries out this command's effect, e.g. adding a task or printing the
-     * task list.
+     * task list. {@code storage} is only used by commands that change
+     * {@code memory} (e.g. {@link AddCommand}); read-only commands ignore it.
      */
-    public abstract void execute(TaskList memory, Ui ui) throws AlzaraException;
+    public abstract void execute(TaskList memory, Ui ui, Storage storage) throws AlzaraException;
 
     /**
      * Returns true if this command should end the program's main loop.

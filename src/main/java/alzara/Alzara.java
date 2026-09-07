@@ -13,6 +13,7 @@ import alzara.ui.Ui;
  */
 public class Alzara {
     private final Ui ui;
+    private final Storage storage;
     private TaskList memory;
     private boolean isExit = false;
 
@@ -24,14 +25,30 @@ public class Alzara {
     }
 
     /**
-     * Creates an {@link Alzara} for either the console or the JavaFX GUI.
-     * The saved task list is not loaded yet - see {@link #loadMemory()}.
+     * Creates an {@link Alzara} for either the console or the JavaFX GUI,
+     * using the default {@code data} save directory. The saved task list is
+     * not loaded yet - see {@link #loadMemory()}.
      *
      * @param isGuiMode if true, {@link #getResponse} returns each reply as a
      *         string instead of the {@link Ui} printing it to the console
      */
     public Alzara(boolean isGuiMode) {
+        this(isGuiMode, new Storage());
+    }
+
+    /**
+     * Creates an {@link Alzara} for either the console or the JavaFX GUI,
+     * using the given {@link Storage}, e.g. one pointed at a JUnit
+     * {@code @TempDir} in a test. The saved task list is not loaded yet -
+     * see {@link #loadMemory()}.
+     *
+     * @param isGuiMode if true, {@link #getResponse} returns each reply as a
+     *         string instead of the {@link Ui} printing it to the console
+     * @param storage where the task list is loaded from and saved to
+     */
+    public Alzara(boolean isGuiMode, Storage storage) {
         this.ui = new Ui(isGuiMode);
+        this.storage = storage;
     }
 
     /**
@@ -41,7 +58,7 @@ public class Alzara {
      * those load-time reports never print ahead of the welcome banner.
      */
     private void loadMemory() {
-        this.memory = new TaskList(Storage.load());
+        this.memory = new TaskList(storage.load());
     }
 
     /**
@@ -57,7 +74,7 @@ public class Alzara {
 
             try {
                 Command userCommand = CommandParser.parse(command);
-                userCommand.execute(memory, ui);
+                userCommand.execute(memory, ui, storage);
                 if (userCommand.isExit()) {
                     return;
                 }
@@ -77,7 +94,7 @@ public class Alzara {
     public String getResponse(String input) {
         try {
             Command userCommand = CommandParser.parse(input);
-            userCommand.execute(memory, ui);
+            userCommand.execute(memory, ui, storage);
             isExit = userCommand.isExit();
         } catch (AlzaraException exception) {
             ui.showError(exception.getMessage());

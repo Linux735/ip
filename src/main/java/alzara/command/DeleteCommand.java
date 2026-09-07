@@ -29,12 +29,12 @@ public class DeleteCommand extends Command {
      * @throws AlzaraException if {@code taskIndex} doesn't refer to an existing task
      */
     @Override
-    public void execute(TaskList memory, Ui ui) throws AlzaraException {
+    public void execute(TaskList memory, Ui ui, Storage storage) throws AlzaraException {
         if (taskIndex < 0 || taskIndex >= memory.size()) {
             throw new AlzaraException(AlzaraException.TASK_DOES_NOT_EXIST_MESSAGE);
         }
         Task deletedTask = memory.delete(taskIndex);
-        Storage.save(memory.getTasks());
+        storage.save(memory.getTasks());
         ui.showTaskDeleted(deletedTask, memory.size());
     }
 }

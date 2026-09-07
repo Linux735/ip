@@ -17,14 +17,14 @@ import alzara.task.Task;
 import alzara.task.ToDo;
 
 /**
- * Loads tasks from, and saves tasks to, the save file at {@code data/alzara.txt}
- * (relative to the working directory the program is run from).
+ * Loads tasks from, and saves tasks to, a save file named {@code alzara.txt}
+ * in a data directory - {@code data} (relative to the working directory the
+ * program is run from) by default, or any directory a caller supplies, e.g.
+ * a JUnit {@code @TempDir} in a test.
  */
 public class Storage {
-    private static final String DATA_DIR = "data";
+    private static final String DEFAULT_DATA_DIR = "data";
     private static final String FILE_NAME = "alzara.txt";
-    private static final File FILE_PATH = new File(DATA_DIR, FILE_NAME);
-    private static final File TEMP_FILE_PATH = new File(DATA_DIR, FILE_NAME + ".tmp");
     private static final String FIELD_SEPARATOR = " \\| ";
 
     private static final int TYPE_INDEX = 0;
@@ -35,6 +35,31 @@ public class Storage {
     private static final int MIN_FIELD_COUNT = DESCRIPTION_INDEX + 1;
     private static final int MIN_FIELD_COUNT_WITH_DATE = DATE_INDEX + 1;
     private static final int MIN_FIELD_COUNT_WITH_EVENT_DATES = EVENT_END_DATE_INDEX + 1;
+
+    private final File filePath;
+    private final File tempFilePath;
+
+    /**
+     * Creates a {@link Storage} using the default {@code data} directory,
+     * relative to the working directory the program is run from.
+     */
+    public Storage() {
+        this(new File(DEFAULT_DATA_DIR));
+    }
+
+    /**
+     * Creates a {@link Storage} whose save file is {@code alzara.txt} inside
+     * {@code dataDir}, e.g. a JUnit {@code @TempDir} in a test, so tests
+     * never touch a real save file.
+     *
+     * @param dataDir the directory the save file (and its temp file used by
+     *         {@link #save}) live in; created on first {@link #save} if it
+     *         doesn't exist yet
+     */
+    public Storage(File dataDir) {
+        this.filePath = new File(dataDir, FILE_NAME);
+        this.tempFilePath = new File(dataDir, FILE_NAME + ".tmp");
+    }
 
     /**
      * Overwrites the save file with every task in {@code memory}, one per line
@@ -52,12 +77,12 @@ public class Storage {
      *
      * @param memory the current task list to persist; does nothing if {@code null}
      */
-    public static void save(ArrayList<Task> memory) {
+    public void save(ArrayList<Task> memory) {
         if (memory == null) {
             return;
         }
 
-        File parentDir = FILE_PATH.getParentFile();
+        File parentDir = filePath.getParentFile();
         if (parentDir != null && !parentDir.exists()) {
             boolean wasCreated = parentDir.mkdirs();
             if (!wasCreated && !parentDir.exists()) {
@@ -67,16 +92,16 @@ public class Storage {
         }
 
         try {
-            FileWriter writer = new FileWriter(TEMP_FILE_PATH);
+            FileWriter writer = new FileWriter(tempFilePath);
             for (Task task : memory) {
                 writer.write(task.toSaveFormat() + System.lineSeparator());
             }
             writer.close();
-            Files.move(TEMP_FILE_PATH.toPath(), FILE_PATH.toPath(),
+            Files.move(tempFilePath.toPath(), filePath.toPath(),
                     StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
         } catch (IOException exception) {
             System.out.println("Something went wrong while saving your tasks.");
-            TEMP_FILE_PATH.delete();
+            tempFilePath.delete();
         }
     }
 
@@ -88,18 +113,18 @@ public class Storage {
      * @return the loaded tasks, or an empty list if the save file doesn't
      *         exist yet, can't be read, or couldn't be loaded at all
      */
-    public static ArrayList<Task> load() {
+    public ArrayList<Task> load() {
         ArrayList<Task> memory = new ArrayList<>();
-        if (!FILE_PATH.exists()) {
+        if (!filePath.exists()) {
             return memory;
         }
-        if (!FILE_PATH.canRead()) {
+        if (!filePath.canRead()) {
             System.out.println("Could not read the save file. Starting with an empty task list.");
             return memory;
         }
 
         try {
-            Scanner scanner = new Scanner(FILE_PATH);
+            Scanner scanner = new Scanner(filePath);
             int lineNumber = 0;
             while (scanner.hasNextLine()) {
                 lineNumber++;

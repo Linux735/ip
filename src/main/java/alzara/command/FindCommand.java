@@ -3,6 +3,7 @@ package alzara.command;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import alzara.storage.Storage;
 import alzara.task.Task;
 import alzara.task.TaskList;
 import alzara.ui.Ui;
@@ -23,8 +24,12 @@ public class FindCommand extends Command {
         this.keywords = keywords;
     }
 
+    /**
+     * Filters {@code memory} down to tasks matching every keyword and displays them.
+     * Read-only, so {@code storage} is unused.
+     */
     @Override
-    public void execute(TaskList memory, Ui ui) {
+    public void execute(TaskList memory, Ui ui, Storage storage) {
         ArrayList<Task> matches = memory.getTasks().stream()
                 .filter(task -> task.matches(keywords))
                 .collect(Collectors.toCollection(ArrayList::new));
