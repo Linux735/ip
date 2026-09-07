@@ -2,6 +2,7 @@ package alzara.task;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 /**
  * A task with a description, a done/not-done state, and a start/end date range.
@@ -69,5 +70,24 @@ public class Event extends Task {
     @Override
     public LocalDate getSortDate() {
         return this.start;
+    }
+
+    /**
+     * Returns true if {@code other} is an {@link Event} with the same
+     * description (per {@link Task#equals}) and the same start/end dates.
+     * Used to detect duplicate tasks when adding a new one.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (!super.equals(other)) {
+            return false;
+        }
+        Event event = (Event) other;
+        return this.start.equals(event.start) && this.end.equals(event.end);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), start, end);
     }
 }

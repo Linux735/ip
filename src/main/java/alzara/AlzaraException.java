@@ -28,6 +28,14 @@ public class AlzaraException extends Exception {
             "I cannot find nothing.";
     public static final String MISSING_VIEW_DATE_MESSAGE =
             "How far in time do you wish to see?";
+    public static final String TOO_MANY_ARGUMENTS_MESSAGE =
+            "I will only help you with one thing at a time.";
+    public static final String DUPLICATE_MARKER_MESSAGE =
+            "Do not repeat yourself to the great Alzara.";
+    public static final String DUPLICATE_TASK_MESSAGE =
+            "How forgetful...This task has already been recorded.";
+    public static final String FORBIDDEN_CHARACTER_MESSAGE =
+            "Do not use '|'!";
 
     /**
      * Creates an exception carrying the exact message Alzara should show the user.

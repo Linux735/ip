@@ -31,6 +31,19 @@ public class TaskList {
     }
 
     /**
+     * Returns true if {@code task} has the same details (per {@link
+     * Task#equals}) as a task already in the list, e.g. two {@code todo}s
+     * with the same description, or two {@code deadline}s with the same
+     * description and due date. Ignores each task's completion state.
+     *
+     * @param task the task to check for a duplicate of
+     * @return true if an equal task already exists in the list
+     */
+    public boolean hasDuplicate(Task task) {
+        return this.memory.contains(task);
+    }
+
+    /**
      * Returns the task at {@code index}.
      *
      * @param index 0-based index; not bounds-checked with a thrown exception -
