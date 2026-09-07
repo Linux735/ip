@@ -33,12 +33,12 @@ public class AddCommand extends Command {
      * @throws AlzaraException if a task with the same details already exists in {@code memory}
      */
     @Override
-    public void execute(TaskList memory, Ui ui) throws AlzaraException {
+    public void execute(TaskList memory, Ui ui, Storage storage) throws AlzaraException {
         if (memory.hasDuplicate(task)) {
             throw new AlzaraException(AlzaraException.DUPLICATE_TASK_MESSAGE);
         }
         memory.add(task);
-        Storage.save(memory.getTasks());
+        storage.save(memory.getTasks());
         ui.showTaskAdded(flavourText, task, memory.size());
     }
 }

@@ -1,5 +1,6 @@
 package alzara.command;
 
+import alzara.storage.Storage;
 import alzara.task.TaskList;
 import alzara.ui.Ui;
 
@@ -10,9 +11,10 @@ public class ExitCommand extends Command {
     /**
      * Shows the goodbye message. Takes no action on {@code memory} - the
      * program loop stops because {@link #isExit()} returns {@code true}.
+     * Read-only, so {@code storage} is unused.
      */
     @Override
-    public void execute(TaskList memory, Ui ui) {
+    public void execute(TaskList memory, Ui ui, Storage storage) {
         ui.showGoodbye();
     }
 
