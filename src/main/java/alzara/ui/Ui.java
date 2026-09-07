@@ -136,7 +136,7 @@ public class Ui {
      * @param remainingCount the number of tasks left after the removal
      */
     public void showTaskDeleted(Task task, int remainingCount) {
-        print("I have removed the task " + task + "\nYou have " + remainingCount + " tasks remaining.");
+        print("I have removed the task " + task + "\n" + remainingCount + " tasks remain.");
     }
 
     /**
@@ -145,7 +145,7 @@ public class Ui {
      * @param tasks the tasks to display
      */
     public void showTaskList(ArrayList<Task> tasks) {
-        print(formatTaskList("Here are the tasks in your list:", tasks));
+        print(formatTaskList("Behold, all that awaits you:", tasks));
     }
 
     /**
@@ -187,7 +187,7 @@ public class Ui {
      * @param matches the matching tasks to display
      */
     public void showMatchingTasks(ArrayList<Task> matches) {
-        print(formatTaskList("Here are the matching tasks in your list:", matches));
+        print(formatTaskList("The great Alzara finds these:", matches));
     }
 
     /**

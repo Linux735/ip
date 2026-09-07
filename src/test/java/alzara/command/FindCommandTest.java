@@ -29,7 +29,7 @@ class FindCommandTest {
 
         new FindCommand("BOOK").execute(memory, ui, new Storage(dataDir));
 
-        assertEquals("Here are the matching tasks in your list:\n1.[T][ ] read book",
+        assertEquals("The great Alzara finds these:\n1.[T][ ] read book",
                 ui.getAndClearResponse());
     }
 
@@ -42,7 +42,7 @@ class FindCommandTest {
 
         new FindCommand("xyz").execute(memory, ui, new Storage(dataDir));
 
-        assertEquals("Here are the matching tasks in your list:", ui.getAndClearResponse());
+        assertEquals("The great Alzara finds these:", ui.getAndClearResponse());
     }
 
     // With several keywords, only a task matching every one of them should show.
@@ -55,7 +55,7 @@ class FindCommandTest {
 
         new FindCommand("read", "book").execute(memory, ui, new Storage(dataDir));
 
-        assertEquals("Here are the matching tasks in your list:\n1.[T][ ] read book",
+        assertEquals("The great Alzara finds these:\n1.[T][ ] read book",
                 ui.getAndClearResponse());
     }
 }

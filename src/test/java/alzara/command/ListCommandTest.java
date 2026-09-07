@@ -27,7 +27,7 @@ class ListCommandTest {
 
         new ListCommand().execute(memory, ui, new Storage(dataDir));
 
-        assertEquals("Here are the tasks in your list:", ui.getAndClearResponse());
+        assertEquals("Behold, all that awaits you:", ui.getAndClearResponse());
     }
 
     // Multiple tasks should be listed in order, numbered from 1.
@@ -40,7 +40,7 @@ class ListCommandTest {
 
         new ListCommand().execute(memory, ui, new Storage(dataDir));
 
-        assertEquals("Here are the tasks in your list:\n1.[T][ ] read book\n2.[T][ ] borrow book",
+        assertEquals("Behold, all that awaits you:\n1.[T][ ] read book\n2.[T][ ] borrow book",
                 ui.getAndClearResponse());
     }
 }

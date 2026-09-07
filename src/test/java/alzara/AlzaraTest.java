@@ -53,7 +53,7 @@ class AlzaraTest {
         alzara.getWelcomeMessage();
         String response = alzara.getResponse("list");
 
-        assertEquals("Here are the tasks in your list:\n1.[T][ ] read book", response);
+        assertEquals("Behold, all that awaits you:\n1.[T][ ] read book", response);
     }
 
     // A valid command should return its normal formatted reply.
