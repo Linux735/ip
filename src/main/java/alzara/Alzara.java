@@ -13,7 +13,7 @@ import alzara.ui.Ui;
  */
 public class Alzara {
     private final Ui ui;
-    private final TaskList memory;
+    private TaskList memory;
     private boolean isExit = false;
 
     /**
@@ -24,14 +24,23 @@ public class Alzara {
     }
 
     /**
-     * Creates an {@link Alzara} for either the console or the JavaFX GUI,
-     * loading the saved task list immediately either way.
+     * Creates an {@link Alzara} for either the console or the JavaFX GUI.
+     * The saved task list is not loaded yet - see {@link #loadMemory()}.
      *
      * @param isGuiMode if true, {@link #getResponse} returns each reply as a
      *         string instead of the {@link Ui} printing it to the console
      */
     public Alzara(boolean isGuiMode) {
         this.ui = new Ui(isGuiMode);
+    }
+
+    /**
+     * Loads the saved task list, reporting any corrupted save-file lines
+     * along the way. Called once the welcome message has already been
+     * shown, by both {@link #run()} and {@link #getWelcomeMessage()}, so
+     * those load-time reports never print ahead of the welcome banner.
+     */
+    private void loadMemory() {
         this.memory = new TaskList(Storage.load());
     }
 
@@ -40,6 +49,7 @@ public class Alzara {
      */
     public void run() {
         ui.showWelcome();
+        loadMemory();
 
         while (true) {
             String command = ui.readCommand();
@@ -85,10 +95,12 @@ public class Alzara {
 
     /**
      * Returns Alzara's welcome message as plain text, for the GUI to show
-     * once when the window opens.
+     * once when the window opens. Also loads the saved task list - see
+     * {@link #loadMemory()}.
      */
     public String getWelcomeMessage() {
         ui.showWelcome();
+        loadMemory();
         return ui.getAndClearResponse();
     }
 
