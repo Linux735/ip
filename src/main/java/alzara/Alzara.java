@@ -84,6 +84,15 @@ public class Alzara {
     }
 
     /**
+     * Returns true if the most recent {@link #getResponse} call failed with
+     * an {@link AlzaraException}, so the GUI can highlight the reply as an
+     * error instead of a normal reply.
+     */
+    public boolean isLastResponseError() {
+        return ui.isLastResponseError();
+    }
+
+    /**
      * Returns Alzara's welcome message as plain text, for the GUI to show
      * once when the window opens.
      */

@@ -59,9 +59,12 @@ public class MainWindow extends AnchorPane {
     private void handleUserInput() {
         String input = userInput.getText();
         String response = alzara.getResponse(input);
+        DialogBox replyDialog = alzara.isLastResponseError()
+                ? DialogBox.getErrorDialog(response, alzaraImage)
+                : DialogBox.getAlzaraDialog(response, alzaraImage);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getAlzaraDialog(response, alzaraImage)
+                replyDialog
         );
         userInput.clear();
 

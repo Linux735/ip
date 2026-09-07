@@ -26,6 +26,7 @@ public class Ui {
     private final Scanner scanner;
     private final boolean isGuiMode;
     private final StringBuilder responseBuffer = new StringBuilder();
+    private boolean isLastResponseError = false;
 
     /**
      * Creates a {@link Ui} in console mode.
@@ -155,6 +156,16 @@ public class Ui {
      */
     public void showError(String message) {
         print(message);
+        isLastResponseError = true;
+    }
+
+    /**
+     * Returns whether the most recent message shown was an error, i.e. the
+     * last call among {@code show*} methods was {@link #showError}. Reset to
+     * {@code false} by every other {@code show*} method.
+     */
+    public boolean isLastResponseError() {
+        return isLastResponseError;
     }
 
     /**
@@ -201,6 +212,7 @@ public class Ui {
      * buffer, depending on the current mode.
      */
     private void print(String message) {
+        isLastResponseError = false;
         if (isGuiMode) {
             if (responseBuffer.length() > 0) {
                 responseBuffer.append('\n');

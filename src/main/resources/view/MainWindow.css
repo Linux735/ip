@@ -24,3 +24,13 @@
     -fx-text-fill: #2b2b2b;
     -fx-padding: 10 14 10 14;
 }
+
+.error-bubble {
+    -fx-background-color: #fdecea;
+    -fx-background-radius: 16;
+    -fx-border-color: #e0554a;
+    -fx-border-radius: 16;
+    -fx-border-width: 1.5;
+    -fx-text-fill: #b3261e;
+    -fx-padding: 10 14 10 14;
+}

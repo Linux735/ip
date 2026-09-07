@@ -80,4 +80,15 @@ public class DialogBox extends HBox {
         dialogBox.flip();
         return dialogBox;
     }
+
+    /**
+     * Creates a dialog box for one of Alzara's error replies, flipped like a
+     * normal reply but styled to catch the user's attention.
+     */
+    public static DialogBox getErrorDialog(String text, Image img) {
+        DialogBox dialogBox = new DialogBox(text, img);
+        dialogBox.dialog.getStyleClass().add("error-bubble");
+        dialogBox.flip();
+        return dialogBox;
+    }
 }
