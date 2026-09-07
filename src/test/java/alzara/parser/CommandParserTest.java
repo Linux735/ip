@@ -405,6 +405,14 @@ class CommandParserTest {
         assertEquals(AlzaraException.MISSING_KEYWORD_MESSAGE, exception.getMessage());
     }
 
+    // parse("find   ") (only whitespace after the command word) should also throw
+    // AlzaraException with message AlzaraException.MISSING_KEYWORD_MESSAGE.
+    @Test
+    void parse_findOnlyWhitespaceAfterCommand_exceptionThrown() {
+        AlzaraException exception = assertThrows(AlzaraException.class, () -> CommandParser.parse("find   "));
+        assertEquals(AlzaraException.MISSING_KEYWORD_MESSAGE, exception.getMessage());
+    }
+
     // parse("find book urgent") (several whitespace-separated keywords) should
     // also return a FindCommand, no exception thrown.
     @Test
