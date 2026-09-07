@@ -169,6 +169,19 @@ public class Ui {
     }
 
     /**
+     * Reports a save/load status message from {@link alzara.storage.Storage},
+     * e.g. that the save file couldn't be read, or that some entries were
+     * skipped as corrupted while loading. Shown the same way as any other
+     * reply - not flagged as an error, since these describe the save file's
+     * state rather than something wrong with the user's command.
+     *
+     * @param message the status message to display
+     */
+    public void showStorageMessage(String message) {
+        print(message);
+    }
+
+    /**
      * Prints every task in {@code matches}, numbered from 1, for the {@code find} command.
      *
      * @param matches the matching tasks to display

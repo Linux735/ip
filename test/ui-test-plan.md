@@ -909,14 +909,15 @@ And as it was foretold,
 You find yourself face to face with the great Alzara.
 What can I do for you?
 ____________________________________________________________
-Skipping corrupted entry on line 2 of the save file: unrecognised task type 'X'
-Skipping corrupted entry on line 3 of the save file: invalid done flag
-Skipping corrupted entry on line 4 of the save file: missing deadline field
-Skipping corrupted entry on line 5 of the save file: missing event start/end field
-Skipping corrupted entry on line 6 of the save file: not enough fields
-Skipping corrupted entry on line 7 of the save file: invalid deadline date
-Skipping corrupted entry on line 8 of the save file: invalid event date
-Skipping corrupted entry on line 9 of the save file: event start date after end date
+A flawed memory on line 2 was discarded: unrecognised task type 'X'
+A flawed memory on line 3 was discarded: invalid done flag
+A flawed memory on line 4 was discarded: missing deadline field
+A flawed memory on line 5 was discarded: missing event start/end field
+A flawed memory on line 6 was discarded: not enough fields
+A flawed memory on line 7 was discarded: invalid deadline date
+A flawed memory on line 8 was discarded: invalid event date
+A flawed memory on line 9 was discarded: event start date after end date
+____________________________________________________________
 ____________________________________________________________
 Here are the tasks in your list:
 1.[T][ ] read book

@@ -39,7 +39,7 @@ class DeleteCommandTest {
         assertEquals("[T][ ] borrow book", memory.get(0).toString());
         assertEquals("I have removed the task [T][ ] read book\nYou have 1 tasks remaining.",
                 ui.getAndClearResponse());
-        ArrayList<Task> persisted = storage.load();
+        ArrayList<Task> persisted = storage.load(ui);
         assertEquals(1, persisted.size());
         assertEquals("T | N | borrow book", persisted.get(0).toSaveFormat());
     }

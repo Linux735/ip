@@ -35,7 +35,7 @@ public class MarkCommand extends Command {
         }
         Task task = memory.get(taskIndex);
         task.mark();
-        storage.save(memory.getTasks());
+        storage.save(memory.getTasks(), ui);
         ui.showTaskMarked(task);
     }
 }

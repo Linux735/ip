@@ -15,6 +15,7 @@ import alzara.task.Deadline;
 import alzara.task.Event;
 import alzara.task.Task;
 import alzara.task.ToDo;
+import alzara.ui.Ui;
 
 /**
  * Loads tasks from, and saves tasks to, a save file named {@code alzara.txt}
@@ -76,8 +77,9 @@ public class Storage {
      * or the new complete version - never a truncated, half-written one.
      *
      * @param memory the current task list to persist; does nothing if {@code null}
+     * @param ui where a failure to save is reported, e.g. via a chat bubble in the GUI
      */
-    public void save(ArrayList<Task> memory) {
+    public void save(ArrayList<Task> memory, Ui ui) {
         if (memory == null) {
             return;
         }
@@ -86,7 +88,7 @@ public class Storage {
         if (parentDir != null && !parentDir.exists()) {
             boolean wasCreated = parentDir.mkdirs();
             if (!wasCreated && !parentDir.exists()) {
-                System.out.println("Could not create the data folder. Your tasks were not saved.");
+                ui.showStorageMessage("The great Alzara has nowhere to keep your tasks. Nothing was saved.");
                 return;
             }
         }
@@ -100,7 +102,7 @@ public class Storage {
             Files.move(tempFilePath.toPath(), filePath.toPath(),
                     StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
         } catch (IOException exception) {
-            System.out.println("Something went wrong while saving your tasks.");
+            ui.showStorageMessage("The great Alzara's hand was stayed. Your tasks were not saved.");
             tempFilePath.delete();
         }
     }
@@ -110,19 +112,22 @@ public class Storage {
      * line number and reason) any line that can't be parsed rather than
      * failing the whole load.
      *
+     * @param ui where a read failure or corrupted-entry report is shown,
+     *         e.g. via a chat bubble in the GUI
      * @return the loaded tasks, or an empty list if the save file doesn't
      *         exist yet, can't be read, or couldn't be loaded at all
      */
-    public ArrayList<Task> load() {
+    public ArrayList<Task> load(Ui ui) {
         ArrayList<Task> memory = new ArrayList<>();
         if (!filePath.exists()) {
             return memory;
         }
         if (!filePath.canRead()) {
-            System.out.println("Could not read the save file. Starting with an empty task list.");
+            ui.showStorageMessage("I cannot reach the old records. Let us begin anew.");
             return memory;
         }
 
+        StringBuilder corruptionReport = new StringBuilder();
         try {
             Scanner scanner = new Scanner(filePath);
             int lineNumber = 0;
@@ -136,15 +141,20 @@ public class Storage {
                     Task task = loadTask(line);
                     memory.add(task);
                 } catch (AlzaraException exception) {
-                    System.out.println("Skipping corrupted entry on line " + lineNumber
-                            + " of the save file: " + exception.getMessage());
+                    if (corruptionReport.length() > 0) {
+                        corruptionReport.append('\n');
+                    }
+                    corruptionReport.append("A flawed memory on line ").append(lineNumber)
+                            .append(" was discarded: ").append(exception.getMessage());
                 }
             }
             scanner.close();
         } catch (IOException exception) {
-            System.out.println("Something went wrong while loading your tasks. "
-                    + "Starting with an empty task list.");
+            ui.showStorageMessage("Something clouds the old records. We will begin anew.");
             return new ArrayList<>();
+        }
+        if (corruptionReport.length() > 0) {
+            ui.showStorageMessage(corruptionReport.toString());
         }
         return memory;
     }
