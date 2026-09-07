@@ -195,6 +195,16 @@ class CommandParserTest {
         assertInstanceOf(AddCommand.class, result);
     }
 
+    // parse("todo read | book") (description contains the save-file field
+    // separator character) should throw AlzaraException with message
+    // AlzaraException.FORBIDDEN_CHARACTER_MESSAGE.
+    @Test
+    void parse_todoDescriptionContainsPipe_exceptionThrown() {
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("todo read | book"));
+        assertEquals(AlzaraException.FORBIDDEN_CHARACTER_MESSAGE, exception.getMessage());
+    }
+
     // --- deadline ---
 
     // parse("deadline return book /by 2019-10-15") should return an AddCommand,
@@ -250,6 +260,16 @@ class CommandParserTest {
         AlzaraException exception = assertThrows(AlzaraException.class, () ->
                 CommandParser.parse("deadline return book /by 2019-10-15 /by 2019-10-16"));
         assertEquals(AlzaraException.DUPLICATE_MARKER_MESSAGE, exception.getMessage());
+    }
+
+    // parse("deadline return | book /by 2019-10-15") (description contains the
+    // save-file field separator character) should throw AlzaraException with
+    // message AlzaraException.FORBIDDEN_CHARACTER_MESSAGE.
+    @Test
+    void parse_deadlineDescriptionContainsPipe_exceptionThrown() {
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("deadline return | book /by 2019-10-15"));
+        assertEquals(AlzaraException.FORBIDDEN_CHARACTER_MESSAGE, exception.getMessage());
     }
 
     // --- event ---
@@ -356,6 +376,16 @@ class CommandParserTest {
         AlzaraException exception = assertThrows(AlzaraException.class, () ->
                 CommandParser.parse("event trip /from 2019-10-15 /to 2019-10-16 /to 2019-10-17"));
         assertEquals(AlzaraException.DUPLICATE_MARKER_MESSAGE, exception.getMessage());
+    }
+
+    // parse("event pro | ject /from 2019-10-15 /to 2019-10-16") (description
+    // contains the save-file field separator character) should throw
+    // AlzaraException with message AlzaraException.FORBIDDEN_CHARACTER_MESSAGE.
+    @Test
+    void parse_eventDescriptionContainsPipe_exceptionThrown() {
+        AlzaraException exception = assertThrows(AlzaraException.class, () ->
+                CommandParser.parse("event pro | ject /from 2019-10-15 /to 2019-10-16"));
+        assertEquals(AlzaraException.FORBIDDEN_CHARACTER_MESSAGE, exception.getMessage());
     }
 
     // --- find ---

@@ -2,6 +2,7 @@ package alzara.task;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * A task with a description and a done/not-done state.
@@ -109,5 +110,31 @@ public class Task {
             return "[X] " + this.description;
         }
         return "[ ] " + this.description;
+    }
+
+    /**
+     * Returns true if {@code other} is a task of the same concrete type with
+     * the same description, ignoring case and completion state. Used to
+     * detect duplicate tasks when adding a new one; {@link Deadline} and
+     * {@link Event} extend this with their own date fields.
+     *
+     * @param other the object to compare against
+     * @return true if {@code other} represents the same task details
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        Task task = (Task) other;
+        return description.equalsIgnoreCase(task.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getClass(), description.toLowerCase());
     }
 }

@@ -800,6 +800,75 @@ Our audience has ended. Until we meet again.
 ____________________________________________________________
 ```
 
+## Test case: duplicate tasks and forbidden characters are rejected without being added
+
+**Aim:** Verify that adding a task with the same details (description, and dates for `deadline`/`event`) as one already in the list is rejected without adding a second copy - matching case-insensitively for the description - and that a description containing the `|` character (the save file's field separator) is rejected instead of silently risking save-file corruption.
+
+### Inputs
+
+```text
+todo read book
+todo read book
+todo READ BOOK
+deadline return book /by 2019-10-15
+deadline return book /by 2019-10-15
+deadline return book /by 2019-10-16
+todo submit | report
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+    _    _     ______    _    ____       _    
+   / \  | |   |__  /   / \  |  _ \     / \   
+  / _ \ | |     / /   / _ \ | |_) |   / _ \  
+ / ___ \| |___ / /_  / ___ \|  _ <   / ___ \ 
+/_/   \_\_____/____|/_/   \_\_| \_\ /_/   \_\
+And as it was foretold,
+You find yourself face to face with the great Alzara.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+You have something to do...
+[T][ ] read book
+You have 1 tasks.
+____________________________________________________________
+____________________________________________________________
+How forgetful...This task has already been recorded.
+____________________________________________________________
+____________________________________________________________
+How forgetful...This task has already been recorded.
+____________________________________________________________
+____________________________________________________________
+Do not miss the deadline.
+[D][ ] return book (by: Oct 15 2019)
+You have 2 tasks.
+____________________________________________________________
+____________________________________________________________
+How forgetful...This task has already been recorded.
+____________________________________________________________
+____________________________________________________________
+Do not miss the deadline.
+[D][ ] return book (by: Oct 16 2019)
+You have 3 tasks.
+____________________________________________________________
+____________________________________________________________
+Do not use '|'!
+____________________________________________________________
+____________________________________________________________
+Here are the tasks in your list:
+1.[T][ ] read book
+2.[D][ ] return book (by: Oct 15 2019)
+3.[D][ ] return book (by: Oct 16 2019)
+____________________________________________________________
+____________________________________________________________
+Our audience has ended. Until we meet again.
+____________________________________________________________
+```
+
 ## Test case: corrupted save file entries are skipped without discarding valid tasks
 
 **Aim:** Verify that each unreadable line in `data/alzara.txt` is reported with its line number and reason — including a deadline or event date that has the right number of fields but does not parse as `yyyy-mm-dd`, and an event whose start date parses fine but is after its end date — skipped, and left untouched on disk, while valid lines around it still load.

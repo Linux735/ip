@@ -95,7 +95,8 @@ public class CommandParser {
     /**
      * Parses a {@code todo} command into a {@link ToDo}.
      *
-     * @throws AlzaraException if the command has no description
+     * @throws AlzaraException if the command has no description, or the
+     *         description contains the {@code |} character
      */
     private static Task parseTodo(String command) throws AlzaraException {
         if (command.trim().equalsIgnoreCase("todo")) {
@@ -104,7 +105,21 @@ public class CommandParser {
         assert command.toLowerCase().startsWith(TODO_PREFIX)
                 : "parseTodo is only called after CommandType.from classified the command as TODO, "
                 + "which guarantees this prefix, ignoring case";
-        return new ToDo(command.substring(TODO_PREFIX.length()).trim());
+        String description = command.substring(TODO_PREFIX.length()).trim();
+        validateDescription(description);
+        return new ToDo(description);
+    }
+
+    /**
+     * Rejects a description containing the {@code |} character, since it is
+     * the field separator {@link alzara.storage.Storage} uses in the save
+     * file - allowing it through would silently corrupt that task on the
+     * next save/load round trip.
+     */
+    private static void validateDescription(String description) throws AlzaraException {
+        if (description.contains("|")) {
+            throw new AlzaraException(AlzaraException.FORBIDDEN_CHARACTER_MESSAGE);
+        }
     }
 
     /**
@@ -112,7 +127,8 @@ public class CommandParser {
      * description before the {@code /by} marker and the date after it.
      *
      * @throws AlzaraException if the description or {@code /by} date is missing
-     *         or malformed, or {@code /by} appears more than once
+     *         or malformed, {@code /by} appears more than once, or the
+     *         description contains the {@code |} character
      */
     private static Task parseDeadline(String command) throws AlzaraException {
         if (command.trim().equalsIgnoreCase("deadline")) {
@@ -134,6 +150,7 @@ public class CommandParser {
         if (description.isEmpty()) {
             throw new AlzaraException(AlzaraException.MISSING_TASK_DESC);
         }
+        validateDescription(description);
 
         String deadlineText = command.substring(deadlineMarker + BY_MARKER.length());
         LocalDate deadline;
@@ -153,7 +170,8 @@ public class CommandParser {
      *
      * @throws AlzaraException if the description or either date is missing,
      *         the markers are out of order or repeated, either date is
-     *         malformed, or the parsed start date is after the end date
+     *         malformed, the parsed start date is after the end date, or the
+     *         description contains the {@code |} character
      */
     private static Task parseEvent(String command) throws AlzaraException {
         if (command.trim().equalsIgnoreCase("event")) {
@@ -177,6 +195,7 @@ public class CommandParser {
         if (description.isEmpty()) {
             throw new AlzaraException(AlzaraException.MISSING_TASK_DESC);
         }
+        validateDescription(description);
 
         String startText = command.substring(startMarker + FROM_MARKER.length(), endMarker);
         String endText = command.substring(endMarker + TO_MARKER.length());

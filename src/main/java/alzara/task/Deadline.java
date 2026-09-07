@@ -2,6 +2,7 @@ package alzara.task;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 /**
  * A task with a description, a done/not-done state, and a due date.
@@ -52,5 +53,24 @@ public class Deadline extends Task {
     @Override
     public LocalDate getSortDate() {
         return this.deadline;
+    }
+
+    /**
+     * Returns true if {@code other} is a {@link Deadline} with the same
+     * description (per {@link Task#equals}) and the same due date. Used to
+     * detect duplicate tasks when adding a new one.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (!super.equals(other)) {
+            return false;
+        }
+        Deadline deadline = (Deadline) other;
+        return this.deadline.equals(deadline.deadline);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), deadline);
     }
 }

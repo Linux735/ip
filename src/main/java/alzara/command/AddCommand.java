@@ -1,5 +1,6 @@
 package alzara.command;
 
+import alzara.AlzaraException;
 import alzara.storage.Storage;
 import alzara.task.Task;
 import alzara.task.TaskList;
@@ -28,9 +29,14 @@ public class AddCommand extends Command {
 
     /**
      * Adds the task to {@code memory}, persists the updated list, and reports it.
+     *
+     * @throws AlzaraException if a task with the same details already exists in {@code memory}
      */
     @Override
-    public void execute(TaskList memory, Ui ui) {
+    public void execute(TaskList memory, Ui ui) throws AlzaraException {
+        if (memory.hasDuplicate(task)) {
+            throw new AlzaraException(AlzaraException.DUPLICATE_TASK_MESSAGE);
+        }
         memory.add(task);
         Storage.save(memory.getTasks());
         ui.showTaskAdded(flavourText, task, memory.size());
