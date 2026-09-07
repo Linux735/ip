@@ -3,6 +3,8 @@ package alzara.storage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public class Storage {
     private static final String DATA_DIR = "data";
     private static final String FILE_NAME = "alzara.txt";
     private static final File FILE_PATH = new File(DATA_DIR, FILE_NAME);
+    private static final File TEMP_FILE_PATH = new File(DATA_DIR, FILE_NAME + ".tmp");
     private static final String FIELD_SEPARATOR = " \\| ";
 
     private static final int TYPE_INDEX = 0;
@@ -41,6 +44,12 @@ public class Storage {
      * a message and returns without throwing if the folder can't be created
      * or the file can't be written - a failed save shouldn't crash the program.
      *
+     * <p>Writes to a temporary file first, then atomically moves it over the
+     * real save file, rather than writing directly into {@code alzara.txt}.
+     * This way, if the program is interrupted mid-write (a crash, a forced
+     * quit), the save file on disk is always either the old complete version
+     * or the new complete version - never a truncated, half-written one.
+     *
      * @param memory the current task list to persist; does nothing if {@code null}
      */
     public static void save(ArrayList<Task> memory) {
@@ -58,13 +67,16 @@ public class Storage {
         }
 
         try {
-            FileWriter writer = new FileWriter(FILE_PATH);
+            FileWriter writer = new FileWriter(TEMP_FILE_PATH);
             for (Task task : memory) {
                 writer.write(task.toSaveFormat() + System.lineSeparator());
             }
             writer.close();
+            Files.move(TEMP_FILE_PATH.toPath(), FILE_PATH.toPath(),
+                    StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
         } catch (IOException exception) {
             System.out.println("Something went wrong while saving your tasks.");
+            TEMP_FILE_PATH.delete();
         }
     }
 
