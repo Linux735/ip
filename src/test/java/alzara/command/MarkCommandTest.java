@@ -36,7 +36,7 @@ class MarkCommandTest {
 
         assertTrue(memory.get(0).toString().startsWith("[T][X]"));
         assertEquals("You have satisfied the great Alzara.\n[T][X] read book", ui.getAndClearResponse());
-        assertEquals("T | Y | read book", storage.load().get(0).toSaveFormat());
+        assertEquals("T | Y | read book", storage.load(ui).get(0).toSaveFormat());
     }
 
     // A negative index should throw without marking any task.

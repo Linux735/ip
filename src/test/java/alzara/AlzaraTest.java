@@ -13,6 +13,7 @@ import org.junit.jupiter.api.io.TempDir;
 import alzara.storage.Storage;
 import alzara.task.Task;
 import alzara.task.ToDo;
+import alzara.ui.Ui;
 
 /**
  * Tests for {@link Alzara}'s GUI entry points ({@link Alzara#getWelcomeMessage()}
@@ -46,13 +47,13 @@ class AlzaraTest {
         Storage storage = new Storage(dataDir);
         ArrayList<Task> seed = new ArrayList<>();
         seed.add(new ToDo("read book"));
-        storage.save(seed);
+        storage.save(seed, new Ui(true));
         Alzara alzara = new Alzara(true, storage);
 
         alzara.getWelcomeMessage();
         String response = alzara.getResponse("list");
 
-        assertEquals("Here are the tasks in your list:\n1.[T][ ] read book", response);
+        assertEquals("Behold, all that awaits you:\n1.[T][ ] read book", response);
     }
 
     // A valid command should return its normal formatted reply.

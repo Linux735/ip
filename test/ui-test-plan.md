@@ -45,7 +45,7 @@ Am I invited?
 You have 3 tasks.
 ____________________________________________________________
 ____________________________________________________________
-Here are the tasks in your list:
+Behold, all that awaits you:
 1.[T][ ] borrow book
 2.[D][ ] return book (by: Oct 15 2019)
 3.[E][ ] project meeting (from: Oct 15 2019 to: Oct 16 2019)
@@ -107,21 +107,21 @@ You have satisfied the great Alzara.
 [T][X] read book
 ____________________________________________________________
 ____________________________________________________________
-Here are the matching tasks in your list:
+The great Alzara finds these:
 1.[T][X] read book
 2.[D][ ] return book (by: Oct 15 2019)
 ____________________________________________________________
 ____________________________________________________________
-Here are the matching tasks in your list:
+The great Alzara finds these:
 1.[T][X] read book
 2.[D][ ] return book (by: Oct 15 2019)
 ____________________________________________________________
 ____________________________________________________________
-Here are the matching tasks in your list:
+The great Alzara finds these:
 1.[T][ ] go jogging
 ____________________________________________________________
 ____________________________________________________________
-Here are the matching tasks in your list:
+The great Alzara finds these:
 ____________________________________________________________
 ____________________________________________________________
 I cannot find nothing.
@@ -204,7 +204,7 @@ ____________________________________________________________
 How far in time do you wish to see?
 ____________________________________________________________
 ____________________________________________________________
-I cannot read that date. Use yyyy-mm-dd
+I cannot read that date. Use yyyy-mm-dd.
 ____________________________________________________________
 ____________________________________________________________
 Our audience has ended. Until we meet again.
@@ -240,7 +240,7 @@ ____________________________________________________________
 Speak sense.
 ____________________________________________________________
 ____________________________________________________________
-Here are the tasks in your list:
+Behold, all that awaits you:
 ____________________________________________________________
 ____________________________________________________________
 Our audience has ended. Until we meet again.
@@ -276,7 +276,7 @@ You find yourself face to face with the great Alzara.
 What can I do for you?
 ____________________________________________________________
 ____________________________________________________________
-Which task are you referring to?
+Which task do you refer to...
 ____________________________________________________________
 ____________________________________________________________
 Nonsense.
@@ -285,7 +285,7 @@ ____________________________________________________________
 Do you know how to count?
 ____________________________________________________________
 ____________________________________________________________
-Add a deadline.
+All things must come to pass. Add a deadline.
 ____________________________________________________________
 ____________________________________________________________
 All things must have a start and an end...
@@ -323,16 +323,16 @@ You find yourself face to face with the great Alzara.
 What can I do for you?
 ____________________________________________________________
 ____________________________________________________________
-I cannot read that date. Use yyyy-mm-dd
+I cannot read that date. Use yyyy-mm-dd.
 ____________________________________________________________
 ____________________________________________________________
-I cannot read that date. Use yyyy-mm-dd
+I cannot read that date. Use yyyy-mm-dd.
 ____________________________________________________________
 ____________________________________________________________
-I cannot read that date. Use yyyy-mm-dd
+I cannot read that date. Use yyyy-mm-dd.
 ____________________________________________________________
 ____________________________________________________________
-Here are the tasks in your list:
+Behold, all that awaits you:
 ____________________________________________________________
 ____________________________________________________________
 Our audience has ended. Until we meet again.
@@ -378,13 +378,13 @@ ____________________________________________________________
 You want to do nothing?
 ____________________________________________________________
 ____________________________________________________________
-Add a deadline.
+All things must come to pass. Add a deadline.
 ____________________________________________________________
 ____________________________________________________________
 All things must have a start and an end...
 ____________________________________________________________
 ____________________________________________________________
-Here are the tasks in your list:
+Behold, all that awaits you:
 ____________________________________________________________
 ____________________________________________________________
 Our audience has ended. Until we meet again.
@@ -428,7 +428,7 @@ You have something to do...
 You have 1 tasks.
 ____________________________________________________________
 ____________________________________________________________
-Add a deadline.
+All things must come to pass. Add a deadline.
 ____________________________________________________________
 ____________________________________________________________
 Do not miss the deadline.
@@ -449,7 +449,7 @@ ____________________________________________________________
 All things must have a start and an end...
 ____________________________________________________________
 ____________________________________________________________
-Here are the tasks in your list:
+Behold, all that awaits you:
 1.[T][ ] read book
 2.[D][X] return book (by: Oct 15 2019)
 ____________________________________________________________
@@ -504,7 +504,7 @@ You have satisfied the great Alzara.
 [T][X] borrow book
 ____________________________________________________________
 ____________________________________________________________
-Which task are you referring to?
+Which task do you refer to...
 ____________________________________________________________
 ____________________________________________________________
 Nonsense.
@@ -514,10 +514,10 @@ Do you know how to count?
 ____________________________________________________________
 ____________________________________________________________
 I have removed the task [T][X] borrow book
-You have 1 tasks remaining.
+1 tasks remain.
 ____________________________________________________________
 ____________________________________________________________
-Here are the tasks in your list:
+Behold, all that awaits you:
 1.[T][ ] read book
 ____________________________________________________________
 ____________________________________________________________
@@ -550,7 +550,7 @@ You find yourself face to face with the great Alzara.
 What can I do for you?
 ____________________________________________________________
 ____________________________________________________________
-Here are the tasks in your list:
+Behold, all that awaits you:
 ____________________________________________________________
 ____________________________________________________________
 Our audience has ended. Until we meet again.
@@ -623,7 +623,7 @@ You find yourself face to face with the great Alzara.
 What can I do for you?
 ____________________________________________________________
 ____________________________________________________________
-Here are the tasks in your list:
+Behold, all that awaits you:
 1.[T][X] borrow book
 2.[D][ ] return book (by: Oct 15 2019)
 ____________________________________________________________
@@ -688,7 +688,7 @@ You have satisfied the great Alzara.
 ____________________________________________________________
 ____________________________________________________________
 I have removed the task [T][ ] read book
-You have 2 tasks remaining.
+2 tasks remain.
 ____________________________________________________________
 ____________________________________________________________
 Our audience has ended. Until we meet again.
@@ -729,7 +729,7 @@ You find yourself face to face with the great Alzara.
 What can I do for you?
 ____________________________________________________________
 ____________________________________________________________
-You cannot time travel
+You cannot time travel.
 ____________________________________________________________
 ____________________________________________________________
 Am I invited?
@@ -737,7 +737,7 @@ Am I invited?
 You have 1 tasks.
 ____________________________________________________________
 ____________________________________________________________
-Here are the tasks in your list:
+Behold, all that awaits you:
 1.[E][ ] conference (from: Oct 15 2019 to: Oct 15 2019)
 ____________________________________________________________
 ____________________________________________________________
@@ -780,7 +780,7 @@ You have something to do...
 You have 1 tasks.
 ____________________________________________________________
 ____________________________________________________________
-I will only help you with one thing at a time.
+The great Alzara attends to one matter at a time.
 ____________________________________________________________
 ____________________________________________________________
 Do not repeat yourself to the great Alzara.
@@ -792,7 +792,7 @@ ____________________________________________________________
 Do not repeat yourself to the great Alzara.
 ____________________________________________________________
 ____________________________________________________________
-Here are the tasks in your list:
+Behold, all that awaits you:
 1.[T][ ] read book
 ____________________________________________________________
 ____________________________________________________________
@@ -837,10 +837,10 @@ You have something to do...
 You have 1 tasks.
 ____________________________________________________________
 ____________________________________________________________
-How forgetful...This task has already been recorded.
+How forgetful... This task has already been recorded.
 ____________________________________________________________
 ____________________________________________________________
-How forgetful...This task has already been recorded.
+How forgetful... This task has already been recorded.
 ____________________________________________________________
 ____________________________________________________________
 Do not miss the deadline.
@@ -848,7 +848,7 @@ Do not miss the deadline.
 You have 2 tasks.
 ____________________________________________________________
 ____________________________________________________________
-How forgetful...This task has already been recorded.
+How forgetful... This task has already been recorded.
 ____________________________________________________________
 ____________________________________________________________
 Do not miss the deadline.
@@ -856,10 +856,10 @@ Do not miss the deadline.
 You have 3 tasks.
 ____________________________________________________________
 ____________________________________________________________
-Do not use '|'!
+There is no place for '|'.
 ____________________________________________________________
 ____________________________________________________________
-Here are the tasks in your list:
+Behold, all that awaits you:
 1.[T][ ] read book
 2.[D][ ] return book (by: Oct 15 2019)
 3.[D][ ] return book (by: Oct 16 2019)
@@ -909,16 +909,17 @@ And as it was foretold,
 You find yourself face to face with the great Alzara.
 What can I do for you?
 ____________________________________________________________
-Skipping corrupted entry on line 2 of the save file: unrecognised task type 'X'
-Skipping corrupted entry on line 3 of the save file: invalid done flag
-Skipping corrupted entry on line 4 of the save file: missing deadline field
-Skipping corrupted entry on line 5 of the save file: missing event start/end field
-Skipping corrupted entry on line 6 of the save file: not enough fields
-Skipping corrupted entry on line 7 of the save file: invalid deadline date
-Skipping corrupted entry on line 8 of the save file: invalid event date
-Skipping corrupted entry on line 9 of the save file: event start date after end date
+A flawed memory on line 2 was discarded: unrecognised task type 'X'
+A flawed memory on line 3 was discarded: invalid done flag
+A flawed memory on line 4 was discarded: missing deadline field
+A flawed memory on line 5 was discarded: missing event start/end field
+A flawed memory on line 6 was discarded: not enough fields
+A flawed memory on line 7 was discarded: invalid deadline date
+A flawed memory on line 8 was discarded: invalid event date
+A flawed memory on line 9 was discarded: event start date after end date
 ____________________________________________________________
-Here are the tasks in your list:
+____________________________________________________________
+Behold, all that awaits you:
 1.[T][ ] read book
 2.[T][X] walk dog
 ____________________________________________________________

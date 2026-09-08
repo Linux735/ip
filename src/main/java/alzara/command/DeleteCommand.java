@@ -34,7 +34,7 @@ public class DeleteCommand extends Command {
             throw new AlzaraException(AlzaraException.TASK_DOES_NOT_EXIST_MESSAGE);
         }
         Task deletedTask = memory.delete(taskIndex);
-        storage.save(memory.getTasks());
+        storage.save(memory.getTasks(), ui);
         ui.showTaskDeleted(deletedTask, memory.size());
     }
 }

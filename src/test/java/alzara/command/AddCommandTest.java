@@ -37,8 +37,8 @@ class AddCommandTest {
         assertEquals(1, memory.size());
         assertEquals("You have something to do...\n[T][ ] read book\nYou have 1 tasks.",
                 ui.getAndClearResponse());
-        assertEquals(1, storage.load().size());
-        assertEquals("T | N | read book", storage.load().get(0).toSaveFormat());
+        assertEquals(1, storage.load(ui).size());
+        assertEquals("T | N | read book", storage.load(ui).get(0).toSaveFormat());
     }
 
     // Adding a task with the same details as one already in memory should

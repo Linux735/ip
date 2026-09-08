@@ -35,7 +35,7 @@ public class UnmarkCommand extends Command {
         }
         Task task = memory.get(taskIndex);
         task.unmark();
-        storage.save(memory.getTasks());
+        storage.save(memory.getTasks(), ui);
         ui.showTaskUnmarked(task);
     }
 }

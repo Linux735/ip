@@ -38,7 +38,7 @@ class UnmarkCommandTest {
 
         assertTrue(memory.get(0).toString().startsWith("[T][ ]"));
         assertEquals("As I predicted...\n[T][ ] read book", ui.getAndClearResponse());
-        assertEquals("T | N | read book", storage.load().get(0).toSaveFormat());
+        assertEquals("T | N | read book", storage.load(ui).get(0).toSaveFormat());
     }
 
     // A negative index should throw without unmarking any task.

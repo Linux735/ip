@@ -58,7 +58,7 @@ public class Alzara {
      * those load-time reports never print ahead of the welcome banner.
      */
     private void loadMemory() {
-        this.memory = new TaskList(storage.load());
+        this.memory = new TaskList(storage.load(ui));
     }
 
     /**

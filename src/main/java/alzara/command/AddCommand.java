@@ -38,7 +38,7 @@ public class AddCommand extends Command {
             throw new AlzaraException(AlzaraException.DUPLICATE_TASK_MESSAGE);
         }
         memory.add(task);
-        storage.save(memory.getTasks());
+        storage.save(memory.getTasks(), ui);
         ui.showTaskAdded(flavourText, task, memory.size());
     }
 }
