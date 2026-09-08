@@ -19,9 +19,9 @@ public class AlzaraException extends Exception {
     public static final String MISSING_EVENT_MARKER_MESSAGE =
             "All things must have a start and an end...";
     public static final String EVENT_DATES_OUT_OF_ORDER_MESSAGE =
-            "You cannot time travel";
+            "You cannot time travel.";
     public static final String INVALID_DEADLINE_DATE_MESSAGE =
-            "I cannot read that date. Use yyyy-mm-dd";
+            "I cannot read that date. Use yyyy-mm-dd.";
     public static final String UNRECOGNISED_COMMAND_MESSAGE =
             "Speak sense.";
     public static final String MISSING_KEYWORD_MESSAGE =
@@ -33,7 +33,7 @@ public class AlzaraException extends Exception {
     public static final String DUPLICATE_MARKER_MESSAGE =
             "Do not repeat yourself to the great Alzara.";
     public static final String DUPLICATE_TASK_MESSAGE =
-            "How forgetful...This task has already been recorded.";
+            "How forgetful... This task has already been recorded.";
     public static final String FORBIDDEN_CHARACTER_MESSAGE =
             "There is no place for '|'.";
 

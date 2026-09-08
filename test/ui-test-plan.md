@@ -204,7 +204,7 @@ ____________________________________________________________
 How far in time do you wish to see?
 ____________________________________________________________
 ____________________________________________________________
-I cannot read that date. Use yyyy-mm-dd
+I cannot read that date. Use yyyy-mm-dd.
 ____________________________________________________________
 ____________________________________________________________
 Our audience has ended. Until we meet again.
@@ -323,13 +323,13 @@ You find yourself face to face with the great Alzara.
 What can I do for you?
 ____________________________________________________________
 ____________________________________________________________
-I cannot read that date. Use yyyy-mm-dd
+I cannot read that date. Use yyyy-mm-dd.
 ____________________________________________________________
 ____________________________________________________________
-I cannot read that date. Use yyyy-mm-dd
+I cannot read that date. Use yyyy-mm-dd.
 ____________________________________________________________
 ____________________________________________________________
-I cannot read that date. Use yyyy-mm-dd
+I cannot read that date. Use yyyy-mm-dd.
 ____________________________________________________________
 ____________________________________________________________
 Behold, all that awaits you:
@@ -729,7 +729,7 @@ You find yourself face to face with the great Alzara.
 What can I do for you?
 ____________________________________________________________
 ____________________________________________________________
-You cannot time travel
+You cannot time travel.
 ____________________________________________________________
 ____________________________________________________________
 Am I invited?
@@ -837,10 +837,10 @@ You have something to do...
 You have 1 tasks.
 ____________________________________________________________
 ____________________________________________________________
-How forgetful...This task has already been recorded.
+How forgetful... This task has already been recorded.
 ____________________________________________________________
 ____________________________________________________________
-How forgetful...This task has already been recorded.
+How forgetful... This task has already been recorded.
 ____________________________________________________________
 ____________________________________________________________
 Do not miss the deadline.
@@ -848,7 +848,7 @@ Do not miss the deadline.
 You have 2 tasks.
 ____________________________________________________________
 ____________________________________________________________
-How forgetful...This task has already been recorded.
+How forgetful... This task has already been recorded.
 ____________________________________________________________
 ____________________________________________________________
 Do not miss the deadline.
