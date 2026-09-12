@@ -28,7 +28,7 @@ public class Main extends Application {
             fxmlLoader.<MainWindow>getController().setAlzara(alzara);
             stage.show();
         } catch (IOException exception) {
-            exception.printStackTrace();
+            throw new RuntimeException("Failed to load MainWindow.fxml", exception);
         }
     }
 }
