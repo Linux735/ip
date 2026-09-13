@@ -127,36 +127,62 @@ public class Storage {
             return memory;
         }
 
-        StringBuilder corruptionReport = new StringBuilder();
         try {
-            Scanner scanner = new Scanner(filePath);
-            int lineNumber = 0;
-            while (scanner.hasNextLine()) {
-                lineNumber++;
-                String line = scanner.nextLine();
-                if (line.trim().isEmpty()) {
-                    continue;
-                }
-                try {
-                    Task task = loadTask(line);
-                    memory.add(task);
-                } catch (AlzaraException exception) {
-                    if (corruptionReport.length() > 0) {
-                        corruptionReport.append('\n');
-                    }
-                    corruptionReport.append("A flawed memory on line ").append(lineNumber)
-                            .append(" was discarded: ").append(exception.getMessage());
-                }
+            String corruptionReport = loadTasksFromFile(memory);
+            if (!corruptionReport.isEmpty()) {
+                ui.showStorageMessage(corruptionReport);
             }
-            scanner.close();
         } catch (IOException exception) {
             ui.showStorageMessage("Something clouds the old records. We will begin anew.");
             return new ArrayList<>();
         }
-        if (corruptionReport.length() > 0) {
-            ui.showStorageMessage(corruptionReport.toString());
-        }
         return memory;
+    }
+
+    /**
+     * Reads every line of the save file into {@code memory}, skipping any
+     * line that can't be parsed and noting it in the returned report instead
+     * of failing the whole read.
+     *
+     * @param memory the list each successfully parsed task is added to
+     * @return a report of every skipped line, one per line, or an empty
+     *         string if every line loaded cleanly
+     * @throws IOException if the save file can't be read
+     */
+    private String loadTasksFromFile(ArrayList<Task> memory) throws IOException {
+        StringBuilder corruptionReport = new StringBuilder();
+        Scanner scanner = new Scanner(filePath);
+        int lineNumber = 0;
+        while (scanner.hasNextLine()) {
+            lineNumber++;
+            String line = scanner.nextLine();
+            if (line.trim().isEmpty()) {
+                continue;
+            }
+            try {
+                memory.add(loadTask(line));
+            } catch (AlzaraException exception) {
+                appendCorruptionLine(corruptionReport, lineNumber, exception.getMessage());
+            }
+        }
+        scanner.close();
+        return corruptionReport.toString();
+    }
+
+    /**
+     * Appends one skipped-line entry to {@code corruptionReport}, on its own
+     * line after any entry already there.
+     *
+     * @param corruptionReport the report being built up, one entry per line
+     * @param lineNumber the 1-based save-file line number that was skipped
+     * @param reason why the line couldn't be parsed
+     */
+    private static void appendCorruptionLine(StringBuilder corruptionReport, int lineNumber, String reason) {
+        if (corruptionReport.length() > 0) {
+            corruptionReport.append('\n');
+        }
+        corruptionReport.append("A flawed memory on line ").append(lineNumber)
+                .append(" was discarded: ").append(reason);
     }
 
     /**
