@@ -210,7 +210,6 @@ public class Storage {
         if (description.trim().isEmpty()) {
             throw new AlzaraException("missing description");
         }
-        boolean isDone = doneFlag.equals("Y");
 
         Task task;
         switch (type) {
@@ -218,42 +217,65 @@ public class Storage {
                 task = new ToDo(description);
                 break;
             case "D":
-                if (parts.length < MIN_FIELD_COUNT_WITH_DATE || parts[DATE_INDEX].trim().isEmpty()) {
-                    throw new AlzaraException("missing deadline field");
-                }
-                LocalDate deadlineDate;
-                try {
-                    deadlineDate = LocalDate.parse(parts[DATE_INDEX].trim());
-                } catch (DateTimeParseException exception) {
-                    throw new AlzaraException("invalid deadline date");
-                }
-                task = new Deadline(description, deadlineDate);
+                task = loadDeadline(description, parts);
                 break;
             case "E":
-                if (parts.length < MIN_FIELD_COUNT_WITH_EVENT_DATES
-                        || parts[DATE_INDEX].trim().isEmpty() || parts[EVENT_END_DATE_INDEX].trim().isEmpty()) {
-                    throw new AlzaraException("missing event start/end field");
-                }
-                LocalDate eventStart;
-                LocalDate eventEnd;
-                try {
-                    eventStart = LocalDate.parse(parts[DATE_INDEX].trim());
-                    eventEnd = LocalDate.parse(parts[EVENT_END_DATE_INDEX].trim());
-                } catch (DateTimeParseException exception) {
-                    throw new AlzaraException("invalid event date");
-                }
-                if (eventStart.isAfter(eventEnd)) {
-                    throw new AlzaraException("event start date after end date");
-                }
-                task = new Event(description, eventStart, eventEnd);
+                task = loadEvent(description, parts);
                 break;
             default:
                 throw new AlzaraException("unrecognised task type '" + type + "'");
         }
 
-        if (isDone) {
+        if (doneFlag.equals("Y")) {
             task.mark();
         }
         return task;
+    }
+
+    /**
+     * Parses a save-file {@code "D"} line's remaining fields into a
+     * {@link Deadline}.
+     *
+     * @param description the already-extracted, already-validated description
+     * @param parts the save-file line's fields, split on {@link #FIELD_SEPARATOR}
+     * @throws AlzaraException if the due-date field is missing or malformed
+     */
+    private static Task loadDeadline(String description, String[] parts) throws AlzaraException {
+        if (parts.length < MIN_FIELD_COUNT_WITH_DATE || parts[DATE_INDEX].trim().isEmpty()) {
+            throw new AlzaraException("missing deadline field");
+        }
+        try {
+            return new Deadline(description, LocalDate.parse(parts[DATE_INDEX].trim()));
+        } catch (DateTimeParseException exception) {
+            throw new AlzaraException("invalid deadline date");
+        }
+    }
+
+    /**
+     * Parses a save-file {@code "E"} line's remaining fields into an
+     * {@link Event}.
+     *
+     * @param description the already-extracted, already-validated description
+     * @param parts the save-file line's fields, split on {@link #FIELD_SEPARATOR}
+     * @throws AlzaraException if either date field is missing or malformed,
+     *         or the start date is after the end date
+     */
+    private static Task loadEvent(String description, String[] parts) throws AlzaraException {
+        if (parts.length < MIN_FIELD_COUNT_WITH_EVENT_DATES
+                || parts[DATE_INDEX].trim().isEmpty() || parts[EVENT_END_DATE_INDEX].trim().isEmpty()) {
+            throw new AlzaraException("missing event start/end field");
+        }
+        LocalDate eventStart;
+        LocalDate eventEnd;
+        try {
+            eventStart = LocalDate.parse(parts[DATE_INDEX].trim());
+            eventEnd = LocalDate.parse(parts[EVENT_END_DATE_INDEX].trim());
+        } catch (DateTimeParseException exception) {
+            throw new AlzaraException("invalid event date");
+        }
+        if (eventStart.isAfter(eventEnd)) {
+            throw new AlzaraException("event start date after end date");
+        }
+        return new Event(description, eventStart, eventEnd);
     }
 }
