@@ -73,6 +73,14 @@ Ends the session.
 
 Example: `bye`
 
+## Things to keep in mind
+
+* Alzara won't add a `todo`, `deadline`, or `event` that's an exact match
+  (same type, same description, same dates) of a task you already have -
+  you'll get "This task has already been recorded." instead.
+* A task description can't contain the `|` character, since Alzara uses
+  it internally to separate fields in the save file.
+
 ## Saving and loading data
 
 Alzara automatically saves your task list to `data/alzara.txt` after
