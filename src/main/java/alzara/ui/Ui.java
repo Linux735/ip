@@ -220,9 +220,12 @@ public class Ui {
     }
 
     /**
-     * Either prints {@code message} to the console (one {@code println} call
-     * per line, followed by the divider) or appends it to the response
-     * buffer, depending on the current mode.
+     * Prints {@code message} to the console (one {@code println} call per
+     * line, followed by the divider) in console mode, or appends it to the
+     * response buffer in GUI mode. Also clears {@code isLastResponseError},
+     * since a message that reaches here didn't come from {@link #showError}.
+     *
+     * @param message the message to print or buffer
      */
     private void print(String message) {
         isLastResponseError = false;
