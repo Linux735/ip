@@ -84,6 +84,8 @@ public class TaskList {
      * Exposes the underlying list for callers that need to read or persist
      * every task at once, e.g. {@link alzara.storage.Storage#save} and
      * {@link alzara.ui.Ui#showTaskList}.
+     *
+     * @return the underlying list of every task currently tracked
      */
     public ArrayList<Task> getTasks() {
         return this.memory;
